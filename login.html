@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تسجيل الدخول | YLY</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #2b68ff;
+      --primary-hover: #1c4de1;
+      --accent-color: #ffc107;
+      --text-color: #fff;
+      --bg-overlay: rgba(0, 0, 50, 0.4);
+      --form-bg: rgba(255, 255, 255, 0.1);
+      --input-bg: rgba(255,255,255,0.2);
+      --input-hover: rgba(255,255,255,0.3);
+      --border-radius: 14px;
+    }
+    
+    body {
+      margin: 0;
+      font-family: 'Cairo', sans-serif;
+      background: url('assets/bg-space.jpg.png') no-repeat center center fixed;
+      background-size: cover;
+      overflow: hidden;
+      color: var(--text-color);
+    }
+    
+    .overlay {
+      backdrop-filter: blur(10px);
+      background-color: var(--bg-overlay);
+      width: 100vw;
+      height: 100vh;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    
+    .container {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      padding: 0 5vw;
+      gap: 40px;
+    }
+    
+    .bilo-section {
+      width: 380px;
+      text-align: center;
+      animation: floatBilo 8s ease-in-out infinite;
+      position: relative;
+      align-self: flex-start;
+      margin-top: 50px;
+    }
+    
+    @keyframes floatBilo {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      25% { transform: translateY(-15px) rotate(2deg); }
+      50% { transform: translateY(0) rotate(-1deg); }
+      75% { transform: translateY(-10px) rotate(1deg); }
+    }
+    
+    .bilo-section img {
+      width: 340px;
+      max-width: 100%;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));
+    }
+    
+    .speech-bubble {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: var(--border-radius);
+      padding: 18px 22px;
+      width: 340px;
+      margin: 20px auto;
+      font-size: 1.1em;
+      position: relative;
+      animation: appear 0.5s ease-in-out;
+      backdrop-filter: blur(5px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1.5;
+    }
+    
+    .speech-bubble:after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 10px 10px 0;
+      border-style: solid;
+      border-color: rgba(255, 255, 255, 0.15) transparent;
+    }
+    
+    @keyframes appear {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .login-form {
+      width: 480px;
+      background: var(--form-bg);
+      border-radius: var(--border-radius);
+      padding: 40px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      animation: slideIn 0.8s ease;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    .login-form:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 8px;
+      background: linear-gradient(90deg, #2b68ff, #00c6ff);
+      border-radius: var(--border-radius) var(--border-radius) 0 0;
+    }
+    
+    .form-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      gap: 15px;
+    }
+    
+    .form-header img {
+      height: 75px;
+      transition: transform 0.3s;
+      object-fit: contain;
+    }
+    
+    .form-header img:first-child {
+      height: 65px;
+    }
+    
+    .form-header img:last-child {
+      height: 80px;
+    }
+    
+    .form-header img:hover {
+      transform: scale(1.05);
+    }
+    
+    .login-form h2 {
+      margin: 0;
+      color: var(--text-color);
+      text-align: center;
+      font-size: 1.8em;
+      font-weight: 700;
+      flex-grow: 1;
+    }
+    
+    .input-group {
+      margin-bottom: 22px;
+      position: relative;
+    }
+    
+    .login-form input {
+      width: 100%;
+      padding: 15px 20px;
+      margin: 8px 0;
+      border: none;
+      border-radius: var(--border-radius);
+      background-color: var(--input-bg);
+      color: var(--text-color);
+      transition: all 0.3s ease;
+      font-size: 1em;
+      border: 1px solid rgba(255,255,255,0.3);
+      box-sizing: border-box;
+      height: 50px;
+    }
+    
+    .login-form input::placeholder {
+      color: rgba(255,255,255,0.7);
+    }
+    
+    .login-form input:hover {
+      background-color: var(--input-hover);
+      border-color: rgba(255,255,255,0.4);
+    }
+    
+    .login-form input:focus {
+      outline: none;
+      background-color: var(--input-hover);
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(43, 104, 255, 0.3);
+    }
+    
+    .login-form button {
+      width: 100%;
+      padding: 15px;
+      margin-top: 15px;
+      background: var(--primary-color);
+      border: none;
+      color: white;
+      font-weight: 600;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 1em;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      border: 1px solid rgba(255,255,255,0.2);
+      height: 50px;
+    }
+    
+    .login-form button:hover {
+      background: var(--primary-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+    }
+    
+    .login-form button:active {
+      transform: translateY(0);
+    }
+    
+    .forgot {
+      text-align: center;
+      margin-top: 18px;
+      color: var(--accent-color);
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+      font-size: 0.95em;
+    }
+    
+    .forgot:hover {
+      text-decoration: underline;
+      color: #ffd54f;
+    }
+    
+    .language-toggle {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: rgba(255,255,255,0.2);
+      padding: 10px 20px;
+      border-radius: var(--border-radius);
+      color: white;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    
+    .language-toggle:hover {
+      background: rgba(255,255,255,0.3);
+    }
+    
+    .language-toggle i {
+      font-size: 1.2em;
+    }
+    
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,0.95);
+      padding: 30px;
+      border-radius: var(--border-radius);
+      color: white;
+      display: none;
+      z-index: 9999;
+      width: 380px;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+      animation: popupIn 0.4s ease-out;
+    }
+    
+    @keyframes popupIn {
+      from { opacity: 0; transform: translate(-50%, -40%); }
+      to { opacity: 1; transform: translate(-50%, -50%); }
+    }
+    
+    .popup h3 {
+      margin-top: 0;
+      color: var(--accent-color);
+      font-size: 1.4em;
+    }
+    
+    .popup p {
+      margin-bottom: 25px;
+      line-height: 1.6;
+      font-size: 1.05em;
+    }
+    
+    .popup button {
+      background: var(--primary-color);
+      border: none;
+      padding: 13px 28px;
+      color: white;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: 0.3s;
+      font-weight: 600;
+      font-size: 1em;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    .popup button:hover {
+      background: var(--primary-hover);
+    }
+    
+    .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+    
+    .particle {
+      position: absolute;
+      background: rgba(255,255,255,0.6);
+      border-radius: 50%;
+      animation: floatParticle linear infinite;
+    }
+    
+    @keyframes floatParticle {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+    }
+    
+    [dir="ltr"] .language-toggle {
+      left: auto;
+      right: 20px;
+    }
+    
+    .loader {
+      display: none;
+      width: 30px;
+      height: 30px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s ease-in-out infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .welcome-popup {
+      background: rgba(43, 104, 255, 0.9);
+      border: 2px solid var(--accent-color);
+    }
+    
+    .welcome-content {
+      text-align: center;
+      padding: 30px;
+    }
+    
+    .contact-numbers {
+      background: rgba(255,255,255,0.1);
+      padding: 10px;
+      border-radius: var(--border-radius);
+      margin: 10px 0;
+    }
+    
+    .contact-numbers div {
+      padding: 5px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    .contact-numbers i {
+      color: var(--accent-color);
+    }
+
+    @media (max-width: 992px) {
+      .container {
+        flex-direction: column;
+        padding-top: 80px;
+        padding-bottom: 40px;
+        height: auto;
+        min-height: 100vh;
+      }
+      
+      .bilo-section {
+        width: 320px;
+        margin-bottom: 20px;
+        margin-top: 20px;
+      }
+      
+      .bilo-section img {
+        width: 300px;
+      }
+      
+      .speech-bubble {
+        width: 300px;
+        padding: 16px 20px;
+      }
+      
+      .login-form {
+        width: 90%;
+        max-width: 450px;
+        padding: 35px;
+      }
+      
+      .form-header img {
+        height: 65px;
+      }
+      
+      .form-header img:first-child {
+        height: 55px;
+      }
+      
+      .form-header img:last-child {
+        height: 70px;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .login-form {
+        padding: 30px 25px;
+      }
+      
+      .form-header {
+        flex-direction: column;
+        gap: 12px;
+      }
+      
+      .form-header img {
+        height: 55px;
+      }
+      
+      .form-header img:first-child {
+        height: 50px;
+      }
+      
+      .form-header img:last-child {
+        height: 60px;
+      }
+      
+      .popup {
+        width: 90%;
+        max-width: 350px;
+        padding: 25px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="overlay"></div>
+<div class="particles" id="particles"></div>
+<div class="language-toggle" onclick="toggleLanguage()">
+  <i class="fas fa-language"></i>
+  <span>العربية / English</span>
+</div>
+
+<div class="container">
+  <div class="bilo-section">
+    <img id="bilo-img" src="assets/bilo-urahheb.png" alt="Bilo welcomes you" onclick="biloClick()">
+    <div class="speech-bubble" id="bilo-msg">أهلاً بيك! أنا بيلو، مساعدك الشخصي في مشروع YLY.  هساعدك تدخل عالم الإبداع ده!</div>
+  </div>
+  
+  <div class="login-form">
+    <div class="form-header">
+      <img src="assets/logo-ministry.png" alt="وزارة الشباب">
+      <h2>تسجيل الدخول</h2>
+      <img src="assets/logo-yly.png" alt="YLY logo">
+    </div>
+    
+    <div class="input-group">
+      <input type="text" placeholder="اسم المستخدم" id="username" oninput="biloReact('username')">
+    </div>
+    
+    <div class="input-group">
+      <input type="password" placeholder="كلمة المرور" id="password" oninput="biloReact('password')">
+    </div>
+    
+    <button onclick="login()" id="login-btn">
+      <span id="login-text">يلا ندخل</span>
+      <div class="loader" id="loader"></div>
+    </button>
+    <div class="forgot" onclick="showPopup()">أووبس نسيت كلمة السر!!</div>
+  </div>
+</div>
+
+<div class="popup" id="popup">
+  <h3>مساعدة بخصوص الحساب</h3>
+  <p>اتواصل مع مسؤول اللجنة أو هيد المحافظة عشان يساعدك.</p>
+  <button onclick="hidePopup()">عنيااا</button>
+</div>
+
+<div class="popup" id="failed-attempts-popup" style="display: none;">
+  <h3>عدد المحاولات تجاوز الحد المسموح</h3>
+  <p>للأسف حاولت كتير ومقدرتش تدخل!<br>
+  تواصل مع منشئ النظام يا عسلية:<br>
+  <div class="contact-numbers">
+    <div><i class="fas fa-phone"></i> 01001190450</div>
+    <div><i class="fas fa-phone"></i> 01270580064</div>
+    <div><i class="fas fa-phone"></i> 01270580063</div>
+    <div><i class="fas fa-phone"></i> 01212025763</div>
+  </div>
+  <br>سعد المرجاوي</p>
+  <button onclick="hideFailedAttemptsPopup()">عنيااا</button>
+</div>
+
+<div class="popup welcome-popup" id="welcome-popup" style="display: none;">
+  <div class="welcome-content">
+    <img src="assets/bilo-winner.png" alt="Bilo welcome" style="width: 120px; margin-bottom: 20px;">
+    <h3 id="welcome-username"></h3>
+    <p id="welcome-message"></p>
+    <div class="loader" style="margin: 20px auto;"></div>
+    <p style="font-size: 0.9em; margin-top: 10px;">جاري تحويلك إلى الصفحة الرئيسية خلال <span id="countdown">5</span> ثواني...</p>
+  </div>
+</div>
+
+<script>
+  const CORRECT_USERNAME = "saad.elmrjawi";
+  const CORRECT_PASSWORD = "23522004";
+  const MAX_ATTEMPTS = 5;
+
+  const biloImg = document.getElementById('bilo-img');
+  const biloMsg = document.getElementById('bilo-msg');
+  const usernameInput = document.getElementById('username');
+  const passwordInput = document.getElementById('password');
+  const particlesContainer = document.getElementById('particles');
+  const loginBtn = document.getElementById('login-btn');
+  const loginText = document.getElementById('login-text');
+  const loader = document.getElementById('loader');
+  let currentLang = 'ar';
+  let currentState = 'welcome';
+  let failedAttempts = 0;
+  let countdownInterval;
+
+  const biloStates = {
+    welcome: {
+      img: 'bilo-qalp.png',
+      ar: 'أهلاً وسهلاً بك في YLY! أنا بيلو، رفيقك في رحلة الإبداع.<br>هساعدك تبدأ مشوارك معيا، اكتب اسم المستخدم أولاً.',
+      en: 'Welcome to YLY! I\'m Bilo, your creative journey companion.<br>Let\'s get started, please enter your username first.'
+    },
+    username_empty: {
+      img: 'bilo-ghadb.png',
+      ar: 'يا بطل! ما تكتبش اسم المستخدم؟<br>دوس في الخانة دي واكتب اسمك علشان نعرفك!',
+      en: 'Champion! You forgot the username?<br>Click here and type your username so we can know you!'
+    },
+    username_short: {
+      img: 'bilo-na_as.png',
+      ar: 'اسم المستخدم قصير شوية يا زميلي!<br>لازم يكون على الأقل 3 حروف، حاول تاني.',
+      en: 'The username seems too short my friend!<br>Must be at least 3 characters, try again.'
+    },
+    username_correct: {
+      img: 'bilo-farhan.png',
+      ar: 'أهلاً يا {username}! والله فرحان بيك.<br>دلوقتي دخل كلمة السر يا زميكس ، ومتنسهاش بقا !',
+      en: 'Welcome {username}! So happy to see you.<br>Now the password please, don\'t forget it!'
+    },
+    username_incorrect: {
+      img: 'bilo-taraddud.png',
+      ar: 'للأسف ده مش اسم المستخدم الصح.<br>متتضايقش وحاول تاني، يمكن تكون نسيت نقطة أو حرف.',
+      en: 'Sorry but this username isn\'t correct.<br>Don\'t worry, try again, maybe you forgot a dot or letter.'
+    },
+    password_empty: {
+      img: 'bilo-shak.png',
+      ar: 'إيه يا سيدي! كلمة السر ناقصة!<br> ما تخافش، اكتبها وهتبقى آمنة معانا مش هنسرقك يعني .',
+      en: 'Oh dear! The password is missing!<br>Don\'t worry, type it and it\'ll be safe with us.'
+    },
+    password_short: {
+      img: 'bilo-elbattal.png',
+      ar: 'كلمة السر لازم تكون أقوى شوية يا بطل!<br>على الأقل 8 خانات (حروف، أرقام، رموز).',
+      en: 'Password needs to be stronger champion!<br>At least 8 characters (letters, numbers, symbols).'
+    },
+    password_new_user: {
+      img: 'bilo-ghok.png',
+      ar: 'ههههه! شكلك جديد عندنا يا صاحبي!<br>كلمة السر سهلة شوية، ممكن تغيرها بعدين لو حابب.',
+      en: 'Hahaha! You seem new here my friend!<br>Easy password, you can change it later if you want.'
+    },
+    password_correct: {
+      img: 'bilo-tayer mn elfarha.png',
+      ar: 'والله إنت معلم يا {username}!<br>كل حاجة مضبوطه بالملي ، يلا دوس دخول دلوقتي!',
+      en: 'You\'re a legend {username}!<br>Everything is perfect, logging in now!'
+    },
+    password_incorrect: {
+      img: 'bilo-huzn.png',
+      ar: 'آه يا قلبى! كلمة السر مش صح.<br>حاول تاني واكتبها بتركيز، يمكن شكلك مأكلتش كويس .',
+      en: 'Oh dear! Wrong password.<br>Try again carefully, maybe an extra keypress.'
+    },
+    forgot_password: {
+      img: 'bilo-shaqawa.png',
+      ar: 'ههههه! نسيت إيه يا عنيا؟<br>كلمة السر ولا اسم المستخدم؟ المهم روح لمسؤول اللجنة وهيساعدك.',
+      en: 'Hahaha! Forgot what my dear?<br>Password or username? Anyway contact your admin for help.'
+    },
+    switch_english: {
+      img: 'bilo-yazef.png',
+      ar: 'أهو شكلك عالمي يا سيدي!<br>خلاص هتكلمك بالإنجليزي، بس متنساش جذورك العربية!',
+      en: 'I see you\'re international sir!<br>I\'ll speak English, but don\'t forget your Arabic roots!'
+    },
+    switch_arabic: {
+      img: 'bilo-love.png',
+      ar: 'يا عم الحاج! والله فرحان إنك رجعت للعربي بتاعنا يا حلو انت يا جميل .<br>اللغة الأم دي من أجمل ممتلكاتنا!',
+      en: 'My dear! So happy you switched back to Arabic.<br>Our mother tongue is one of our beauties!'
+    },
+    click_reaction: {
+      img: 'bilo-elbattal.png',
+      ar: 'إزيك عامل اي انا بيلو وبحبك واكيد انت كمان بتحبني!<br>انا متفائل بيك ومبسوط انك هتساعدني في ادارة المشروع .',
+      en: 'You\'re a star my friend!<br>You\'ll be one of the brightest in our community!'
+    },
+    success: {
+      img: 'bilo-winner.png',
+      ar: 'مبروك يا {username}!<br>إنت دلوقتي جزء من عيلة YLY المبدعة!',
+      en: 'Congratulations {username}!<br>You\'re now part of the creative YLY family!'
+    },
+    too_many_attempts: {
+      img: 'bilo-alqlaq.png',
+      ar: 'يا عم الحاج! حاولت كتير أوي!<br>اتواصل مع سعد المرجاوي عشان يساعدك:<br>01001190450 - 01270580064<br>01270580063 - 01212025763',
+      en: 'My dear! Too many attempts!<br>Contact Saad Elmarjawi for help:<br>01001190450 - 01270580064<br>01270580063 - 01212025763'
+    }
+  };
+
+  function createParticles() {
+    const count = Math.floor(window.innerWidth / 20);
+    for (let i = 0; i < count; i++) {
+      const particle = document.createElement('div');
+      particle.classList.add('particle');
+      
+      const size = Math.random() * 5 + 2;
+      const posX = Math.random() * window.innerWidth;
+      const duration = Math.random() * 15 + 10;
+      const delay = Math.random() * 10;
+      
+      particle.style.width = `${size}px`;
+      particle.style.height = `${size}px`;
+      particle.style.left = `${posX}px`;
+      particle.style.bottom = '0';
+      particle.style.animationDuration = `${duration}s`;
+      particle.style.animationDelay = `${delay}s`;
+      
+      particlesContainer.appendChild(particle);
+    }
+  }
+  
+  function setBiloState(state, username = '') {
+    currentState = state;
+    biloImg.src = `assets/${biloStates[state].img}`;
+    
+    let message = currentLang === 'ar' ? biloStates[state].ar : biloStates[state].en;
+    message = message.replace('{username}', username);
+    
+    biloMsg.innerHTML = message;
+  }
+
+  function biloReact(field) {
+    const username = usernameInput.value.trim();
+    const password = passwordInput.value.trim();
+
+    if (field === 'username') {
+      if (username.length === 0) {
+        setBiloState('username_empty');
+      } else if (username.length < 3) {
+        setBiloState('username_short');
+      } else if (username === CORRECT_USERNAME) {
+        setBiloState('username_correct', username.split('.')[0]);
+      } else {
+        setBiloState('username_incorrect');
+      }
+    } else if (field === 'password') {
+      if (password.length === 0) {
+        setBiloState('password_empty');
+      } else if (password.length < 8) {
+        setBiloState('password_short');
+      } else if (password === '12345678') {
+        setBiloState('password_new_user');
+      } else if (password === CORRECT_PASSWORD) {
+        setBiloState('password_correct', usernameInput.value.trim().split('.')[0]);
+      } else {
+        setBiloState('password_incorrect');
+      }
+    }
+  }
+
+  function biloClick() {
+    setBiloState('click_reaction');
+    setTimeout(() => {
+      if (usernameInput.value.trim() === CORRECT_USERNAME) {
+        setBiloState('username_correct', usernameInput.value.trim().split('.')[0]);
+      } else {
+        setBiloState('welcome');
+      }
+    }, 9000);
+  }
+
+  function login() {
+    const username = usernameInput.value.trim();
+    const password = passwordInput.value.trim();
+
+    if (!username) {
+      setBiloState('username_empty');
+      shakeInput(usernameInput);
+      return;
+    }
+
+    if (username !== CORRECT_USERNAME) {
+      setBiloState('username_incorrect');
+      shakeInput(usernameInput);
+      failedAttempts++;
+      checkFailedAttempts();
+      return;
+    }
+
+    if (!password) {
+      setBiloState('password_empty');
+      shakeInput(passwordInput);
+      return;
+    }
+
+    if (password.length < 8) {
+      setBiloState('password_short');
+      shakeInput(passwordInput);
+      return;
+    }
+
+    if (password !== CORRECT_PASSWORD) {
+      setBiloState('password_incorrect');
+      shakeInput(passwordInput);
+      failedAttempts++;
+      checkFailedAttempts();
+      return;
+    }
+
+    setBiloState('success', username.split('.')[0]);
+    showWelcomePopup(username.split('.')[0]);
+  }
+
+  function showWelcomePopup(username) {
+    const welcomePopup = document.getElementById('welcome-popup');
+    const welcomeUsername = document.getElementById('welcome-username');
+    const welcomeMessage = document.getElementById('welcome-message');
+    const countdownElement = document.getElementById('countdown');
+    
+    welcomeUsername.textContent = `أهلاً وسهلاً ${username}!`;
+    welcomeMessage.textContent = 'خلي بالك.. إنت دلوقتي داخل المملكة بتاعتنا! يلا نتجول ونشوف هنعمل إيه';
+    
+    welcomePopup.style.display = 'block';
+    
+    let seconds = 5;
+    countdownElement.textContent = seconds;
+    
+    clearInterval(countdownInterval);
+    countdownInterval = setInterval(() => {
+      seconds--;
+      countdownElement.textContent = seconds;
+      
+      if (seconds <= 0) {
+        clearInterval(countdownInterval);
+        window.location.href = 'home.html';
+      }
+    }, 1000);
+  }
+
+  function checkFailedAttempts() {
+    if (failedAttempts >= MAX_ATTEMPTS) {
+      setBiloState('too_many_attempts');
+      document.getElementById('failed-attempts-popup').style.display = 'block';
+      usernameInput.disabled = true;
+      passwordInput.disabled = true;
+      loginBtn.disabled = true;
+    }
+  }
+
+  function hideFailedAttemptsPopup() {
+    document.getElementById('failed-attempts-popup').style.display = 'none';
+  }
+
+  function showLoading() {
+    loginText.style.display = 'none';
+    loader.style.display = 'block';
+    loginBtn.disabled = true;
+  }
+
+  function shakeInput(input) {
+    input.style.animation = 'shake 0.5s';
+    setTimeout(() => {
+      input.style.animation = '';
+    }, 500);
+  }
+
+  function showPopup() {
+    setBiloState('forgot_password');
+    document.getElementById('popup').style.display = 'block';
+  }
+
+  function hidePopup() {
+    document.getElementById('popup').style.display = 'none';
+    setBiloState('welcome');
+  }
+
+  function toggleLanguage() {
+    if (currentLang === 'ar') {
+      currentLang = 'en';
+      document.documentElement.lang = 'en';
+      document.documentElement.dir = 'ltr';
+      document.querySelector('.login-form h2').textContent = 'Login';
+      usernameInput.placeholder = 'Username';
+      passwordInput.placeholder = 'Password';
+      document.getElementById('login-text').textContent = 'Login';
+      document.querySelector('.forgot').textContent = 'Forgot Password?';
+      document.querySelector('.language-toggle span').textContent = 'English / العربية';
+      document.title = 'Login | YLY';
+      document.getElementById('popup').querySelector('h3').textContent = 'Account Help';
+      document.getElementById('popup').querySelector('p').textContent = 'Contact your committee administrator for assistance.';
+      document.getElementById('popup').querySelector('button').textContent = 'عنيااا';
+      document.getElementById('failed-attempts-popup').querySelector('h3').textContent = 'Too Many Attempts';
+      document.getElementById('failed-attempts-popup').querySelector('p').textContent = 'Sorry, you\'ve tried too many times!<br>Contact system creator for help:<br>Saad Elmarjawi - 01001190450';
+      document.getElementById('failed-attempts-popup').querySelector('button').textContent = 'OK';
+      document.getElementById('welcome-username').textContent = '';
+      document.getElementById('welcome-message').textContent = '';
+      setBiloState('switch_english');
+    } else {
+      currentLang = 'ar';
+      document.documentElement.lang = 'ar';
+      document.documentElement.dir = 'rtl';
+      document.querySelector('.login-form h2').textContent = 'تسجيل الدخول';
+      usernameInput.placeholder = 'اسم المستخدم';
+      passwordInput.placeholder = 'كلمة المرور';
+      document.getElementById('login-text').textContent = 'دخول';
+      document.querySelector('.forgot').textContent = 'نسيت كلمة المرور؟';
+      document.querySelector('.language-toggle span').textContent = 'العربية / English';
+      document.title = 'تسجيل الدخول | YLY';
+      document.getElementById('popup').querySelector('h3').textContent = 'مساعدة بخصوص الحساب';
+      document.getElementById('popup').querySelector('p').textContent = 'اتواصل مع مسؤول اللجنة أو هيد المحافظة عشان يساعدك.';
+      document.getElementById('popup').querySelector('button').textContent = 'عنيااا';
+      document.getElementById('failed-attempts-popup').querySelector('h3').textContent = 'عدد المحاولات تجاوز الحد المسموح';
+      document.getElementById('failed-attempts-popup').querySelector('p').textContent = 'للأسف حاولت كتير ومقدرتش تدخل!<br>تواصل مع منشئ النظام يا عسلية:<br>سعد المرجاوي - 01001190450';
+      document.getElementById('failed-attempts-popup').querySelector('button').textContent = 'تمام';
+      document.getElementById('welcome-username').textContent = '';
+      document.getElementById('welcome-message').textContent = '';
+      setBiloState('switch_arabic');
+    }
+  }
+
+  window.onload = function() {
+    createParticles();
+    
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        20%, 60% { transform: translateX(-5px); }
+        40%, 80% { transform: translateX(5px); }
+      }
+    `;
+    document.head.appendChild(style);
+    
+    setTimeout(() => {
+      if (currentState === 'welcome') {
+        setBiloState('welcome');
+      }
+    }, 3000);
+  };
+</script>
+</body>
+</html>

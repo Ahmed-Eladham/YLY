@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>حول النظام | YLY</title>
+  <!-- Bootstrap RTL -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Cairo Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Google Fonts for decorative text -->
+  <link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@700&family=Tajawal:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #2b68ff;
+      --primary-hover: #1c4de1;
+      --accent-color: #ffc107;
+      --text-color: #fff;
+      --bg-overlay: rgba(0, 0, 50, 0.4);
+      --form-bg: rgba(255, 255, 255, 0.1);
+      --input-bg: rgba(255,255,255,0.2);
+      --input-hover: rgba(255,255,255,0.3);
+      --border-radius: 14px;
+      --card-bg: rgba(255, 255, 255, 0.08);
+      --success-color: #28a745;
+      --danger-color: #dc3545;
+      --warning-color: #fd7e14;
+      --info-color: #17a2b8;
+    }
+    
+    /* إصلاح المسافة العلوية */
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: url('assets/bg-space.jpg.png') no-repeat center center fixed;
+      background-size: cover;
+      color: var(--text-color);
+      min-height: 100vh;
+    }
+    
+    .overlay {
+      backdrop-filter: blur(10px);
+      background-color: var(--bg-overlay);
+      width: 100vw;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+    
+    /* إصلاح الجزيئات المتحركة */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+    
+    .particle {
+      position: absolute;
+      background-color: rgba(255, 255, 255, 0.6);
+      border-radius: 50%;
+      animation: float-up linear infinite;
+    }
+    
+    @keyframes float-up {
+      0% {
+        transform: translateY(0);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh);
+        opacity: 0;
+      }
+    }
+    
+    /* تعديلات التصميم الأصلي */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background: rgba(0, 0, 0, 0.3);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .logo-section img {
+      height: 50px;
+      transition: transform 0.3s;
+      cursor: pointer;
+    }
+    
+    .logo-section img:hover {
+      transform: scale(1.05);
+    }
+    
+    .season-title {
+      font-size: 1.4em;
+      font-weight: 700;
+      color: var(--accent-color);
+      cursor: pointer;
+    }
+    
+    .user-section {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      position: relative;
+    }
+    
+    .language-toggle {
+      background: rgba(255,255,255,0.2);
+      padding: 8px 15px;
+      border-radius: var(--border-radius);
+      color: white;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    
+    .language-toggle:hover {
+      background: rgba(255,255,255,0.3);
+    }
+    
+    .user-avatar {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      object-fit: cover;
+      cursor: pointer;
+      border: 2px solid var(--accent-color);
+      transition: all 0.3s;
+    }
+    
+    .user-avatar:hover {
+      transform: scale(1.1);
+    }
+    
+    .user-dropdown {
+      position: absolute;
+      top: 60px;
+      left: 0;
+      background: rgba(0, 0, 0, 0.9);
+      border-radius: var(--border-radius);
+      padding: 20px;
+      width: 250px;
+      display: none;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,255,255,0.1);
+      z-index: 101;
+    }
+    
+    .user-dropdown.show {
+      display: block;
+      animation: fadeIn 0.3s;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .user-info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    
+    .user-dropdown-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--primary-color);
+    }
+    
+    .user-name {
+      font-size: 1.2em;
+      font-weight: 600;
+    }
+    
+    .user-role {
+      color: var(--accent-color);
+      font-size: 0.9em;
+    }
+    
+    .dropdown-btn {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: var(--border-radius);
+      background: rgba(255,255,255,0.1);
+      border: none;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .dropdown-btn:hover {
+      background: var(--primary-color);
+    }
+    
+    /* شريط التنقل */
+    .nav-bar {
+      display: flex;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .nav-link {
+      padding: 10px 20px;
+      margin: 0 5px;
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      border-radius: var(--border-radius);
+      transition: all 0.3s;
+      position: relative;
+      cursor: pointer;
+    }
+    
+    .nav-link:hover, .nav-link.active {
+      background: var(--primary-color);
+    }
+    
+    .nav-link:hover::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 5px solid var(--primary-color);
+    }
+    
+    /* المحتوى الرئيسي */
+    .main-content {
+      padding: 30px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    
+    .section-title {
+      font-size: 1.8em;
+      margin-bottom: 25px;
+      color: var(--accent-color);
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .section-title i {
+      font-size: 1.2em;
+    }
+    
+    /* شعارات الوزارة والمشروع */
+    .logos-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+    
+    .logo-circle {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: var(--card-bg);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+      transition: all 0.3s;
+    }
+    
+    .logo-circle:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    
+    .logo-circle img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+    
+    /* بطاقات المعلومات */
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      margin-bottom: 40px;
+    }
+    
+    .team-card, .leadership-card, .social-card, .thank-you-card {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 25px;
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: all 0.3s;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .team-card:hover, .leadership-card:hover, .social-card:hover, .thank-you-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+    
+    .team-avatar, .leadership-avatar {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--primary-color);
+      margin-bottom: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    
+    .leadership-avatar {
+      border-color: var(--accent-color);
+    }
+    
+    .team-card h3, .leadership-card h3, .social-card h3, .thank-you-card h3 {
+      font-size: 1.3em;
+      margin-bottom: 10px;
+      color: var(--accent-color);
+      font-family: 'Tajawal', sans-serif;
+    }
+    
+    .team-card .role, .leadership-card .position, .social-card .description, .thank-you-card .message {
+      font-size: 0.9em;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    
+    .team-card .social-links, .social-card .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: auto;
+    }
+    
+    .team-card .social-links a, .social-card .social-icons a {
+      color: white;
+      font-size: 1.2em;
+      transition: all 0.3s;
+    }
+    
+    .team-card .social-links a:hover, .social-card .social-icons a:hover {
+      transform: translateY(-3px);
+    }
+    
+    /* وسائل التواصل */
+    .social-card {
+      margin-bottom: 40px;
+    }
+    
+    .social-icons {
+      font-size: 2em;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .facebook:hover { color: #1877F2 !important; }
+    .twitter:hover { color: #1DA1F2 !important; }
+    .instagram:hover { color: #E1306C !important; }
+    .youtube:hover { color: #FF0000 !important; }
+    .whatsapp:hover { color: #25D366 !important; }
+    .tiktok:hover { color: #000000 !important; }
+    .linkedin:hover { color: #0A66C2 !important; }
+    
+    /* رسالة الشكر */
+    .thank-you-card {
+      margin-top: 40px;
+    }
+    
+    .thank-you-card .message {
+      font-size: 1.1em;
+      line-height: 1.8;
+      margin-bottom: 25px;
+    }
+    
+    .signature {
+      font-family: 'El Messiri', sans-serif;
+      font-size: 1.8em;
+      margin-top: 20px;
+      color: var(--accent-color);
+      font-weight: bold;
+    }
+    
+    .signature.yly {
+      font-size: 2.5em;
+      color: var(--primary-color);
+      text-shadow: 0 0 10px rgba(43, 104, 255, 0.5);
+      margin-bottom: 10px;
+    }
+    
+    /* شخصية بيلو */
+    .bilo-container {
+      position: fixed;
+      bottom: 30px;
+      left: 30px;
+      z-index: 99;
+    }
+    
+    .bilo-img {
+      width: 120px;
+      cursor: pointer;
+      transition: all 0.3s;
+      filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5));
+    }
+    
+    .bilo-img:hover {
+      transform: scale(1.1);
+    }
+    
+    .bilo-speech {
+      position: absolute;
+      bottom: 140px;
+      left: 50px;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: var(--border-radius);
+      padding: 15px;
+      width: 250px;
+      font-size: 0.95em;
+      display: none;
+      backdrop-filter: blur(5px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    
+    .bilo-speech.show {
+      display: block;
+      animation: appear 0.3s ease-out;
+    }
+    
+    .bilo-speech::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 30px;
+      border-width: 10px 10px 0;
+      border-style: solid;
+      border-color: rgba(255, 255, 255, 0.15) transparent;
+    }
+    
+    @keyframes appear {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* التجاوب مع أحجام الشاشات */
+    @media (max-width: 992px) {
+      .cards-container {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      }
+      
+      .logo-circle {
+        width: 120px;
+        height: 120px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .top-bar {
+        padding: 10px 15px;
+      }
+      
+      .logo-section img {
+        height: 40px;
+      }
+      
+      .season-title {
+        font-size: 1.1em;
+      }
+      
+      .user-avatar {
+        width: 40px;
+        height: 40px;
+      }
+      
+      .nav-bar {
+        justify-content: flex-start;
+        overflow-x: auto;
+        padding: 10px 5px;
+      }
+      
+      .nav-link {
+        padding: 8px 15px;
+        font-size: 0.9em;
+      }
+      
+      .main-content {
+        padding: 20px 15px;
+      }
+      
+      .bilo-container {
+        display: none;
+      }
+      
+      .team-avatar, .leadership-avatar {
+        width: 120px;
+        height: 120px;
+      }
+      
+      .signature.yly {
+        font-size: 2em;
+      }
+      
+      .signature {
+        font-size: 1.5em;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .cards-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .social-icons {
+        font-size: 1.5em;
+        gap: 15px;
+      }
+      
+      .logos-container {
+        gap: 15px;
+      }
+      
+      .logo-circle {
+        width: 100px;
+        height: 100px;
+      }
+    }
+    
+    /* أقسام جديدة */
+    .section-header {
+      font-size: 1.6em;
+      margin: 40px 0 25px;
+      color: var(--accent-color);
+      text-align: center;
+      position: relative;
+      padding-bottom: 10px;
+      font-family: 'Tajawal', sans-serif;
+    }
+    
+    .section-header::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 3px;
+      background: var(--primary-color);
+      border-radius: 3px;
+    }
+    
+    /* تأثيرات خاصة */
+    .glow {
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+    
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+      }
+      to {
+        text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 20px var(--primary-color);
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="overlay"></div>
+<div class="particles" id="particles"></div>
+
+<!-- الشريط العلوي -->
+<div class="top-bar">
+  <div class="logo-section">
+    <img src="assets/logo-ministry.png" alt="وزارة الشباب والرياضة">
+    <img src="assets/logo-yly.png" alt="YLY">
+    <div class="season-title">YLY - PORT SAID SEASON <span id="season-number">7</span></div>
+  </div>
+  
+  <div class="user-section">
+    <div class="language-toggle" onclick="toggleLanguage()">
+      <i class="fas fa-language"></i>
+      <span>العربية / English</span>
+    </div>
+    
+    <img src="assets/SAAD.jpg" alt="صورة المستخدم" class="user-avatar" id="user-avatar">
+    
+    <div class="user-dropdown" id="user-dropdown">
+      <div class="user-info">
+        <img src="assets/SAAD.jpg" alt="صورة المستخدم" class="user-dropdown-avatar">
+        <div class="user-name" id="dropdown-username">سعد المرجاوي</div>
+        <div class="user-role" id="dropdown-userrole">مدير النظام</div>
+      </div>
+      
+      <button class="dropdown-btn" onclick="openSettings()">
+        <i class="fas fa-cog"></i> الإعدادات
+      </button>
+      <button class="dropdown-btn" onclick="logout()">
+        <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- شريط التنقل -->
+<div class="nav-bar">
+  <a href="home.html" class="nav-link"><i class="fas fa-home"></i> الصفحة الرئيسية</a>
+  <a href="volunteers.html" class="nav-link"><i class="fas fa-users"></i> إدارة المتطوعين</a>
+  <a href="evaluations.html" class="nav-link"><i class="fas fa-star"></i> التقييمات</a>
+  <a href="reports.html" class="nav-link"><i class="fas fa-chart-bar"></i> التقارير</a>
+  <a href="role.system.html" class="nav-link "><i class="fas fa-info-circle"></i> قواعد النظام</a>
+  <a href="support.html" class="nav-link active"><i class="fas fa-envelope"></i> تواصل معنا</a>
+</div>
+
+<!-- المحتوى الرئيسي -->
+<div class="main-content">
+  <div class="section-title">
+    <i class="fas fa-info-circle"></i>
+    <h2>حول نظام YLY</h2>
+  </div>
+
+  <!-- شعارات الوزارة والمشروع -->
+  <div class="logos-container">
+    <div class="logo-circle">
+      <img src="assets/logo-ministry.png" alt="وزارة الشباب والرياضة">
+    </div>
+    <div class="logo-circle">
+      <img src="assets/logo-yly.png" alt="YLY">
+    </div>
+  </div>
+
+  <!-- قسم مطورين النظام -->
+  <h3 class="section-header">مطورو النظام</h3>
+  <div class="cards-container">
+    <!-- مطور الواجهة الأمامية -->
+    <div class="team-card" id="frontend-dev">
+      <img src="assets/SAAD.jpg" alt="سعد المرجاوي" class="team-avatar">
+      <h3>سعد المرجاوي</h3>
+      <div class="role">منشئ النظام  - مطور الواجهة الأمامية وتجربة المستخدم</div>
+      
+      <div class="social-links">
+        <a href="https://wa.me/201001190450" target="_blank" class="whatsapp"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://web.facebook.com/SaadShElmrgawy?mibextid=ZbWKwL&_rdc=1&_rdr#" target="_blank" class="facebook"><i class="fab fa-facebook"></i></a>
+        <a href="https://linkedin.com/in/saad-elmaraghy" target="_blank" class="linkedin"><i class="fab fa-linkedin"></i></a>
+      </div>
+    </div>
+    
+    <!-- مطور الواجهة الخلفية -->
+    <div class="team-card" id="backend-dev">
+      <img src="./assets/ELADHAM.png" alt="الأدهم" class="team-avatar">
+      <h3>أحمد الأدهم</h3>
+      <div class="role">مطور خلفية النظام (Backend Developer)</div>
+      
+      <div class="social-links">
+        <a href="https://wa.me/201200560838" target="_blank" class="whatsapp"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://www.facebook.com/ahmed.eladham.srt" target="_blank" class="facebook"><i class="fab fa-facebook"></i></a>
+        <a href="http://www.linkedin.com/in/eladhamsrt" target="_blank" class="linkedin"><i class="fab fa-linkedin"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- قسم قادة المشروع -->
+  <h3 class="section-header">قادة ومشرفوا المشروع</h3>
+  <div class="cards-container">
+    <!-- مدير المشروع -->
+    <div class="leadership-card" id="project-manager">
+      <img src="./assets/SHEHAB.jpg" alt="شهاب الدين جمال" class="leadership-avatar">
+      <h3>شهاب الدين جمال</h3>
+      <div class="position">مدير مشروع YLY على مستوى الجمهورية</div>
+    </div>
+    
+    <!-- وزير الشباب والرياضة -->
+    <div class="leadership-card" id="minister">
+      <img src="./assets/WAZIR.jfif" alt="الدكتور أشرف صبحي" class="leadership-avatar">
+      <h3>الدكتور أشرف صبحي</h3>
+      <div class="position">وزير الشباب والرياضة - الراعي الرسمي للمشروع</div>
+    </div>
+  </div>
+
+  <!-- السوشيال ميديا الرسمية -->
+  <div class="social-card" id="social-media">
+    <h3>وسائل التواصل الرسمية لمشروع YLY</h3>
+    <div class="description">تابعنا على منصات التواصل الاجتماعي لمعرفة آخر أخبارنا وفعالياتنا</div>
+    
+    <div class="social-icons">
+      <a href="https://facebook.com/yly.egypt" target="_blank" class="facebook"><i class="fab fa-facebook"></i></a>
+      <a href="https://twitter.com/yly_egypt" target="_blank" class="twitter"><i class="fab fa-twitter"></i></a>
+      <a href="https://instagram.com/yly.egypt" target="_blank" class="instagram"><i class="fab fa-instagram"></i></a>
+      <a href="https://youtube.com/ylyegypt" target="_blank" class="youtube"><i class="fab fa-youtube"></i></a>
+      <a href="https://tiktok.com/@yly.egypt" target="_blank" class="tiktok"><i class="fab fa-tiktok"></i></a>
+      <a href="https://wa.me/20123456789" target="_blank" class="whatsapp"><i class="fab fa-whatsapp"></i></a>
+    </div>
+  </div>
+
+  <!-- رسالة شكر من منشئي النظام -->
+  <div class="thank-you-card" id="thank-you-note">
+    <h3>رسالة شكر</h3>
+    <div class="message">
+      نقدم خالص الشكر والتقدير لمعالي الدكتور وزير الشباب والرياضة على دعمه المستمر لهذا المشروع الوطني، 
+      ولمدير المشروع الأستاذ شهاب الدين جمال على توجيهاته القيمة، ولجميع العاملين في منظومة YLY على جهودهم المخلصة.
+      <br><br>
+      هذا النظام هو نتاج عمل متواصل لخدمة شباب مصر الأبرار، ونعدكم بالمزيد من التطوير والتحسين المستمر.
+    </div>
+    <div class="signature yly">YLY</div>
+    <div class="signature">فريق التطوير</div>
+  </div>
+</div>
+
+<!-- شخصية بيلو -->
+<div class="bilo-container">
+  <img src="assets/bilo-tayer mn elfarha.png" alt="بيلو" class="bilo-img" id="bilo-img">
+  <div class="bilo-speech" id="bilo-speech">مرحباً بك في صفحة "حول النظام"! كيف يمكنني مساعدتك؟</div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  // بيانات المستخدم
+  const currentUser = {
+    name: "سعد المرجاوي",
+    role: "مدير النظام",
+    avatar: "assets/saad.jpg",
+    season: 7
+  };
+
+  // تعبيرات بيلو المختلفة
+  const biloExpressions = {
+    normal: "assets/bilo-waqef.png",
+    happy: "assets/bilo-farhan.png",
+    sad: "assets/bilo-wehda.png",
+    angry: "assets/bilo-ghadb.png",
+    surprised: "assets/bilo-andihem.png",
+    thanks: "assets/bilo-hob.png",
+    winner: "assets/bilo-WINNER.png",
+    thinking: "assets/bilo-farhan.png",
+    advice: "assets/bilo-yazef.png"
+  };
+
+  // رسائل بيلو لكل قسم
+  const biloMessages = {
+    "frontend-dev": {
+      message: "سعد المرجاوي هو منشئ النظام وصاحب الفكرة، وهو مسؤول عن واجهة المستخدم وتجربة المستخدم.",
+      expression: "happy"
+    },
+    "backend-dev": {
+      message: "الأدهم هو المطور الخلفي للنظام ومسؤول عن قواعد البيانات والوظائف الأساسية.",
+      expression: "thinking"
+    },
+    "project-manager": {
+      message: "شهاب الدين جمال هو مدير المشروع على مستوى الجمهورية والمسؤول العام عن تنفيذ استراتيجية YLY.",
+      expression: "winner"
+    },
+    "minister": {
+      message: "معالي الدكتور أشرف صبحي وزير الشباب والرياضة هو الراعي الرئيسي لمشروع YLY.",
+      expression: "happy"
+    },
+    "social-media": {
+      message: "تابع حسابات YLY الرسمية على وسائل التواصل لمتابعة آخر الأخبار والفعاليات.",
+      expression: "happy"
+    },
+    "thank-you-note": {
+      message: "رسالة شكر من فريق التطوير لجميع الداعمين والمشاركين في هذا المشروع الوطني.",
+      expression: "thanks"
+    }
+  };
+
+  // تهيئة الصفحة
+  document.addEventListener('DOMContentLoaded', function() {
+    // تعيين بيانات المستخدم
+    document.getElementById('dropdown-username').textContent = currentUser.name;
+    document.getElementById('dropdown-userrole').textContent = currentUser.role;
+    document.getElementById('season-number').textContent = currentUser.season;
+    
+    // إنشاء الجزيئات المتحركة
+    createParticles();
+    
+    // إعداد تفاعلات الصفحة
+    setupPageInteractions();
+    
+    // عرض رسالة بيلو الترحيبية
+    setTimeout(() => {
+      showBiloMessage("مرحباً بك في صفحة 'حول النظام'! كيف يمكنني مساعدتك؟", "happy");
+    }, 1000);
+  });
+
+  // إنشاء الجزيئات المتحركة
+  function createParticles() {
+    const particlesContainer = document.getElementById('particles');
+    const count = Math.floor(window.innerWidth / 20);
+    
+    for (let i = 0; i < count; i++) {
+      const particle = document.createElement('div');
+      particle.classList.add('particle');
+      
+      const size = Math.random() * 5 + 2;
+      const posX = Math.random() * window.innerWidth;
+      const duration = Math.random() * 15 + 10;
+      const delay = Math.random() * 10;
+      const opacity = Math.random() * 0.5 + 0.3;
+      
+      particle.style.width = `${size}px`;
+      particle.style.height = `${size}px`;
+      particle.style.left = `${posX}px`;
+      particle.style.bottom = '0';
+      particle.style.animationDuration = `${duration}s`;
+      particle.style.animationDelay = `${delay}s`;
+      particle.style.opacity = opacity;
+      
+      particlesContainer.appendChild(particle);
+    }
+  }
+
+  // إعداد تفاعلات الصفحة
+  function setupPageInteractions() {
+    // عرض/إخفاء قائمة المستخدم
+    document.getElementById('user-avatar').addEventListener('click', function() {
+      document.getElementById('user-dropdown').classList.toggle('show');
+    });
+
+    // إغلاق القائمة عند النقر خارجها
+    window.addEventListener('click', function(e) {
+      if (!e.target.matches('#user-avatar') && !e.target.matches('#user-avatar *')) {
+        const dropdown = document.getElementById('user-dropdown');
+        if (dropdown.classList.contains('show')) {
+          dropdown.classList.remove('show');
+        }
+      }
+    });
+
+    // تفاعل بيلو مع أقسام الصفحة
+    const sections = document.querySelectorAll('.team-card, .leadership-card, .social-card, .thank-you-card');
+    sections.forEach(section => {
+      section.addEventListener('mouseenter', function() {
+        const sectionId = this.id;
+        if (biloMessages[sectionId]) {
+          showBiloMessage(biloMessages[sectionId].message, biloMessages[sectionId].expression);
+        }
+      });
+    });
+  }
+
+  // عرض رسالة بيلو
+  let biloMessageTimeout;
+  function showBiloMessage(message, expression = 'normal') {
+    const biloImg = document.getElementById('bilo-img');
+    const speech = document.getElementById('bilo-speech');
+    
+    // تغيير تعبير بيلو
+    biloImg.src = biloExpressions[expression] || biloExpressions.normal;
+    
+    speech.textContent = message;
+    speech.classList.add('show');
+    
+    // إلغاء المؤقت السابق إذا كان موجوداً
+    if (biloMessageTimeout) {
+      clearTimeout(biloMessageTimeout);
+    }
+    
+    // إخفاء الرسالة تلقائياً بعد 7 ثواني
+    biloMessageTimeout = setTimeout(() => {
+      speech.classList.remove('show');
+      // العودة إلى التعبير الطبيعي بعد اختفاء الرسالة
+      setTimeout(() => {
+        biloImg.src = biloExpressions.normal;
+      }, 900);
+    }, 10000);
+  }
+
+  // تفاعل بيلو عند النقر عليه
+  const biloImg = document.getElementById('bilo-img');
+  biloImg.addEventListener('click', function() {
+    const messages = [
+      {text: "أنا بيلو، مساعدك في نظام YLY!", exp: "happy"},
+      {text: "هل لديك أي استفسار عن النظام أو فريق العمل؟", exp: "thinking"},
+      {text: "سعد المرجاوي هو منشئ النظام وصاحب الفكرة الأساسية", exp: "happy"},
+      {text: "نظام YLY صمم خصيصاً لخدمة شباب مصر الأبرار", exp: "winner"},
+      {text: "شاركنا آراءك لتطوير النظام وتحسين تجربة المستخدم", exp: "advice"},
+      {text: "شكراً لزيارتك صفحة حول النظام!", exp: "thanks"}
+    ];
+    
+    const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+    showBiloMessage(randomMsg.text, randomMsg.exp);
+  });
+
+  // تبديل اللغة
+  function toggleLanguage() {
+    const currentLang = document.documentElement.lang;
+    if (currentLang === 'ar') {
+      document.documentElement.lang = 'en';
+      document.documentElement.dir = 'ltr';
+      document.querySelector('.language-toggle span').textContent = 'English / العربية';
+      document.title = 'About System | YLY';
+      showBiloMessage("Language switched to English", "happy");
+    } else {
+      document.documentElement.lang = 'ar';
+      document.documentElement.dir = 'rtl';
+      document.querySelector('.language-toggle span').textContent = 'العربية / English';
+      document.title = 'حول النظام | YLY';
+      showBiloMessage("تم تغيير اللغة إلى العربية", "happy");
+    }
+  }
+
+  // تسجيل الخروج
+  function logout() {
+    showBiloMessage("جارٍ تسجيل الخروج، إلى اللقاء!", "sad");
+    setTimeout(() => {
+      window.location.href = 'login.html';
+    }, 1500);
+  }
+
+  // فتح الإعدادات
+  function openSettings() {
+    showBiloMessage("جارٍ فتح صفحة الإعدادات...", "thinking");
+    setTimeout(() => {
+      window.location.href = 'settings.html';
+    }, 1000);
+  }
+</script>
+</body>
+</html>

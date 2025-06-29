@@ -1,0 +1,1748 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>قواعد النظام | YLY</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #2b68ff;
+      --primary-hover: #1c4de1;
+      --accent-color: #ffc107;
+      --text-color: #fff;
+      --bg-overlay: rgba(0, 0, 50, 0.4);
+      --form-bg: rgba(255, 255, 255, 0.1);
+      --input-bg: rgba(255,255,255,0.2);
+      --input-hover: rgba(255,255,255,0.3);
+      --border-radius: 14px;
+      --card-bg: rgba(255, 255, 255, 0.08);
+      --whatsapp-color: #25D366;
+      --danger-color: #ff5252;
+    }
+    
+    body {
+      margin: 0;
+      font-family: 'Cairo', sans-serif;
+      background: url('assets/bg-space.jpg.png') no-repeat center center fixed;
+      background-size: cover;
+      color: var(--text-color);
+      overflow-x: hidden;
+    }
+    
+    .overlay {
+      backdrop-filter: blur(10px);
+      background-color: var(--bg-overlay);
+      width: 100vw;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+    
+    /* الشريط العلوي - محسّن */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background: rgba(0, 0, 0, 0.3);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .logo-section img {
+      height: 50px;
+      transition: transform 0.3s;
+      cursor: pointer;
+    }
+    
+    .logo-section img:hover {
+      transform: scale(1.05);
+    }
+    
+    .season-title {
+      font-size: 1.4em;
+      font-weight: 700;
+      color: var(--accent-color);
+      cursor: pointer;
+    }
+    
+    .user-section {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      position: relative;
+    }
+    
+    .language-toggle {
+      background: rgba(255,255,255,0.2);
+      padding: 8px 15px;
+      border-radius: var(--border-radius);
+      color: white;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    
+    .language-toggle:hover {
+      background: rgba(255,255,255,0.3);
+    }
+    
+    .user-avatar {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      object-fit: cover;
+      cursor: pointer;
+      border: 2px solid var(--accent-color);
+      transition: all 0.3s;
+    }
+    
+    .user-avatar:hover {
+      transform: scale(1.1);
+    }
+    
+    .user-dropdown {
+      position: absolute;
+      top: 60px;
+      left: 0;
+      background: rgba(0, 0, 0, 0.9);
+      border-radius: var(--border-radius);
+      padding: 20px;
+      width: 250px;
+      display: none;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,255,255,0.1);
+      z-index: 101;
+    }
+    
+    .user-dropdown.show {
+      display: block;
+      animation: fadeIn 0.3s;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .user-info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    
+    .user-dropdown-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--primary-color);
+    }
+    
+    .user-name {
+      font-size: 1.2em;
+      font-weight: 600;
+    }
+    
+    .user-role {
+      color: var(--accent-color);
+      font-size: 0.9em;
+    }
+    
+    .dropdown-btn {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: var(--border-radius);
+      background: rgba(255,255,255,0.1);
+      border: none;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .dropdown-btn:hover {
+      background: var(--primary-color);
+    }
+    
+    /* شريط التنقل - محسّن */
+    .nav-bar {
+      display: flex;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      position: sticky;
+      top: 80px;
+      z-index: 99;
+    }
+    
+    .nav-link {
+      padding: 10px 20px;
+      margin: 0 5px;
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      border-radius: var(--border-radius);
+      transition: all 0.3s;
+      position: relative;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .nav-link:hover, .nav-link.active {
+      background: var(--primary-color);
+    }
+    
+    .nav-link:hover::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 5px solid var(--primary-color);
+    }
+    
+    /* المحتوى الرئيسي */
+    .main-content {
+      padding: 30px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    .section-title {
+      font-size: 1.8em;
+      margin-bottom: 25px;
+      color: var(--accent-color);
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      cursor: pointer;
+    }
+    
+    /* كروت القواعد - تم التعديل هنا */
+    .rules-container {
+      display: grid;
+      gap: 25px;
+      margin-bottom: 40px;
+    }
+    
+    /* للشاشات الكبيرة (أكبر من 1200px) */
+    @media (min-width: 1200px) {
+      .rules-container {
+        grid-template-columns: repeat(3, 1fr); /* 3 أعمدة */
+      }
+    }
+    
+    /* للشاشات المتوسطة (بين 768px و 1199px) */
+    @media (min-width: 768px) and (max-width: 1199px) {
+      .rules-container {
+        grid-template-columns: repeat(2, 1fr); /* عمودين */
+      }
+    }
+    
+    /* للشاشات الصغيرة (أقل من 768px) */
+    @media (max-width: 767px) {
+      .rules-container {
+        grid-template-columns: 1fr; /* عمود واحد */
+      }
+    }
+    
+    .rule-card {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 25px;
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: all 0.3s;
+      cursor: pointer;
+      position: relative;
+    }
+    
+    .rule-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      background: rgba(255,255,255,0.15);
+    }
+    
+    .rule-icon {
+      font-size: 2.5em;
+      color: var(--accent-color);
+      margin-bottom: 15px;
+    }
+    
+    .rule-title {
+      font-size: 1.4em;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: var(--primary-color);
+    }
+    
+    .rule-desc {
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+    
+    /* أزرار المشاركة والإدارة */
+    .card-actions {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      display: flex;
+      gap: 10px;
+    }
+    
+    .action-btn {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      border: none;
+    }
+    
+    .action-btn:hover {
+      transform: scale(1.1);
+    }
+    
+    .whatsapp-btn {
+      background: var(--whatsapp-color);
+    }
+    
+    .export-btn {
+      background: var(--primary-color);
+    }
+    
+    .import-btn {
+      background: var(--accent-color);
+      color: #333;
+    }
+    
+    /* قسم الأسئلة الشائعة */
+    .faq-container {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 30px;
+      margin-bottom: 40px;
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .faq-item {
+      margin-bottom: 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding-bottom: 20px;
+      position: relative;
+    }
+    
+    .faq-question {
+      font-size: 1.2em;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--accent-color);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-right: 30px;
+    }
+    
+    .faq-answer {
+      padding-right: 20px;
+      line-height: 1.6;
+      display: none;
+    }
+    
+    .faq-answer.show {
+      display: block;
+    }
+    
+    .faq-actions {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: flex;
+      gap: 5px;
+    }
+    
+    /* قسم العقوبات - تم التعديل هنا */
+    .penalties-section {
+      background: rgba(255, 0, 0, 0.1);
+      border-radius: var(--border-radius);
+      padding: 30px;
+      margin-bottom: 40px;
+      border: 1px solid rgba(255, 0, 0, 0.3);
+    }
+    
+    .penalty-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 15px;
+      padding: 15px;
+      background: rgba(255, 0, 0, 0.05);
+      border-radius: var(--border-radius);
+      position: relative;
+    }
+    
+    .penalty-icon {
+      color: var(--danger-color);
+      font-size: 1.5em;
+      margin-left: 15px;
+    }
+    
+    .penalty-content {
+      flex-grow: 1;
+    }
+    
+    .penalty-title {
+      font-weight: 600;
+      color: var(--danger-color);
+      margin-bottom: 5px;
+    }
+    
+    .penalty-desc {
+      line-height: 1.6;
+    }
+    
+    .penalty-level {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 0.8em;
+      font-weight: bold;
+      margin-left: 5px;
+    }
+    
+    .level-low {
+      background-color: rgba(255, 193, 7, 0.2);
+      color: #ffc107;
+    }
+    
+    .level-medium {
+      background-color: rgba(255, 152, 0, 0.2);
+      color: #ff9800;
+    }
+    
+    .level-high {
+      background-color: rgba(255, 87, 34, 0.2);
+      color: #ff5722;
+    }
+    
+    .level-critical {
+      background-color: rgba(244, 67, 54, 0.2);
+      color: #f44336;
+    }
+    
+    /* فلاتر عرض القواعد حسب الصلاحيات */
+    .role-filters {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+    
+    .role-filter {
+      padding: 8px 20px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    .role-filter.active, .role-filter:hover {
+      background: var(--primary-color);
+      border-color: var(--primary-hover);
+    }
+    
+    /* شخصية بيلو - محسنة */
+    .bilo-container {
+      position: fixed;
+      bottom: 30px;
+      left: 30px;
+      z-index: 99;
+    }
+    
+    .bilo-img {
+      width: 120px;
+      cursor: pointer;
+      transition: all 0.3s;
+      filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5));
+    }
+    
+    .bilo-img:hover {
+      transform: scale(1.1);
+    }
+    
+    .bilo-speech {
+      position: absolute;
+      bottom: 140px;
+      left: 50px;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: var(--border-radius);
+      padding: 15px;
+      width: 250px;
+      font-size: 0.95em;
+      display: none;
+      backdrop-filter: blur(5px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    
+    .bilo-speech.show {
+      display: block;
+      animation: appear 0.3s ease-out;
+    }
+    
+    .bilo-speech::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 30px;
+      border-width: 10px 10px 0;
+      border-style: solid;
+      border-color: rgba(255, 255, 255, 0.15) transparent;
+    }
+    
+    @keyframes appear {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* تأثيرات الجزيئات - محسنة */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+    
+    .particle {
+      position: absolute;
+      background: rgba(255,255,255,0.6);
+      border-radius: 50%;
+      animation: floatParticle linear infinite;
+    }
+    
+    @keyframes floatParticle {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+    }
+    
+    /* نافذة منبثقة */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.7);
+      backdrop-filter: blur(5px);
+    }
+    
+    .modal-content {
+      background: var(--card-bg);
+      margin: 10% auto;
+      padding: 30px;
+      border-radius: var(--border-radius);
+      width: 80%;
+      max-width: 500px;
+      border: 1px solid rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px);
+    }
+    
+    .close {
+      color: #aaa;
+      float: left;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    
+    .close:hover {
+      color: white;
+    }
+    
+    .modal-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    
+    .modal-btn {
+      padding: 12px;
+      border-radius: var(--border-radius);
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.3s;
+    }
+    
+    .modal-btn:hover {
+      transform: translateY(-2px);
+    }
+    
+    /* زر التصدير في الأسفل - تم التعديل هنا */
+    .export-footer {
+      text-align: center;
+      margin-top: 40px;
+    }
+    
+    .export-footer-btn {
+      padding: 12px 25px;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: var(--border-radius);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .export-footer-btn:hover {
+      background: var(--primary-hover);
+      transform: translateY(-2px);
+    }
+    
+    /* التجاوب مع أحجام الشاشات */
+    @media (max-width: 992px) {
+      .bilo-container {
+        left: 15px;
+        bottom: 15px;
+      }
+      
+      .bilo-img {
+        width: 100px;
+      }
+      
+      .bilo-speech {
+        bottom: 120px;
+        left: 30px;
+        width: 220px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .top-bar {
+        padding: 10px 15px;
+      }
+      
+      .logo-section img {
+        height: 40px;
+      }
+      
+      .season-title {
+        font-size: 1.1em;
+      }
+      
+      .user-avatar {
+        width: 40px;
+        height: 40px;
+      }
+      
+      .nav-bar {
+        top: 70px;
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding: 10px 5px;
+      }
+      
+      .nav-link {
+        padding: 8px 15px;
+        font-size: 0.9em;
+      }
+      
+      .main-content {
+        padding: 20px 15px;
+      }
+      
+      .modal-content {
+        margin: 20% auto;
+        width: 90%;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .logo-section {
+        flex-direction: column;
+        gap: 5px;
+        align-items: flex-start;
+      }
+      
+      .season-title {
+        font-size: 1em;
+      }
+      
+      .user-section {
+        gap: 10px;
+      }
+      
+      .language-toggle {
+        padding: 5px 10px;
+        font-size: 0.8em;
+      }
+      
+      .user-dropdown {
+        width: 200px;
+      }
+      
+      .role-filters {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="overlay"></div>
+<div class="particles" id="particles"></div>
+
+<!-- الشريط العلوي المحسّن -->
+<div class="top-bar">
+  <div class="logo-section">
+    <img src="assets/logo-ministry.png" alt="وزارة الشباب والرياضة" 
+         onmouseover="showBiloMessage('دي شعار وزارة الشباب والرياضة، الشريك الرسمي للمشروع')"
+         onmouseout="hideBiloMessage()">
+    <img src="assets/logo-yly.png" alt="YLY"
+         onmouseover="showBiloMessage('ده شعار مشروع YLY، مشروعنا العظيم اللي بنطوره مع بعض')"
+         onmouseout="hideBiloMessage()">
+    <div class="season-title" 
+         onmouseover="showBiloMessage('ده رقم الموسم الحالي، كل سنة بنزود رقم وبنطور النظام')"
+         onmouseout="hideBiloMessage()">YLY - PORT SAID SEASON <span id="season-number">7</span></div>
+  </div>
+  
+  <div class="user-section">
+    <div class="language-toggle" onclick="toggleLanguage()"
+         onmouseover="showBiloMessage('دوس هنا لو عاوز تغير اللغة من عربي لإنجليزي والعكس')"
+         onmouseout="hideBiloMessage()">
+      <i class="fas fa-language"></i>
+      <span>العربية / English</span>
+    </div>
+    
+    <img src="assets/SAAD.jpg" alt="صورة المستخدم" class="user-avatar" id="user-avatar"
+         onmouseover="showBiloMessage('دوس هنا علشان تشوف بياناتك أو تسجل الخروج')"
+         onmouseout="hideBiloMessage()">
+    
+    <div class="user-dropdown" id="user-dropdown">
+      <div class="user-info">
+        <img src="assets/SAAD.jpg" alt="صورة المستخدم" class="user-dropdown-avatar">
+        <div class="user-name" id="dropdown-username">سعد المرجاوي</div>
+        <div class="user-role" id="dropdown-userrole">مدير النظام</div>
+      </div>
+      
+      <button class="dropdown-btn" onclick="openSettings()">
+        <i class="fas fa-cog"></i> الإعدادات
+      </button>
+      <button class="dropdown-btn" onclick="openImportExport()">
+        <i class="fas fa-file-export"></i> استيراد/تصدير
+      </button>
+      <button class="dropdown-btn" onclick="logout()">
+        <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- شريط التنقل المحسّن -->
+<div class="nav-bar">
+  <a href="home.html" class="nav-link"
+     onmouseover="showBiloMessage('الصفحة الرئيسية فيها كل الإحصائيات والهيكل التنظيمي')"
+     onmouseout="hideBiloMessage()"><i class="fas fa-home"></i> الصفحة الرئيسية</a>
+  <a href="volunteers.html" class="nav-link"
+     onmouseover="showBiloMessage('صفحة إدارة المتطوعين علشان تضيف أو تعدل أو تشوف بيانات المتطوعين')"
+     onmouseout="hideBiloMessage()"><i class="fas fa-users"></i> إدارة المتطوعين</a>
+  <a href="evaluations.html" class="nav-link"
+     onmouseover="showBiloMessage('هنا بتقيم المتطوعين وتشوف التقييمات السابقة')"
+     onmouseout="hideBiloMessage()"><i class="fas fa-star"></i> إدارة التقييمات</a>
+  <a href="reports.html" class="nav-link"
+     onmouseover="showBiloMessage('التقارير بتاعت المشروع وإحصائيات مفصلة عن كل حاجة')"
+     onmouseout="hideBiloMessage()"><i class="fas fa-chart-bar"></i> التقارير</a>
+  <a href="role.system.html" class="nav-link active"
+     onmouseover="showBiloMessage('قواعد ومعلومات وشروط التقييم والمعايير المحدده حول ادارة النظام')"
+     onmouseout="hideBiloMessage()"><i class="fas fa-info-circle"></i> قواعد النظام</a>
+  <a href="support.html" class="nav-link"
+     onmouseover="showBiloMessage('لو عندك أي مشكلة أو استفسار، كلمنا من هنا')"
+     onmouseout="hideBiloMessage()"><i class="fas fa-headset"></i> تواصل معنا</a>
+</div>
+
+<!-- المحتوى الرئيسي -->
+<div class="main-content">
+  <!-- فلاتر عرض القواعد حسب الصلاحية -->
+  <div class="role-filters">
+    <div class="role-filter active" onclick="filterRules('all')"
+         onmouseover="showBiloMessage('عرض كل القواعد بدون تصفية')"
+         onmouseout="hideBiloMessage()">الكل</div>
+    <div class="role-filter" onclick="filterRules('head')"
+         onmouseover="showBiloMessage('قواعد خاصة برؤساء اللجان (الهيدز)')"
+         onmouseout="hideBiloMessage()">رؤساء اللجان</div>
+    <div class="role-filter" onclick="filterRules('leader')"
+         onmouseover="showBiloMessage('قواعد خاصة بقادة الفرق (الليدرز)')"
+         onmouseout="hideBiloMessage()">قادة الفرق</div>
+    <div class="role-filter" onclick="filterRules('volunteer')"
+         onmouseover="showBiloMessage('قواعد عامة لجميع المتطوعين')"
+         onmouseout="hideBiloMessage()">المتطوعون</div>
+    <div class="role-filter" onclick="filterRules('manager')"
+         onmouseover="showBiloMessage('قواعد خاصة بمديري النظام')"
+         onmouseout="hideBiloMessage()">مديرو النظام</div>
+  </div>
+
+  <!-- القواعد الأساسية -->
+  <div class="section-title" 
+       onmouseover="showBiloMessage('القواعد الأساسية اللي بتتحكم في سير العمل داخل النظام')"
+       onmouseout="hideBiloMessage()">
+    <i class="fas fa-book"></i>
+    <h2>القواعد الأساسية للنظام</h2>
+  </div>
+  
+  <div class="rules-container">
+    <!-- القواعد العامة -->
+    <div class="rule-card" data-role="volunteer,leader,head,manager"
+         onmouseover="showBiloMessage('القواعد العامة اللي بتطبق على كل المتطوعين بغض النظر عن مناصبهم')"
+         onmouseout="hideBiloMessage()">
+      <div class="card-actions">
+        <button class="action-btn whatsapp-btn" onclick="shareViaWhatsapp('القواعد العامة')">
+          <i class="fab fa-whatsapp"></i>
+        </button>
+      </div>
+      <div class="rule-icon"><i class="fas fa-globe"></i></div>
+      <h3 class="rule-title">القواعد العامة</h3>
+      <p class="rule-desc">
+        1. الالتزام بمواعيد الحضور والانصراف المحددة<br>
+        2. احترام التسلسل القيادي داخل المشروع<br>
+        3. الحفاظ على سرية المعلومات الداخلية<br>
+        4. الالتزام بمعايير الجودة في تنفيذ المهام<br>
+        5. احترام زملاء العمل والتعامل بأخلاقيات المهنة
+      </p>
+    </div>
+    
+    <!-- قواعد رؤساء اللجان -->
+    <div class="rule-card" data-role="head,manager"
+         onmouseover="showBiloMessage('القواعد الخاصة برؤساء اللجان (الهيدز)')"
+         onmouseout="hideBiloMessage()">
+      <div class="card-actions">
+        <button class="action-btn whatsapp-btn" onclick="shareViaWhatsapp('قواعد رؤساء اللجان')">
+          <i class="fab fa-whatsapp"></i>
+        </button>
+      </div>
+      <div class="rule-icon"><i class="fas fa-user-tie"></i></div>
+      <h3 class="rule-title">قواعد رؤساء اللجان</h3>
+      <p class="rule-desc">
+        1. إعداد خطة عمل شهرية للجنة<br>
+        2. عقد اجتماع أسبوعي مع فريق العمل<br>
+        3. تقييم أداء الأعضاء بشكل دوري<br>
+        4. تقديم تقارير شهرية للإدارة<br>
+        5. تمثيل اللجنة في الاجتماعات العامة
+      </p>
+    </div>
+    
+    <!-- قواعد قادة الفرق -->
+    <div class="rule-card" data-role="leader,head,manager"
+         onmouseover="showBiloMessage('القواعد الخاصة بقادة الفرق (الليدرز)')"
+         onmouseout="hideBiloMessage()">
+      <div class="card-actions">
+        <button class="action-btn whatsapp-btn" onclick="shareViaWhatsapp('قواعد قادة الفرق')">
+          <i class="fab fa-whatsapp"></i>
+        </button>
+      </div>
+      <div class="rule-icon"><i class="fas fa-users-cog"></i></div>
+      <h3 class="rule-title">قواعد قادة الفرق</h3>
+      <p class="rule-desc">
+        1. متابعة تنفيذ المهام اليومية<br>
+        2. حل المشكلات الفورية ضمن الفريق<br>
+        3. تدريب الأعضاء الجدد<br>
+        4. رفع تقارير أسبوعية للهيد<br>
+        5. تنظيم أوقات العمل داخل الفريق
+      </p>
+    </div>
+    
+    <!-- قواعد المتطوعين -->
+    <div class="rule-card" data-role="volunteer,leader,head,manager"
+         onmouseover="showBiloMessage('القواعد الأساسية لجميع المتطوعين')"
+         onmouseout="hideBiloMessage()">
+      <div class="card-actions">
+        <button class="action-btn whatsapp-btn" onclick="shareViaWhatsapp('قواعد المتطوعين')">
+          <i class="fab fa-whatsapp"></i>
+        </button>
+      </div>
+      <div class="rule-icon"><i class="fas fa-hands-helping"></i></div>
+      <h3 class="rule-title">قواعد المتطوعين</h3>
+      <p class="rule-desc">
+        1. الالتزام بتعليمات القائد المباشر<br>
+        2. إنجاز المهام في الوقت المحدد<br>
+        3. طلب المساعدة عند الحاجة<br>
+        4. حضور التدريبات المطلوبة<br>
+        5. احترام قواعد المكان التطوعي
+      </p>
+    </div>
+    
+    <!-- قواعد مديري النظام -->
+    <div class="rule-card" data-role="manager"
+         onmouseover="showBiloMessage('القواعد الخاصة بمديري النظام فقط')"
+         onmouseout="hideBiloMessage()">
+      <div class="card-actions">
+        <button class="action-btn whatsapp-btn" onclick="shareViaWhatsapp('قواعد مديري النظام')">
+          <i class="fab fa-whatsapp"></i>
+        </button>
+        <button class="action-btn export-btn" onclick="exportRules('manager')">
+          <i class="fas fa-file-export"></i>
+        </button>
+      </div>
+      <div class="rule-icon"><i class="fas fa-user-shield"></i></div>
+      <h3 class="rule-title">قواعد مديري النظام</h3>
+      <p class="rule-desc">
+        1. الحفاظ على سرية بيانات النظام<br>
+        2. تحديث القواعد حسب التوجيهات<br>
+        3. مراجعة التقييمات الشهرية<br>
+        4. حل النزاعات بين الأعضاء<br>
+        5. إعداد التقارير النهائية للموسم
+      </p>
+    </div>
+    
+    <!-- نظام التقييم -->
+    <div class="rule-card" data-role="volunteer,leader,head,manager"
+         onmouseover="showBiloMessage('الآلية اللي بنقيم بيها المتطوعين كل شهر')"
+         onmouseout="hideBiloMessage()">
+      <div class="card-actions">
+        <button class="action-btn whatsapp-btn" onclick="shareViaWhatsapp('نظام التقييم')">
+          <i class="fab fa-whatsapp"></i>
+        </button>
+      </div>
+      <div class="rule-icon"><i class="fas fa-star"></i></div>
+      <h3 class="rule-title">نظام التقييم</h3>
+      <p class="rule-desc">
+        1. يتم التقييم شهريًا من قبل المسؤول المباشر<br>
+        2. يعتمد التقييم على 5 معايير رئيسية<br>
+        3. يتم احتساب النسبة المئوية للتقييم<br>
+        4. تظهر النتائج في تقرير شهري للمتطوع<br>
+        5. أفضل 5 متطوعين يحصلون على مكافآت
+      </p>
+    </div>
+  </div>
+  
+  <!-- نظام تقييم الأداء الشهري -->
+  <div class="section-title"
+       onmouseover="showBiloMessage('تفاصيل نظام التقييم الشهري لجميع المتطوعين')"
+       onmouseout="hideBiloMessage()">
+    <i class="fas fa-clipboard-check"></i>
+    <h2>نظام تقييم الأداء الشهري</h2>
+  </div>
+  
+  <div class="rules-container">
+    <!-- المهام -->
+    <div class="rule-card" data-role="volunteer,leader,head,manager"
+         onmouseover="showBiloMessage('تقييم أداء المتطوع في إنجاز المهام الموكلة إليه')"
+         onmouseout="hideBiloMessage()">
+      <div class="card-actions">
+        <button class="action-btn whatsapp-btn" onclick="shareEvaluationViaWhatsapp('المهام')">
+          <i class="fab fa-whatsapp"></i>
+        </button>
+      </div>
+      <div class="rule-icon"><i class="fas fa-tasks"></i></div>
+      <h3 class="rule-title">المهام (30 درجة)</h3>
+      <p class="rule-desc">
+        <strong>إنجاز المهام (20 درجة):</strong><br>
+        - اكتمال المهام الموكلة بالكامل<br>
+        - جودة التنفيذ وفق المعايير<br><br>
+        
+        <strong>الالتزام بالمواعيد (10 درجة):</strong><br>
+        - تسليم المهام في المواعيد المحددة<br>
+        - نظام الإعفاءات: في حالة وجود عذر، يتم خصم نصف درجة المواعيد (5 بدل 10)
+      </p>
+    </div>
+    
+    <!-- الفعاليات -->
+    <div class="rule-card" data-role="volunteer,leader,head,manager"
+         onmouseover="showBiloMessage('تقييم حضور ومشاركة المتطوع في الفعاليات')"
+         onmouseout="hideBiloMessage()">
+      <div class="card-actions">
+        <button class="action-btn whatsapp-btn" onclick="shareEvaluationViaWhatsapp('الفعاليات')">
+          <i class="fab fa-whatsapp"></i>
+        </button>
+      </div>
+      <div class="rule-icon"><i class="fas fa-calendar-alt"></i></div>
+      <h3 class="rule-title">الفعاليات (20 درجة)</h3>
+      <p class="rule-desc">
+        <strong>المظهر الرسمي (5 درجة):</strong><br>
+        - الالتزام باليونيفورم الرسمي<br>
+        - المظهر العام اللائق<br><br>
+        
+        <strong>الحضور والمشاركة (15 درجة):</strong><br>
+        - الحضور في الموعد المحدد<br>
+        - المشاركة الفعالة في الأنشطة<br>
+        - نظام الإعفاءات: في حالة وجود عذر، يحصل على 7.5 درجة وتخصم درجة اليونيفورم
+      </p>
+    </div>
+    
+    <!-- الاجتماعات -->
+    <div class="rule-card" data-role="volunteer,leader,head,manager"
+         onmouseover="showBiloMessage('تقييم حضور المتطوع للاجتماعات الدورية')"
+         onmouseout="hideBiloMessage()">
+      <div class="card-actions">
+        <button class="action-btn whatsapp-btn" onclick="shareEvaluationViaWhatsapp('الاجتماعات')">
+          <i class="fab fa-whatsapp"></i>
+        </button>
+      </div>
+      <div class="rule-icon"><i class="fas fa-users"></i></div>
+      <h3 class="rule-title">الاجتماعات (20 درجة)</h3>
+      <p class="rule-desc">
+        <strong>بدون إعفاء:</strong> 20 درجة للحضور الكامل<br>
+        <strong>مع إعفاء:</strong> 10 درجة (يجب تقديم الإعفاء مسبقًا)<br><br>
+        
+        - الحضور في الموعد المحدد<br>
+        - المشاركة الفعالة في النقاش<br>
+        - متابعة جدول الأعمال
+      </p>
+    </div>
+    
+    <!-- النشاط والإبداع -->
+    <div class="rule-card" data-role="volunteer,leader,head,manager"
+         onmouseover="showBiloMessage('تقييم النشاط العام والإبداع في العمل')"
+         onmouseout="hideBiloMessage()">
+      <div class="card-actions">
+        <button class="action-btn whatsapp-btn" onclick="shareEvaluationViaWhatsapp('النشاط والإبداع')">
+          <i class="fab fa-whatsapp"></i>
+        </button>
+      </div>
+      <div class="rule-icon"><i class="fas fa-lightbulb"></i></div>
+      <h3 class="rule-title">النشاط والإبداع (15 درجة)</h3>
+      <p class="rule-desc">
+        <strong>التفاعل في الجروب (5 درجة):</strong><br>
+        - المشاركة في النقاشات<br>
+        - الرد على الاستفسارات<br><br>
+        
+        <strong>متابعة HR (5 درجة):</strong><br>
+        - الرد على الرسائل في الوقت المناسب<br>
+        - متابعة التعليمات الإدارية<br><br>
+        
+        <strong>الأفكار والاقتراحات (5 درجة):</strong><br>
+        - تقديم أفكار مبتكرة<br>
+        - المشاركة في تطوير العمل
+      </p>
+    </div>
+    
+    <!-- السلوك والالتزام -->
+    <div class="rule-card" data-role="volunteer,leader,head,manager"
+         onmouseover="showBiloMessage('تقييم السلوك العام والالتزام التنظيمي')"
+         onmouseout="hideBiloMessage()">
+      <div class="card-actions">
+        <button class="action-btn whatsapp-btn" onclick="shareEvaluationViaWhatsapp('السلوك والالتزام')">
+          <i class="fab fa-whatsapp"></i>
+        </button>
+      </div>
+      <div class="rule-icon"><i class="fas fa-handshake"></i></div>
+      <h3 class="rule-title">السلوك والالتزام (15 درجة)</h3>
+      <p class="rule-desc">
+        <strong>السلوك العام (10 درجة):</strong><br>
+        - التعامل المهني مع الزملاء<br>
+        - الالتزام بأخلاقيات العمل<br>
+        - الحفاظ على سمعة المشروع<br><br>
+        
+        <strong>احترام الهيكل التنظيمي (5 درجة):</strong><br>
+        - الالتزام بالتسلسل القيادي<br>
+        - تنفيذ تعليمات المسؤولين
+      </p>
+    </div>
+    
+    <!-- البونص الإضافي -->
+    <div class="rule-card" data-role="volunteer,leader,head,manager"
+         onmouseover="showBiloMessage('النقاط الإضافية للتميز في أنشطة إضافية')"
+         onmouseout="hideBiloMessage()">
+      <div class="card-actions">
+        <button class="action-btn whatsapp-btn" onclick="shareEvaluationViaWhatsapp('البونص الإضافي')">
+          <i class="fab fa-whatsapp"></i>
+        </button>
+      </div>
+      <div class="rule-icon"><i class="fas fa-star"></i></div>
+      <h3 class="rule-title">البونص الإضافي</h3>
+      <p class="rule-desc">
+        <strong>فعاليات إضافية:</strong><br>
+        - المشاركة في أنشطة غير مطلوبة<br>
+        - التطوع لأعمال إضافية<br>
+        - تمثيل المشروع في فعاليات خارجية<br><br>
+        
+        <strong>يحددها المسؤول:</strong><br>
+        - درجات محددة حسب كل فعالية<br>
+        - يتم إضافتها على المجموع الكلي
+      </p>
+    </div>
+  </div>
+  
+  <!-- ملخص نظام التقييم -->
+  <div class="section-title"
+       onmouseover="showBiloMessage('ملخص شامل لنظام التقييم الشهري')"
+       onmouseout="hideBiloMessage()">
+    <i class="fas fa-chart-pie"></i>
+    <h2>ملخص نظام التقييم</h2>
+  </div>
+  
+  <div class="faq-container"
+       onmouseover="showBiloMessage('نظرة عامة على نظام التقييم ومعاييره')"
+       onmouseout="hideBiloMessage()">
+    <div class="faq-item">
+      <div class="faq-actions">
+        <button class="action-btn whatsapp-btn" onclick="shareEvaluationViaWhatsapp('ملخص نظام التقييم')">
+          <i class="fab fa-whatsapp"></i>
+        </button>
+      </div>
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <span>هيكل نظام التقييم المطور</span>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+      <div class="faq-answer">
+        <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+          <tr style="background: rgba(255,255,255,0.1);">
+            <th style="padding: 10px; text-align: right;">المكون</th>
+            <th style="padding: 10px; text-align: center;">الدرجة</th>
+            <th style="padding: 10px; text-align: right;">التفاصيل</th>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">المهام</td>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); text-align: center;">30</td>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">20 لإنجاز المهام + 10 للمواعيد</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">الفعاليات</td>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); text-align: center;">20</td>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">5 لليونيفورم + 15 للحضور</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">الاجتماعات</td>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); text-align: center;">20</td>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">بدون إعفاء: 20، مع إعفاء: 10</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">النشاط والإبداع</td>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); text-align: center;">15</td>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">5 تفاعل + 5 متابعة + 5 أفكار</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">السلوك والالتزام</td>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); text-align: center;">15</td>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">10 سلوك + 5 هيكل تنظيمي</td>
+          </tr>
+          <tr style="background: rgba(43, 104, 255, 0.1);">
+            <td style="padding: 10px;"><strong>المجموع</strong></td>
+            <td style="padding: 10px; text-align: center;"><strong>100</strong></td>
+            <td style="padding: 10px;">+ نقاط البونص الإضافية</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  <!-- العقوبات والجزاءات - تم التعديل هنا -->
+  <div class="section-title"
+       onmouseover="showBiloMessage('الجزاءات والعقوبات اللي بتتطبق في حالة مخالفة القواعد')"
+       onmouseout="hideBiloMessage()">
+    <i class="fas fa-exclamation-triangle"></i>
+    <h2>نظام العقوبات والجزاءات</h2>
+  </div>
+  
+  <div class="penalties-section"
+       onmouseover="showBiloMessage('الجزاءات بتختلف حسب نوع المخالفة ودرجة تكرارها')"
+       onmouseout="hideBiloMessage()">
+    <div class="penalty-item">
+      <div class="faq-actions">
+        <button class="action-btn whatsapp-btn" onclick="shareEvaluationViaWhatsapp('عقوبات التأخير عن المواعيد')">
+          <i class="fab fa-whatsapp"></i>
+        </button>
+      </div>
+      <div class="penalty-icon"><i class="fas fa-user-times"></i></div>
+      <div class="penalty-content">
+        <div class="penalty-title">التأخير عن المواعيد <span class="penalty-level level-medium">متوسط</span></div>
+        <div class="penalty-desc">
+          - المرة الأولى: إنذار شفهي + خصم 5 درجات من تقييم المواعيد<br>
+          - المرة الثانية: إنذار كتابي + خصم 10 درجات من تقييم المواعيد<br>
+          - المرة الثالثة: خصم 15 درجة من التقييم الشهري + إبلاغ رئيس اللجنة<br>
+          - أكثر من 3 مرات: إيقاف لمدة أسبوع + خصم 20 درجة من التقييم الشهري
+        </div>
+      </div>
+    </div>
+    
+    <div class="penalty-item">
+      <div class="faq-actions">
+        <button class="action-btn whatsapp-btn" onclick="shareEvaluationViaWhatsapp('عقوبات عدم إنجاز المهام')">
+          <i class="fab fa-whatsapp"></i>
+        </button>
+      </div>
+      <div class="penalty-icon"><i class="fas fa-comment-slash"></i></div>
+      <div class="penalty-content">
+        <div class="penalty-title">عدم إنجاز المهام المكلف بها <span class="penalty-level level-high">مرتفع</span></div>
+        <div class="penalty-desc">
+          - المرة الأولى: إنذار كتابي + خصم 10 درجات من تقييم المهام<br>
+          - المرة الثانية: خصم 20 درجة من التقييم الشهري + اجتماع مع رئيس اللجنة<br>
+          - المرة الثالثة: تجميد العضوية شهر + خصم 30 درجة من التقييم الشهري<br>
+          - التكرار: إحالة للجنة الانضباط + خصم 50 درجة من التقييم الشهري
+        </div>
+      </div>
+    </div>
+    
+    <div class="penalty-item">
+      <div class="faq-actions">
+        <button class="action-btn whatsapp-btn" onclick="shareEvaluationViaWhatsapp('عقوبات الغياب عن الفعاليات')">
+          <i class="fab fa-whatsapp"></i>
+        </button>
+      </div>
+      <div class="penalty-icon"><i class="fas fa-calendar-times"></i></div>
+      <div class="penalty-content">
+        <div class="penalty-title">الغياب عن الفعاليات <span class="penalty-level level-critical">حرج</span></div>
+        <div class="penalty-desc">
+          - بدون إعفاء: خصم 20 درجة من تقييم الفعاليات<br>
+          - مع إعفاء مقبول: خصم 10 درجات من تقييم الفعاليات<br>
+          - التكرار: خصم 30 درجة من التقييم الشهري + تجميد العضوية أسبوعين
+        </div>
+      </div>
+    </div>
+    
+    <div class="penalty-item">
+      <div class="faq-actions">
+        <button class="action-btn whatsapp-btn" onclick="shareEvaluationViaWhatsapp('عقوبات السلوك غير اللائق')">
+          <i class="fab fa-whatsapp"></i>
+        </button>
+      </div>
+      <div class="penalty-icon"><i class="fas fa-user-slash"></i></div>
+      <div class="penalty-content">
+        <div class="penalty-title">السلوك غير اللائق <span class="penalty-level level-high">مرتفع</span></div>
+        <div class="penalty-desc">
+          - المرة الأولى: إنذار رسمي + خصم 15 درجة من تقييم السلوك<br>
+          - المرة الثانية: خصم 25 درجة من التقييم الشهري + اجتماع مع الإدارة<br>
+          - المرة الثالثة: تجميد العضوية شهر + خصم 40 درجة من التقييم الشهري
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- أدوات مدير النظام -->
+  <div class="section-title" id="manager-tools"
+       onmouseover="showBiloMessage('أدوات خاصة بمدير النظام لتصدير واستيراد القواعد')"
+       onmouseout="hideBiloMessage()">
+    <i class="fas fa-tools"></i>
+    <h2>أدوات مدير النظام</h2>
+  </div>
+  
+  <div class="rules-container">
+    <div class="rule-card"
+         onmouseover="showBiloMessage('تصدير جميع القواعد إلى ملف لحفظ نسخة احتياطية')"
+         onmouseout="hideBiloMessage()">
+      <div class="rule-icon"><i class="fas fa-file-export"></i></div>
+      <h3 class="rule-title">تصدير القواعد</h3>
+      <p class="rule-desc">
+        يمكنك تصدير جميع القواعد إلى ملف JSON لاستخدامه كنسخة احتياطية أو لمشاركته مع الأنظمة الأخرى.
+      </p>
+      <button class="dropdown-btn" onclick="exportAllRules()" style="margin-top: 15px;">
+        <i class="fas fa-download"></i> تصدير جميع القواعد
+      </button>
+    </div>
+    
+    <div class="rule-card"
+         onmouseover="showBiloMessage('استيراد القواعد من ملف سابق تم تصديره')"
+         onmouseout="hideBiloMessage()">
+      <div class="rule-icon"><i class="fas fa-file-import"></i></div>
+      <h3 class="rule-title">استيراد القواعد</h3>
+      <p class="rule-desc">
+        يمكنك استيراد القواعد من ملف JSON سابق تم تصديره لتحديث النظام أو استعادة النسخ القديمة.
+      </p>
+      <div style="margin-top: 15px;">
+        <input type="file" id="import-file" accept=".json" style="display: none;">
+        <button class="dropdown-btn" onclick="document.getElementById('import-file').click()">
+          <i class="fas fa-upload"></i> اختيار ملف الاستيراد
+        </button>
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+<!-- شخصية بيلو المحسنة -->
+<div class="bilo-container">
+  <img src="assets/bilo-waqef.png" alt="بيلو" class="bilo-img" id="bilo-img" onclick="biloClick()">
+  <div class="bilo-speech" id="bilo-speech">أهلاً بك في صفحة قواعد النظام! هنا هتعرف كل اللوائح والضوابط اللي تحكم سير العمل في المشروع</div>
+</div>
+
+<!-- نافذة استيراد/تصدير -->
+<div class="modal" id="import-export-modal" style="display: none;">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h2>استيراد/تصدير القواعد</h2>
+    <div class="modal-actions">
+      <button class="modal-btn" onclick="exportAllRules()">
+        <i class="fas fa-file-export"></i> تصدير جميع القواعد
+      </button>
+      <button class="modal-btn" onclick="document.getElementById('import-file').click()">
+        <i class="fas fa-file-import"></i> استيراد القواعد من ملف
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // بيانات المستخدم
+  const currentUser = {
+    name: "سعد المرجاوي",
+    role: "manager", // يمكن أن تكون: manager, head, leader, volunteer
+    avatar: "assets/SAAD.jpg",
+    season: 7
+  };
+
+  // رسائل بيلو
+  const biloMessages = {
+    welcome: "أهلاً بك في صفحة قواعد النظام! أنا بيلو هساعدك تفهم كل القواعد واللوائح",
+    rulesGeneral: "القواعد العامة بتطبق على كل الأعضاء بغض النظر عن منصبهم",
+    rulesHead: "رؤساء اللجان عندهم مسؤوليات إضافية في التخطيط والمتابعة",
+    rulesLeader: "قادة الفرق مسؤولين عن تنظيم العمل اليومي لأعضاء فريقهم",
+    rulesVolunteer: "كل المتطوعين لازم يلتزموا بالقواعد الأساسية دي",
+    rulesManager: "مدير النظام عنده صلاحيات خاصة في إدارة القواعد والتقييمات",
+    export: "تقدر تصدر القواعد كلها في ملف وتخزنه عندك أو ترسله للوزارة",
+    import: "لو عندك ملف قواعد قديم، تقدر تستورده بسهولة للنظام"
+  };
+
+  // تهيئة الصفحة
+  document.addEventListener('DOMContentLoaded', function() {
+    // تعيين بيانات المستخدم
+    document.getElementById('dropdown-username').textContent = currentUser.name;
+    document.getElementById('dropdown-userrole').textContent = 
+      currentUser.role === 'manager' ? 'مدير النظام' : 
+      currentUser.role === 'head' ? 'رئيس لجنة' :
+      currentUser.role === 'leader' ? 'قائد فريق' : 'متطوع';
+    
+    document.getElementById('season-number').textContent = currentUser.season;
+    
+    // إنشاء الجزيئات المتحركة
+    createParticles();
+    
+    // تعيين رسالة بيلو الافتراضية
+    showBiloMessage(biloMessages.welcome);
+    
+    // تصفية القواعد حسب صلاحية المستخدم
+    filterRules(currentUser.role === 'volunteer' ? 'all' : currentUser.role);
+    
+    // إعداد مستمع لاختيار ملف الاستيراد
+    document.getElementById('import-file').addEventListener('change', function(e) {
+      importRules(e.target.files[0]);
+    });
+  });
+
+  // تصفية القواعد حسب الصلاحية
+  function filterRules(role) {
+    // تحديث الفلاتر النشطة
+    document.querySelectorAll('.role-filter').forEach(filter => {
+      filter.classList.remove('active');
+      if (filter.textContent === 'الكل' && role === 'all') filter.classList.add('active');
+      if (filter.textContent === 'رؤساء اللجان' && role === 'head') filter.classList.add('active');
+      if (filter.textContent === 'قادة الفرق' && role === 'leader') filter.classList.add('active');
+      if (filter.textContent === 'المتطوعون' && role === 'volunteer') filter.classList.add('active');
+      if (filter.textContent === 'مديرو النظام' && role === 'manager') filter.classList.add('active');
+    });
+    
+    // إظهار/إخفاء القواعد حسب الصلاحية
+    document.querySelectorAll('.rule-card').forEach(card => {
+      if (role === 'all') {
+        card.style.display = 'block';
+      } else {
+        const roles = card.getAttribute('data-role').split(',');
+        card.style.display = roles.includes(role) ? 'block' : 'none';
+      }
+    });
+    
+    // إظهار أدوات المدير فقط لمدير النظام
+    document.getElementById('manager-tools').style.display = 
+      (currentUser.role === 'manager' && role !== 'all') ? 'flex' : 'none';
+  }
+
+  // تبديل عرض/إخفاء إجابة السؤال
+  function toggleFaq(questionElement) {
+    const answer = questionElement.nextElementSibling;
+    const icon = questionElement.querySelector('i');
+    
+    answer.classList.toggle('show');
+    icon.classList.toggle('fa-chevron-down');
+    icon.classList.toggle('fa-chevron-up');
+  }
+
+  // مشاركة عبر واتساب
+  function shareViaWhatsapp(content) {
+    const text = `قواعد نظام YLY - ${content}\n\nيمكنك الاطلاع على جميع القواعد عبر النظام أو سؤال مديرك المباشر`;
+    const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+    window.open(url, '_blank');
+    
+    showBiloMessage(`تم إعداد رسالة واتساب جاهزة للشحن! يمكنك تعديلها قبل الإرسال`);
+  }
+
+  // مشاركة نظام التقييم عبر واتساب
+  function shareEvaluationViaWhatsapp(section) {
+    let message = `*نظام تقييم الأداء الشهري - ${section}*\n\n`;
+    const managerName = document.getElementById('dropdown-username').textContent;
+    
+    // إضافة المحتوى حسب القسم المحدد
+    switch(section) {
+      case 'المهام':
+        message += `*المهام (30 درجة)*\n\n`;
+        message += `- إنجاز المهام (20 درجة):\n`;
+        message += `  • اكتمال المهام الموكلة بالكامل\n`;
+        message += `  • جودة التنفيذ وفق المعايير\n\n`;
+        message += `- الالتزام بالمواعيد (10 درجة):\n`;
+        message += `  • تسليم المهام في المواعيد المحددة\n`;
+        message += `  • نظام الإعفاءات: في حالة وجود عذر، يتم خصم نصف درجة المواعيد (5 بدل 10)\n\n`;
+        break;
+        
+      case 'الفعاليات':
+        message += `*الفعاليات (20 درجة)*\n\n`;
+        message += `- المظهر الرسمي (5 درجة):\n`;
+        message += `  • الالتزام باليونيفورم الرسمي\n`;
+        message += `  • المظهر العام اللائق\n\n`;
+        message += `- الحضور والمشاركة (15 درجة):\n`;
+        message += `  • الحضور في الموعد المحدد\n`;
+        message += `  • المشاركة الفعالة في الأنشطة\n`;
+        message += `  • نظام الإعفاءات: في حالة وجود عذر، يحصل على 7.5 درجة وتخصم درجة اليونيفورم\n\n`;
+        break;
+        
+      case 'الاجتماعات':
+        message += `*الاجتماعات (20 درجة)*\n\n`;
+        message += `- بدون إعفاء: 20 درجة للحضور الكامل\n`;
+        message += `- مع إعفاء: 10 درجة (يجب تقديم الإعفاء مسبقًا)\n\n`;
+        message += `• الحضور في الموعد المحدد\n`;
+        message += `• المشاركة الفعالة في النقاش\n`;
+        message += `• متابعة جدول الأعمال\n\n`;
+        break;
+        
+      case 'النشاط والإبداع':
+        message += `*النشاط والإبداع (15 درجة)*\n\n`;
+        message += `- التفاعل في الجروب (5 درجة):\n`;
+        message += `  • المشاركة في النقاشات\n`;
+        message += `  • الرد على الاستفسارات\n\n`;
+        message += `- متابعة HR (5 درجة):\n`;
+        message += `  • الرد على الرسائل في الوقت المناسب\n`;
+        message += `  • متابعة التعليمات الإدارية\n\n`;
+        message += `- الأفكار والاقتراحات (5 درجة):\n`;
+        message += `  • تقديم أفكار مبتكرة\n`;
+        message += `  • المشاركة في تطوير العمل\n\n`;
+        break;
+        
+      case 'السلوك والالتزام':
+        message += `*السلوك والالتزام (15 درجة)*\n\n`;
+        message += `- السلوك العام (10 درجة):\n`;
+        message += `  • التعامل المهني مع الزملاء\n`;
+        message += `  • الالتزام بأخلاقيات العمل\n`;
+        message += `  • الحفاظ على سمعة المشروع\n\n`;
+        message += `- احترام الهيكل التنظيمي (5 درجة):\n`;
+        message += `  • الالتزام بالتسلسل القيادي\n`;
+        message += `  • تنفيذ تعليمات المسؤولين\n\n`;
+        break;
+        
+      case 'البونص الإضافي':
+        message += `*البونص الإضافي*\n\n`;
+        message += `- فعاليات إضافية:\n`;
+        message += `  • المشاركة في أنشطة غير مطلوبة\n`;
+        message += `  • التطوع لأعمال إضافية\n`;
+        message += `  • تمثيل المشروع في فعاليات خارجية\n\n`;
+        message += `- يحددها المسؤول:\n`;
+        message += `  • درجات محددة حسب كل فعالية\n`;
+        message += `  • يتم إضافتها على المجموع الكلي\n\n`;
+        break;
+        
+      case 'ملخص نظام التقييم':
+        message += `*ملخص نظام التقييم الشهري*\n\n`;
+        message += `• المهام: 30 درجة (20 إنجاز + 10 مواعيد)\n`;
+        message += `• الفعاليات: 20 درجة (5 يونيفورم + 15 حضور)\n`;
+        message += `• الاجتماعات: 20 درجة (كاملة أو نصفية مع إعفاء)\n`;
+        message += `• النشاط والإبداع: 15 درجة (5 تفاعل + 5 متابعة + 5 أفكار)\n`;
+        message += `• السلوك والالتزام: 15 درجة (10 سلوك + 5 هيكل تنظيمي)\n\n`;
+        message += `*المجموع: 100 درجة + نقاط البونص الإضافية*\n\n`;
+        break;
+    }
+    
+    message += `مع تحيات\n${managerName}\nمدير نظام YLY`;
+    
+    const url = `https://wa.me/?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+    
+    showBiloMessage(`تم إعداد رسالة واتساب جاهزة للشحن! يمكنك تعديلها قبل الإرسال`);
+  }
+
+  // تصدير القواعد
+  function exportAllRules() {
+    const rules = {
+      general: {
+        title: "القواعد العامة",
+        description: "1. الالتزام بمواعيد الحضور والانصراف المحددة\n2. احترام التسلسل القيادي داخل المشروع...",
+        penalties: []
+      },
+      heads: {
+        title: "قواعد رؤساء اللجان",
+        description: "1. إعداد خطة عمل شهرية للجنة\n2. عقد اجتماع أسبوعي مع فريق العمل...",
+        penalties: []
+      },
+      leaders: {
+        title: "قواعد قادة الفرق",
+        description: "1. متابعة تنفيذ المهام اليومية\n2. حل المشكلات الفورية ضمن الفريق...",
+        penalties: []
+      },
+      volunteers: {
+        title: "قواعد المتطوعين",
+        description: "1. الالتزام بتعليمات القائد المباشر\n2. إنجاز المهام في الوقت المحدد...",
+        penalties: []
+      },
+      managers: {
+        title: "قواعد مديري النظام",
+        description: "1. الحفاظ على سرية بيانات النظام\n2. تحديث القواعد حسب التوجيهات...",
+        penalties: []
+      },
+      evaluation: {
+        title: "نظام التقييم الشهري",
+        description: "1. يتم التقييم شهريًا من قبل المسؤول المباشر\n2. يعتمد التقييم على 5 معايير رئيسية...",
+        components: {
+          tasks: "المهام (30 درجة)",
+          events: "الفعاليات (20 درجة)",
+          meetings: "الاجتماعات (20 درجة)",
+          activity: "النشاط والإبداع (15 درجة)",
+          behavior: "السلوك والالتزام (15 درجة)",
+          bonus: "البونص الإضافي"
+        }
+      },
+      penalties: [
+        {
+          title: "التأخير عن المواعيد",
+          level: "متوسط",
+          description: "المرة الأولى: إنذار شفهي + خصم 5 درجات من تقييم المواعيد\nالمرة الثانية: إنذار كتابي + خصم 10 درجات..."
+        },
+        {
+          title: "عدم إنجاز المهام المكلف بها",
+          level: "مرتفع",
+          description: "المرة الأولى: إنذار كتابي + خصم 10 درجات من تقييم المهام\nالمرة الثانية: خصم 20 درجة من التقييم الشهري..."
+        },
+        {
+          title: "الغياب عن الفعاليات",
+          level: "حرج",
+          description: "بدون إعفاء: خصم 20 درجة من تقييم الفعاليات\nمع إعفاء مقبول: خصم 10 درجات من تقييم الفعاليات..."
+        },
+        {
+          title: "السلوك غير اللائق",
+          level: "مرتفع",
+          description: "المرة الأولى: إنذار رسمي + خصم 15 درجة من تقييم السلوك\nالمرة الثانية: خصم 25 درجة من التقييم الشهري..."
+        }
+      ]
+    };
+    
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(rules, null, 2));
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.setAttribute("href", dataStr);
+    downloadAnchor.setAttribute("download", `yly-rules-season-${currentUser.season}.json`);
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    document.body.removeChild(downloadAnchor);
+    
+    showBiloMessage("تم تصدير جميع القواعد والعقوبات بنجاح! الملف سيحمّل تلقائيًا");
+  }
+
+  // استيراد القواعد
+  function importRules(file) {
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        const rules = JSON.parse(e.target.result);
+        showBiloMessage("تم استيراد القواعد والعقوبات بنجاح! سيتم تطبيق التحديثات قريبًا");
+        // هنا يمكنك إضافة كود لتطبيق القواعد المستوردة على النظام
+      } catch (error) {
+        showBiloMessage("حدث خطأ في قراءة الملف. يرجى التأكد من صحة الملف");
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  // فتح نافذة استيراد/تصدير
+  function openImportExport() {
+    document.getElementById('import-export-modal').style.display = 'block';
+    document.getElementById('user-dropdown').classList.remove('show');
+  }
+
+  // إغلاق النافذة المنبثقة
+  function closeModal() {
+    document.getElementById('import-export-modal').style.display = 'none';
+  }
+
+  // تبديل اللغة
+  function toggleLanguage() {
+    const currentLang = document.documentElement.lang;
+    if (currentLang === 'ar') {
+      document.documentElement.lang = 'en';
+      document.documentElement.dir = 'ltr';
+      document.querySelector('.language-toggle span').textContent = 'English / العربية';
+      document.title = 'System Rules | YLY';
+      showBiloMessage('I see you switched to English! Don\'t forget your Arabic roots!');
+    } else {
+      document.documentElement.lang = 'ar';
+      document.documentElement.dir = 'rtl';
+      document.querySelector('.language-toggle span').textContent = 'العربية / English';
+      document.title = 'قواعد النظام | YLY';
+      showBiloMessage('أهو رجعت للعربي! والله فرحان بيك يا عم الحاج!');
+    }
+  }
+
+  function logout() {
+    window.location.href = 'login.html';
+  }
+
+  function openSettings() {
+    window.location.href = 'settings.html';
+  }
+
+  function createParticles() {
+    const particlesContainer = document.getElementById('particles');
+    const count = Math.floor(window.innerWidth / 20);
+    
+    for (let i = 0; i < count; i++) {
+      const particle = document.createElement('div');
+      particle.classList.add('particle');
+      
+      const size = Math.random() * 5 + 2;
+      const posX = Math.random() * window.innerWidth;
+      const duration = Math.random() * 15 + 10;
+      const delay = Math.random() * 10;
+      
+      particle.style.width = `${size}px`;
+      particle.style.height = `${size}px`;
+      particle.style.left = `${posX}px`;
+      particle.style.bottom = '0';
+      particle.style.animationDuration = `${duration}s`;
+      particle.style.animationDelay = `${delay}s`;
+      
+      particlesContainer.appendChild(particle);
+    }
+  }
+
+  function biloClick() {
+    const messages = [
+      "القواعد دي علشان تضمن إننا نشتغل كلنا بنظام واحترام!",
+      "متفوتش قراءة الجزاءات عشان متواجهش أي مشاكل!",
+      "لو عندك أي استفسار عن القواعد، كلم دعم النظام!",
+      "الالتزام بالقواعد بيضمن لك ترقية أسرع!",
+      "أسئلة كتير بتيجي عن نظام التقييم، اقرأها كويس!"
+    ];
+    
+    const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+    showBiloMessage(randomMsg);
+  }
+
+  function showBiloMessage(message) {
+    const biloImg = document.getElementById('bilo-img');
+    const speech = document.getElementById('bilo-speech');
+    
+    // تغيير صورة بيلو حسب السياق
+    if (message.includes('عقوبات') || message.includes('جزاءات')) {
+      biloImg.src = 'assets/bilo-shak.png';
+    } else if (message.includes('خصوصية') || message.includes('بيانات')) {
+      biloImg.src = 'assets/bilo-farhan.png';
+    } else if (message.includes('سؤال') || message.includes('استفسار')) {
+      biloImg.src = 'assets/bilo-elbattal.png';
+    } else if (message.includes('تصدير') || message.includes('استيراد')) {
+      biloImg.src = 'assets/bilo-tayer mn elfarha.png';
+    } else {
+      biloImg.src = 'assets/bilo-like-hand.png';
+    }
+    
+    speech.textContent = message;
+    speech.classList.add('show');
+    
+    // إخفاء الرسالة بعد 8 ثواني
+    setTimeout(() => {
+      if (speech.classList.contains('show')) {
+        speech.classList.remove('show');
+      }
+    }, 8000);
+  }
+
+  function hideBiloMessage() {
+    if (!event?.relatedTarget?.classList?.contains('bilo-container')) {
+      document.getElementById('bilo-speech').classList.remove('show');
+    }
+  }
+
+  function setupBiloInteractions() {
+    const interactiveElements = document.querySelectorAll('[onmouseover*="showBiloMessage"]');
+    
+    interactiveElements.forEach(el => {
+      el.addEventListener('mouseover', function(e) {
+        const message = this.getAttribute('onmouseover').replace('showBiloMessage(\'', '').replace('\')', '').replace('showBiloMessage("', '').replace('")', '');
+        showBiloMessage(message);
+      });
+      
+      el.addEventListener('mouseout', function(e) {
+        if (!event?.relatedTarget?.classList?.contains('bilo-container')) {
+          hideBiloMessage();
+        }
+      });
+    });
+  }
+
+  window.onload = function() {
+    setupBiloInteractions();
+  };
+
+  // إغلاق القوائم عند النقر خارجها
+  window.addEventListener('click', function(e) {
+    if (!e.target.matches('#user-avatar') && !e.target.matches('#user-avatar *')) {
+      const dropdown = document.getElementById('user-dropdown');
+      if (dropdown.classList.contains('show')) {
+        dropdown.classList.remove('show');
+      }
+    }
+    
+    if (e.target.matches('.modal')) {
+      closeModal();
+    }
+  });
+</script>
+</body>
+</html>

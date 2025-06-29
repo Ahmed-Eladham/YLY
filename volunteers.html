@@ -1,0 +1,2530 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>إدارة المتطوعين | YLY</title>
+  <!-- Bootstrap RTL -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Cairo Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #2b68ff;
+      --primary-hover: #1c4de1;
+      --accent-color: #ffc107;
+      --text-color: #fff;
+      --bg-overlay: rgba(0, 0, 50, 0.4);
+      --form-bg: rgba(255, 255, 255, 0.1);
+      --input-bg: rgba(255,255,255,0.2);
+      --input-hover: rgba(255,255,255,0.3);
+      --border-radius: 14px;
+      --card-bg: rgba(255, 255, 255, 0.08);
+      --success-color: #28a745;
+      --danger-color: #dc3545;
+      --warning-color: #fd7e14;
+    }
+    
+    /* إصلاح المسافة العلوية */
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: url('assets/bg-space.jpg.png') no-repeat center center fixed;
+      background-size: cover;
+      color: var(--text-color);
+      min-height: 100vh;
+    }
+    
+    .overlay {
+      backdrop-filter: blur(10px);
+      background-color: var(--bg-overlay);
+      width: 100vw;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+    
+    /* إصلاح الجزيئات المتحركة */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+    
+    .particle {
+      position: absolute;
+      background-color: rgba(255, 255, 255, 0.6);
+      border-radius: 50%;
+      animation: float-up linear infinite;
+    }
+    
+    @keyframes float-up {
+      0% {
+        transform: translateY(0);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh);
+        opacity: 0;
+      }
+    }
+    
+    /* تعديلات التصميم الأصلي */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background: rgba(0, 0, 0, 0.3);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .logo-section img {
+      height: 50px;
+      transition: transform 0.3s;
+      cursor: pointer;
+    }
+    
+    .logo-section img:hover {
+      transform: scale(1.05);
+    }
+    
+    .season-title {
+      font-size: 1.4em;
+      font-weight: 700;
+      color: var(--accent-color);
+      cursor: pointer;
+    }
+    
+    .user-section {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      position: relative;
+    }
+    
+    .language-toggle {
+      background: rgba(255,255,255,0.2);
+      padding: 8px 15px;
+      border-radius: var(--border-radius);
+      color: white;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    
+    .language-toggle:hover {
+      background: rgba(255,255,255,0.3);
+    }
+    
+    .user-avatar {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      object-fit: cover;
+      cursor: pointer;
+      border: 2px solid var(--accent-color);
+      transition: all 0.3s;
+    }
+    
+    .user-avatar:hover {
+      transform: scale(1.1);
+    }
+    
+    .user-dropdown {
+      position: absolute;
+      top: 60px;
+      left: 0;
+      background: rgba(0, 0, 0, 0.9);
+      border-radius: var(--border-radius);
+      padding: 20px;
+      width: 250px;
+      display: none;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,255,255,0.1);
+      z-index: 101;
+    }
+    
+    .user-dropdown.show {
+      display: block;
+      animation: fadeIn 0.3s;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .user-info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    
+    .user-dropdown-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--primary-color);
+    }
+    
+    .user-name {
+      font-size: 1.2em;
+      font-weight: 600;
+    }
+    
+    .user-role {
+      color: var(--accent-color);
+      font-size: 0.9em;
+    }
+    
+    .dropdown-btn {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: var(--border-radius);
+      background: rgba(255,255,255,0.1);
+      border: none;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .dropdown-btn:hover {
+      background: var(--primary-color);
+    }
+    
+    /* شريط التنقل */
+    .nav-bar {
+      display: flex;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .nav-link {
+      padding: 10px 20px;
+      margin: 0 5px;
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      border-radius: var(--border-radius);
+      transition: all 0.3s;
+      position: relative;
+      cursor: pointer;
+    }
+    
+    .nav-link:hover, .nav-link.active {
+      background: var(--primary-color);
+    }
+    
+    .nav-link:hover::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 5px solid var(--primary-color);
+    }
+    
+    /* المحتوى الرئيسي */
+    .main-content {
+      padding: 30px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    .section-title {
+      font-size: 1.8em;
+      margin-bottom: 25px;
+      color: var(--accent-color);
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      cursor: pointer;
+    }
+    
+    .section-title i {
+      font-size: 1.2em;
+    }
+    
+    /* أزرار التحكم */
+    .control-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    
+    .control-btn {
+      padding: 12px 20px;
+      border-radius: var(--border-radius);
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .btn-primary {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+    }
+    
+    .btn-success {
+      background-color: var(--success-color);
+      color: white;
+    }
+    
+    .btn-success:hover {
+      opacity: 0.9;
+    }
+    
+    .btn-danger {
+      background-color: var(--danger-color);
+      color: white;
+    }
+    
+    .btn-danger:hover {
+      opacity: 0.9;
+    }
+    
+    .btn-warning {
+      background-color: var(--warning-color);
+      color: white;
+    }
+    
+    .btn-warning:hover {
+      opacity: 0.9;
+    }
+    
+    /* مودال إضافة/تعديل متطوع */
+    .volunteer-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 1000;
+      overflow-y: auto;
+    }
+    
+    .modal-content {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      margin: 50px auto;
+      max-width: 900px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+      animation: modalFadeIn 0.3s;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .modal-header {
+      padding: 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .modal-title {
+      font-size: 1.5em;
+      color: var(--accent-color);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .close-modal {
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 1.5em;
+      cursor: pointer;
+    }
+    
+    .modal-body {
+      padding: 20px;
+    }
+    
+    .form-section {
+      margin-bottom: 20px;
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: var(--border-radius);
+    }
+    
+    .form-section-title {
+      font-size: 1.2em;
+      margin-bottom: 15px;
+      color: var(--accent-color);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 15px;
+    }
+    
+    .form-group {
+      margin-bottom: 12px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      font-size: 0.9em;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: var(--border-radius);
+      border: 1px solid rgba(255,255,255,0.2);
+      background: var(--input-bg);
+      color: white;
+      font-family: 'Cairo', sans-serif;
+      transition: all 0.3s;
+      font-size: 0.9em;
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      background: var(--input-hover);
+      box-shadow: 0 0 0 2px rgba(43, 104, 255, 0.2);
+    }
+    
+    .form-control::placeholder {
+      color: rgba(255,255,255,0.5);
+    }
+    
+    /* تحسينات القوائم المنسدلة */
+    select.form-control {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23ffffff' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: left 12px center;
+      background-size: 12px;
+      padding-right: 12px;
+      cursor: pointer;
+    }
+    
+    select.form-control option {
+      background: rgba(0, 0, 30, 0.9);
+      color: white;
+    }
+    
+    .file-upload {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 15px;
+      border: 2px dashed rgba(255,255,255,0.3);
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: all 0.3s;
+      background: rgba(0, 0, 0, 0.1);
+    }
+    
+    .file-upload:hover {
+      border-color: var(--primary-color);
+      background: rgba(0,0,0,0.2);
+    }
+    
+    .file-upload i {
+      font-size: 1.5em;
+      margin-bottom: 8px;
+      color: var(--accent-color);
+    }
+    
+    .file-upload span {
+      text-align: center;
+      font-size: 0.85em;
+    }
+    
+    .file-preview {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    
+    .file-preview-item {
+      position: relative;
+      width: 80px;
+      height: 80px;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    .file-preview-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .file-preview-item .remove-file {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      background: var(--danger-color);
+      color: white;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 0.7em;
+    }
+    
+    .skills-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    
+    .skill-tag {
+      background: rgba(255,255,255,0.1);
+      padding: 4px 12px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85em;
+    }
+    
+    .skill-tag .remove-skill {
+      cursor: pointer;
+      color: var(--danger-color);
+      font-size: 0.9em;
+    }
+    
+    .add-field-btn {
+      background: rgba(255,255,255,0.1);
+      border: none;
+      color: var(--accent-color);
+      padding: 6px 12px;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 8px;
+      font-size: 0.85em;
+      transition: all 0.2s;
+    }
+    
+    .add-field-btn:hover {
+      background: rgba(255,255,255,0.2);
+    }
+    
+    /* جدول المتطوعين */
+    .volunteers-table-container {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 20px;
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255,255,255,0.1);
+      overflow-x: auto;
+    }
+    
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .search-box {
+      display: flex;
+      align-items: center;
+      background: rgba(255,255,255,0.1);
+      border-radius: var(--border-radius);
+      padding: 8px 15px;
+      width: 300px;
+    }
+    
+    .search-box input {
+      background: transparent;
+      border: none;
+      color: white;
+      padding: 5px;
+      width: 100%;
+      font-family: 'Cairo', sans-serif;
+    }
+    
+    .search-box input:focus {
+      outline: none;
+    }
+    
+    .filters {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    
+    .filter-select {
+      background: rgba(255,255,255,0.1);
+      border: none;
+      color: white;
+      padding: 8px 15px;
+      border-radius: var(--border-radius);
+      font-family: 'Cairo', sans-serif;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .filter-select:hover {
+      background: rgba(255,255,255,0.2);
+    }
+    
+    .filter-select:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(43, 104, 255, 0.2);
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    th, td {
+      padding: 12px 15px;
+      text-align: right;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    th {
+      background: rgba(0,0,0,0.3);
+      font-weight: 600;
+      color: var(--accent-color);
+    }
+    
+    tr:hover {
+      background: rgba(255,255,255,0.05);
+    }
+    
+    .volunteer-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--primary-color);
+    }
+    
+    .action-btn {
+      background: transparent;
+      border: none;
+      color: white;
+      cursor: pointer;
+      margin: 0 5px;
+      font-size: 1.1em;
+      transition: all 0.3s;
+    }
+    
+    .action-btn.edit {
+      color: var(--accent-color);
+    }
+    
+    .action-btn.delete {
+      color: var(--danger-color);
+    }
+    
+    .action-btn.view {
+      color: var(--primary-color);
+    }
+    
+    .action-btn:hover {
+      transform: scale(1.2);
+    }
+    
+    .pagination {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+      gap: 10px;
+    }
+    
+    .page-btn {
+      background: rgba(255,255,255,0.1);
+      border: none;
+      color: white;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .page-btn.active {
+      background: var(--primary-color);
+    }
+    
+    .page-btn:hover:not(.active) {
+      background: rgba(255,255,255,0.2);
+    }
+    
+    /* شخصية بيلو */
+    .bilo-container {
+      position: fixed;
+      bottom: 30px;
+      left: 30px;
+      z-index: 99;
+    }
+    
+    .bilo-img {
+      width: 120px;
+      cursor: pointer;
+      transition: all 0.3s;
+      filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5));
+    }
+    
+    .bilo-img:hover {
+      transform: scale(1.1);
+    }
+    
+    .bilo-speech {
+      position: absolute;
+      bottom: 140px;
+      left: 50px;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: var(--border-radius);
+      padding: 15px;
+      width: 250px;
+      font-size: 0.95em;
+      display: none;
+      backdrop-filter: blur(5px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    
+    .bilo-speech.show {
+      display: block;
+      animation: appear 0.3s ease-out;
+    }
+    
+    .bilo-speech::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 30px;
+      border-width: 10px 10px 0;
+      border-style: solid;
+      border-color: rgba(255, 255, 255, 0.15) transparent;
+    }
+    
+    @keyframes appear {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* مودال عرض بيانات المتطوع */
+    .view-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 1000;
+      overflow-y: auto;
+    }
+    
+    .view-modal-content {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      margin: 50px auto;
+      max-width: 900px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+      animation: modalFadeIn 0.3s;
+    }
+    
+    .volunteer-info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    
+    .volunteer-photo-section {
+      text-align: center;
+    }
+    
+    .volunteer-main-photo {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid var(--primary-color);
+      margin-bottom: 15px;
+    }
+    
+    /* إصلاح بطاقات ولي الأمر */
+    .volunteer-id-cards {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 15px;
+      flex-wrap: wrap;
+    }
+    
+    .volunteer-id-card {
+      width: 150px;
+      height: 100px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 2px solid var(--accent-color);
+      flex-shrink: 0;
+    }
+    
+    .info-group {
+      margin-bottom: 15px;
+    }
+    
+    .info-label {
+      font-weight: 600;
+      color: var(--accent-color);
+      margin-bottom: 5px;
+      font-size: 0.9em;
+    }
+    
+    .info-value {
+      background: rgba(255,255,255,0.1);
+      padding: 10px;
+      border-radius: var(--border-radius);
+    }
+    
+    .modal-footer {
+      padding: 15px 20px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    
+    /* زر حذف المحدد */
+    .delete-selected-container {
+      display: none;
+      margin-top: 15px;
+      text-align: left;
+    }
+    
+    /* التجاوب مع أحجام الشاشات */
+    @media (max-width: 992px) {
+      .form-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      }
+      
+      .volunteer-info-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .control-buttons {
+        justify-content: center;
+      }
+      
+      .table-header {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .search-box {
+        width: 100%;
+      }
+      
+      .volunteer-form {
+        padding: 15px;
+      }
+      
+      .form-section {
+        padding: 12px;
+      }
+      
+      .modal-content, .view-modal-content {
+        margin: 20px;
+        max-width: calc(100% - 40px);
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .top-bar {
+        padding: 10px 15px;
+      }
+      
+      .logo-section img {
+        height: 40px;
+      }
+      
+      .season-title {
+        font-size: 1.1em;
+      }
+      
+      .user-avatar {
+        width: 40px;
+        height: 40px;
+      }
+      
+      .nav-bar {
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding: 10px 5px;
+      }
+      
+      .nav-link {
+        padding: 8px 15px;
+        font-size: 0.9em;
+      }
+      
+      .main-content {
+        padding: 20px 15px;
+      }
+      
+      th, td {
+        padding: 8px 10px;
+        font-size: 0.9em;
+      }
+      
+      .form-grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 10px;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .logo-section {
+        flex-direction: column;
+        gap: 5px;
+        align-items: flex-start;
+      }
+      
+      .season-title {
+        font-size: 1em;
+      }
+      
+      .user-section {
+        gap: 10px;
+      }
+      
+      .language-toggle {
+        padding: 5px 10px;
+        font-size: 0.8em;
+      }
+      
+      .user-dropdown {
+        width: 200px;
+      }
+      
+      .control-btn {
+        padding: 10px 15px;
+        font-size: 0.9em;
+      }
+      
+      .form-section-title {
+        font-size: 1.1em;
+      }
+      
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .file-upload {
+        padding: 10px;
+      }
+      
+      .file-preview-item {
+        width: 70px;
+        height: 70px;
+      }
+      
+      .filters {
+        flex-direction: column;
+        width: 100%;
+      }
+      
+      .filter-select {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="overlay"></div>
+<div class="particles" id="particles"></div>
+
+<!-- الشريط العلوي -->
+<div class="top-bar">
+  <div class="logo-section">
+    <img src="assets/logo-ministry.png" alt="وزارة الشباب والرياضة" 
+         onmouseover="showBiloMessage('دي شعار وزارة الشباب والرياضة، الشريك الرسمي للمشروع')"
+         onmouseout="hideBiloMessage()">
+    <img src="assets/logo-yly.png" alt="YLY"
+         onmouseover="showBiloMessage('ده شعار مشروع YLY، مشروعنا العظيم اللي بنطوره مع بعض')"
+         onmouseout="hideBiloMessage()">
+    <div class="season-title" 
+         onmouseover="showBiloMessage('ده رقم الموسم الحالي، كل سنة بنزود رقم وبنطور النظام')"
+         onmouseout="hideBiloMessage()">YLY - PORT SAID SEASON <span id="season-number">7</span></div>
+  </div>
+  
+  <div class="user-section">
+    <div class="language-toggle" onclick="toggleLanguage()"
+         onmouseover="showBiloMessage('دوس هنا لو عاوز تغير اللغة من عربي لإنجليزي والعكس')"
+         onmouseout="hideBiloMessage()">
+      <i class="fas fa-language"></i>
+      <span>العربية / English</span>
+    </div>
+    
+    <img src="assets/SAAD.jpg" alt="صورة المستخدم" class="user-avatar" id="user-avatar"
+         onmouseover="showBiloMessage('دوس هنا علشان تشوف بياناتك أو تسجل الخروج')"
+         onmouseout="hideBiloMessage()">
+    
+    <div class="user-dropdown" id="user-dropdown">
+      <div class="user-info">
+        <img src="assets/SAAD.jpg" alt="صورة المستخدم" class="user-dropdown-avatar">
+        <div class="user-name" id="dropdown-username">سعد المرجاوي</div>
+        <div class="user-role" id="dropdown-userrole">مدير النظام</div>
+      </div>
+      
+      <button class="dropdown-btn" onclick="openSettings()">
+        <i class="fas fa-cog"></i> الإعدادات
+      </button>
+      <button class="dropdown-btn" onclick="logout()">
+        <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- شريط التنقل -->
+<div class="nav-bar">
+  <a href="home.html" class="nav-link"
+     onmouseover="showBiloMessage('الصفحة الرئيسية فيها كل الإحصائيات والهيكل التنظيمي')"
+     onmouseout="hideBiloMessage()"><i class="fas fa-home"></i> الصفحة الرئيسية</a>
+  <a href="volunteers.html" class="nav-link active"
+     onmouseover="showBiloMessage('صفحة إدارة المتطوعين علشان تضيف أو تعدل أو تشوف بيانات المتطوعين')"
+     onmouseout="hideBiloMessage()"><i class="fas fa-users"></i> إدارة المتطوعين</a>
+  <a href="evaluations.html" class="nav-link"
+     onmouseover="showBiloMessage('هنا بتقيم المتطوعين وتشوف التقييمات السابقة')"
+     onmouseout="hideBiloMessage()"><i class="fas fa-star"></i> إدارة التقييمات</a>
+  <a href="reports.html" class="nav-link"
+     onmouseover="showBiloMessage('التقارير بتاعت المشروع وإحصائيات مفصلة عن كل حاجة')"
+     onmouseout="hideBiloMessage()"><i class="fas fa-chart-bar"></i> التقارير</a>
+  <a href="about.html" class="nav-link"
+     onmouseover="showBiloMessage('قواعد النظام والسياسات المتبعة في المشروع')"
+     onmouseout="hideBiloMessage()"><i class="fas fa-info-circle"></i> قواعد النظام</a>
+  <a href="support.html" class="nav-link"
+     onmouseover="showBiloMessage('لو عندك أي مشكلة أو استفسار، كلمنا من هنا')"
+     onmouseout="hideBiloMessage()"><i class="fas fa-headset"></i> تواصل معنا</a>
+</div>
+
+<!-- المحتوى الرئيسي -->
+<div class="main-content">
+  <div class="section-title" 
+       onmouseover="showBiloMessage('صفحة إدارة المتطوعين - هنا تقدر تضيف متطوعين جدد وتعدل بياناتهم وتشوف كل البيانات المتاحة')"
+       onmouseout="hideBiloMessage()">
+    <i class="fas fa-users"></i>
+    <h2>إدارة المتطوعين</h2>
+  </div>
+  
+  <!-- أزرار التحكم -->
+  <div class="control-buttons">
+    <button class="control-btn btn-primary" id="add-volunteer-btn"
+            onmouseover="showBiloMessage('دوس هنا علشان تضيف متطوع جديد للنظام')"
+            onmouseout="hideBiloMessage()">
+      <i class="fas fa-plus"></i> إضافة متطوع جديد
+    </button>
+    <button class="control-btn btn-success" id="import-volunteers-btn"
+            onmouseover="showBiloMessage('تقدر ترفع ملف إكسل فيه بيانات المتطوعين وتضيفهم كلهم مرة واحدة')"
+            onmouseout="hideBiloMessage()">
+      <i class="fas fa-file-import"></i> رفع بيانات متطوعين
+    </button>
+    <button class="control-btn btn-warning" id="export-volunteers-btn"
+            onmouseover="showBiloMessage('تصدير بيانات المتطوعين كلها أو المفلترة في ملف إكسل')"
+            onmouseout="hideBiloMessage()">
+      <i class="fas fa-file-export"></i> تصدير البيانات
+    </button>
+    <button class="control-btn btn-danger" id="delete-selected-btn"
+            onmouseover="showBiloMessage('حذف المتطوعين المحددين من النظام - كن حذراً هذه العملية لا يمكن التراجع عنها')"
+            onmouseout="hideBiloMessage()">
+      <i class="fas fa-trash"></i> حذف المحدد
+    </button>
+  </div>
+  
+  <!-- زر حذف المحدد -->
+  <div class="delete-selected-container" id="delete-selected-container">
+    <button class="control-btn btn-danger" id="confirm-delete-btn">
+      <i class="fas fa-trash"></i> تأكيد حذف <span id="selected-count">0</span> متطوع
+    </button>
+    <button class="control-btn btn-warning" id="cancel-delete-btn">
+      <i class="fas fa-times"></i> إلغاء
+    </button>
+  </div>
+  
+  <!-- جدول المتطوعين -->
+  <div class="volunteers-table-container">
+    <div class="table-header">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="ابحث بالاسم أو ID أو الرقم القومي..."
+               onmouseover="showBiloMessage('ابحث عن متطوع بالاسم أو الرقم القومي أو ID')"
+               onmouseout="hideBiloMessage()">
+      </div>
+      <div class="filters">
+        <select class="filter-select" id="filter-committee"
+                onmouseover="showBiloMessage('تصفية المتطوعين حسب اللجنة')"
+                onmouseout="hideBiloMessage()">
+          <option value="">كل اللجان</option>
+          <option value="HR">HR</option>
+          <option value="PR">PR</option>
+          <option value="OR">OR</option>
+          <option value="SM">SM</option>
+        </select>
+        <select class="filter-select" id="filter-role"
+                onmouseover="showBiloMessage('تصفية المتطوعين حسب الوظيفة')"
+                onmouseout="hideBiloMessage()">
+          <option value="">كل الوظائف</option>
+          <option value="leader">ليدر</option>
+          <option value="head">هيد</option>
+          <option value="advisor">مستشار</option>
+          <option value="volunteer">متطوع</option>
+        </select>
+        <select class="filter-select" id="filter-season"
+                onmouseover="showBiloMessage('تصفية المتطوعين حسب الموسم')"
+                onmouseout="hideBiloMessage()">
+          <option value="">كل المواسم</option>
+          <option value="1">السيزون 1</option>
+          <option value="2">السيزون 2</option>
+          <option value="3">السيزون 3</option>
+          <option value="4">السيزون 4</option>
+          <option value="5">السيزون 5</option>
+          <option value="6">السيزون 6</option>
+          <option value="7">السيزون 7</option>
+        </select>
+      </div>
+    </div>
+    
+    <table>
+      <thead>
+        <tr>
+          <th><input type="checkbox" id="select-all"></th>
+          <th>الصورة</th>
+          <th>الاسم</th>
+          <th>ID</th>
+          <th>اللجنة</th>
+          <th>الوظيفة</th>
+          <th>السيزون</th>
+          <th>رقم الهاتف</th>
+          <th>الإجراءات</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input type="checkbox" class="volunteer-checkbox"></td>
+          <td><img src="assets/REEM.jpg" alt="ريم عاشور" class="volunteer-avatar"></td>
+          <td>ريم عاشور</td>
+          <td>YLY-2023-001</td>
+          <td>HEAD</td>
+          <td>ليدر المحافظة</td>
+          <td>7</td>
+          <td>01012345678</td>
+          <td>
+            <button class="action-btn view" title="عرض" onclick="viewVolunteer('YLY-2023-001')"
+                    onmouseover="showBiloMessage('عرض بيانات ريم عاشور كاملة')"
+                    onmouseout="hideBiloMessage()"><i class="fas fa-eye"></i></button>
+            <button class="action-btn edit" title="تعديل" onclick="editVolunteer('YLY-2023-001')"
+                    onmouseover="showBiloMessage('تعديل بيانات ريم عاشور')"
+                    onmouseout="hideBiloMessage()"><i class="fas fa-edit"></i></button>
+            <button class="action-btn delete" title="حذف" onclick="deleteVolunteer('YLY-2023-001')"
+                    onmouseover="showBiloMessage('حذف ريم عاشور من النظام')"
+                    onmouseout="hideBiloMessage()"><i class="fas fa-trash"></i></button>
+          </td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" class="volunteer-checkbox"></td>
+          <td><img src="assets/bilo-happy.png" alt="أحمد محمد" class="volunteer-avatar"></td>
+          <td>أحمد محمد</td>
+          <td>YLY-2023-002</td>
+          <td>HR</td>
+          <td>هيد HR</td>
+          <td>7</td>
+          <td>01023456789</td>
+          <td>
+            <button class="action-btn view" title="عرض" onclick="viewVolunteer('YLY-2023-002')"
+                    onmouseover="showBiloMessage('عرض بيانات أحمد محمد كاملة')"
+                    onmouseout="hideBiloMessage()"><i class="fas fa-eye"></i></button>
+            <button class="action-btn edit" title="تعديل" onclick="editVolunteer('YLY-2023-002')"
+                    onmouseover="showBiloMessage('تعديل بيانات أحمد محمد')"
+                    onmouseout="hideBiloMessage()"><i class="fas fa-edit"></i></button>
+            <button class="action-btn delete" title="حذف" onclick="deleteVolunteer('YLY-2023-002')"
+                    onmouseover="showBiloMessage('حذف أحمد محمد من النظام')"
+                    onmouseout="hideBiloMessage()"><i class="fas fa-trash"></i></button>
+          </td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" class="volunteer-checkbox"></td>
+          <td><img src="assets/bilo-happy.png" alt="مريم خالد" class="volunteer-avatar"></td>
+          <td>مريم خالد</td>
+          <td>YLY-2023-003</td>
+          <td>PR</td>
+          <td>هيد PR</td>
+          <td>7</td>
+          <td>01034567890</td>
+          <td>
+            <button class="action-btn view" title="عرض" onclick="viewVolunteer('YLY-2023-003')"
+                    onmouseover="showBiloMessage('عرض بيانات مريم خالد كاملة')"
+                    onmouseout="hideBiloMessage()"><i class="fas fa-eye"></i></button>
+            <button class="action-btn edit" title="تعديل" onclick="editVolunteer('YLY-2023-003')"
+                    onmouseover="showBiloMessage('تعديل بيانات مريم خالد')"
+                    onmouseout="hideBiloMessage()"><i class="fas fa-edit"></i></button>
+            <button class="action-btn delete" title="حذف" onclick="deleteVolunteer('YLY-2023-003')"
+                    onmouseover="showBiloMessage('حذف مريم خالد من النظام')"
+                    onmouseout="hideBiloMessage()"><i class="fas fa-trash"></i></button>
+          </td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" class="volunteer-checkbox"></td>
+          <td><img src="assets/bilo-happy.png" alt="علي محمود" class="volunteer-avatar"></td>
+          <td>علي محمود</td>
+          <td>YLY-2023-004</td>
+          <td>OR</td>
+          <td>هيد OR</td>
+          <td>6,7</td>
+          <td>01045678901</td>
+          <td>
+            <button class="action-btn view" title="عرض" onclick="viewVolunteer('YLY-2023-004')"
+                    onmouseover="showBiloMessage('عرض بيانات علي محمود كاملة')"
+                    onmouseout="hideBiloMessage()"><i class="fas fa-eye"></i></button>
+            <button class="action-btn edit" title="تعديل" onclick="editVolunteer('YLY-2023-004')"
+                    onmouseover="showBiloMessage('تعديل بيانات علي محمود')"
+                    onmouseout="hideBiloMessage()"><i class="fas fa-edit"></i></button>
+            <button class="action-btn delete" title="حذف" onclick="deleteVolunteer('YLY-2023-004')"
+                    onmouseover="showBiloMessage('حذف علي محمود من النظام')"
+                    onmouseout="hideBiloMessage()"><i class="fas fa-trash"></i></button>
+          </td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" class="volunteer-checkbox"></td>
+          <td><img src="assets/bilo-happy.png" alt="ياسمين وائل" class="volunteer-avatar"></td>
+          <td>ياسمين وائل</td>
+          <td>YLY-2023-005</td>
+          <td>SM</td>
+          <td>هيد SM</td>
+          <td>7</td>
+          <td>01056789012</td>
+          <td>
+            <button class="action-btn view" title="عرض" onclick="viewVolunteer('YLY-2023-005')"
+                    onmouseover="showBiloMessage('عرض بيانات ياسمين وائل كاملة')"
+                    onmouseout="hideBiloMessage()"><i class="fas fa-eye"></i></button>
+            <button class="action-btn edit" title="تعديل" onclick="editVolunteer('YLY-2023-005')"
+                    onmouseover="showBiloMessage('تعديل بيانات ياسمين وائل')"
+                    onmouseout="hideBiloMessage()"><i class="fas fa-edit"></i></button>
+            <button class="action-btn delete" title="حذف" onclick="deleteVolunteer('YLY-2023-005')"
+                    onmouseover="showBiloMessage('حذف ياسمين وائل من النظام')"
+                    onmouseout="hideBiloMessage()"><i class="fas fa-trash"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <div class="pagination">
+      <button class="page-btn"><i class="fas fa-angle-double-right"></i></button>
+      <button class="page-btn">1</button>
+      <button class="page-btn active">2</button>
+      <button class="page-btn">3</button>
+      <button class="page-btn"><i class="fas fa-angle-double-left"></i></button>
+    </div>
+  </div>
+</div>
+
+<!-- شخصية بيلو - النسخة المعدلة -->
+<div class="bilo-container">
+  <img src="assets/bilo-happy.png" alt="بيلو" class="bilo-img" id="bilo-img" onclick="biloClick()">
+  <div class="bilo-speech" id="bilo-speech">أهلاً بك في صفحة إدارة المتطوعين! هنا تقدر تدير كل بيانات المتطوعين وتضيف جديدين وتعدل في البيانات القديمة</div>
+</div>
+
+<!-- مودال عرض بيانات المتطوع -->
+<div class="view-modal" id="view-modal">
+  <div class="view-modal-content">
+    <div class="modal-header">
+      <div class="modal-title">
+        <i class="fas fa-user"></i>
+        <h3 id="modal-volunteer-name">بيانات المتطوع</h3>
+      </div>
+      <button class="close-modal" onclick="closeViewModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="volunteer-info-grid">
+        <div class="volunteer-photo-section">
+          <img src="assets/REEM.jpg" alt="صورة المتطوع" class="volunteer-main-photo" id="modal-volunteer-photo">
+          <div class="volunteer-id-cards">
+            <img src="assets/id-front.jpg" alt="بطاقة الهوية - الوجه الأول" class="volunteer-id-card" id="modal-id-front">
+            <img src="assets/id-back.jpg" alt="بطاقة الهوية - الوجه الثاني" class="volunteer-id-card" id="modal-id-back">
+          </div>
+        </div>
+        <div class="volunteer-info-details">
+          <div class="info-group">
+            <div class="info-label">رقم ID</div>
+            <div class="info-value" id="modal-volunteer-id">YLY-2023-001</div>
+          </div>
+          <div class="info-group">
+            <div class="info-label">الرقم القومي</div>
+            <div class="info-value" id="modal-national-id">29901010101010</div>
+          </div>
+          <div class="info-group">
+            <div class="info-label">تاريخ الميلاد</div>
+            <div class="info-value" id="modal-birth-date">01/01/2000</div>
+          </div>
+          <div class="info-group">
+            <div class="info-label">العنوان</div>
+            <div class="info-value" id="modal-address">بورسعيد - حي الضواحي</div>
+          </div>
+          <div class="info-group">
+            <div class="info-label">اللجنة</div>
+            <div class="info-value" id="modal-committee">HEAD</div>
+          </div>
+          <div class="info-group">
+            <div class="info-label">الوظيفة</div>
+            <div class="info-value" id="modal-role">ليدر المحافظة</div>
+          </div>
+          <div class="info-group">
+            <div class="info-label">تاريخ الانضمام</div>
+            <div class="info-value" id="modal-join-date">01/01/2023</div>
+          </div>
+          <div class="info-group">
+            <div class="info-label">السيزون</div>
+            <div class="info-value" id="modal-season">7</div>
+          </div>
+          <div class="info-group">
+            <div class="info-label">رقم الهاتف</div>
+            <div class="info-value" id="modal-phone">01012345678</div>
+          </div>
+          <div class="info-group">
+            <div class="info-label">الواتساب</div>
+            <div class="info-value" id="modal-whatsapp">01012345678</div>
+          </div>
+          <div class="info-group">
+            <div class="info-label">الإيميل الشخصي</div>
+            <div class="info-value" id="modal-personal-email">example@example.com</div>
+          </div>
+          <div class="info-group">
+            <div class="info-label">الكلية</div>
+            <div class="info-value" id="modal-college">كلية الهندسة</div>
+          </div>
+          <div class="info-group">
+            <div class="info-label">التخصص</div>
+            <div class="info-value" id="modal-major">هندسة الحاسبات</div>
+          </div>
+          <div class="info-group">
+            <div class="info-label">السنة الدراسية</div>
+            <div class="info-value" id="modal-academic-year">السنة الثالثة</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- معلومات ولي الأمر -->
+      <div class="form-section">
+        <div class="form-section-title">
+          <i class="fas fa-user-friends"></i>
+          <h3>معلومات ولي الأمر</h3>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <div class="info-label">اسم ولي الأمر</div>
+            <div class="info-value" id="modal-parent-name">محمد عاشور</div>
+          </div>
+          <div class="form-group">
+            <div class="info-label">الرقم القومي</div>
+            <div class="info-value" id="modal-parent-id">26601010101010</div>
+          </div>
+          <div class="form-group">
+            <div class="info-label">وظيفة ولي الأمر</div>
+            <div class="info-value" id="modal-parent-job">مهندس</div>
+          </div>
+          <div class="form-group">
+            <div class="info-label">هاتف المنزل</div>
+            <div class="info-value" id="modal-parent-home-phone">0661234567</div>
+          </div>
+          <div class="form-group">
+            <div class="info-label">هاتف محمول</div>
+            <div class="info-value" id="modal-parent-mobile">01098765432</div>
+          </div>
+        </div>
+        <div class="volunteer-id-cards">
+          <img src="assets/id-front.jpg" alt="بطاقة ولي الأمر - الوجه الأول" class="volunteer-id-card" id="modal-parent-id-front">
+          <img src="assets/id-back.jpg" alt="بطاقة ولي الأمر - الوجه الثاني" class="volunteer-id-card" id="modal-parent-id-back">
+        </div>
+      </div>
+      
+      <!-- المهارات -->
+      <div class="form-section">
+        <div class="form-section-title">
+          <i class="fas fa-lightbulb"></i>
+          <h3>المهارات الشخصية</h3>
+        </div>
+        <div class="skills-container" id="modal-soft-skills">
+          <div class="skill-tag">القيادة</div>
+          <div class="skill-tag">العمل الجماعي</div>
+          <div class="skill-tag">التواصل الفعال</div>
+        </div>
+      </div>
+      
+      <!-- التطبيقات -->
+      <div class="form-section">
+        <div class="form-section-title">
+          <i class="fas fa-laptop-code"></i>
+          <h3>استخدام التطبيقات</h3>
+        </div>
+        <div class="skills-container" id="modal-apps">
+          <div class="skill-tag">Word</div>
+          <div class="skill-tag">Excel</div>
+          <div class="skill-tag">PowerPoint</div>
+          <div class="skill-tag">Photoshop</div>
+        </div>
+      </div>
+      
+      <!-- ملاحظات -->
+      <div class="form-section">
+        <div class="form-section-title">
+          <i class="fas fa-sticky-note"></i>
+          <h3>ملاحظات</h3>
+        </div>
+        <div class="info-value" id="modal-notes">لا توجد ملاحظات</div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="control-btn btn-primary" onclick="shareVolunteerData()">
+        <i class="fas fa-share-alt"></i> مشاركة البيانات
+      </button>
+      <button class="control-btn btn-success" onclick="exportVolunteerToPDF()">
+        <i class="fas fa-file-pdf"></i> تصدير PDF
+      </button>
+      <button class="control-btn btn-danger" onclick="closeViewModal()">
+        <i class="fas fa-times"></i> إغلاق
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- مودال إضافة/تعديل متطوع -->
+<div class="volunteer-modal" id="edit-modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title">
+        <i class="fas fa-user-edit"></i>
+        <h3 id="edit-modal-title">تعديل بيانات المتطوع</h3>
+      </div>
+      <button class="close-modal" onclick="closeEditModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form id="edit-volunteer-form">
+        <!-- معلومات شخصية -->
+        <div class="form-section">
+          <div class="form-section-title">
+            <i class="fas fa-user"></i>
+            <h3>معلومات شخصية</h3>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="edit-full-name">الاسم الرباعي</label>
+              <input type="text" id="edit-full-name" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="edit-volunteer-id">ID تلقائي</label>
+              <input type="text" id="edit-volunteer-id" class="form-control" readonly>
+            </div>
+            <div class="form-group">
+              <label for="edit-national-id">الرقم القومي</label>
+              <input type="text" id="edit-national-id" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="edit-birth-date">تاريخ الميلاد</label>
+              <input type="date" id="edit-birth-date" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="edit-address">العنوان المسجل بالبطاقة</label>
+              <input type="text" id="edit-address" class="form-control" required>
+            </div>
+          </div>
+        </div>
+        
+        <!-- رفع الصور -->
+        <div class="form-section">
+          <div class="form-section-title">
+            <i class="fas fa-images"></i>
+            <h3>رفع الصور</h3>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>الصورة الشخصية</label>
+              <div class="file-upload" id="edit-personal-photo-upload">
+                <i class="fas fa-camera"></i>
+                <span>اضغط لرفع الصورة الشخصية</span>
+                <input type="file" id="edit-personal-photo" accept="image/*" style="display: none;">
+              </div>
+              <div class="file-preview" id="edit-personal-photo-preview"></div>
+            </div>
+            <div class="form-group">
+              <label>صورة بطاقة الهوية (الوجه الأول)</label>
+              <div class="file-upload" id="edit-id-front-upload">
+                <i class="fas fa-id-card"></i>
+                <span>اضغط لرفع وجه البطاقة</span>
+                <input type="file" id="edit-id-front" accept="image/*" style="display: none;">
+              </div>
+              <div class="file-preview" id="edit-id-front-preview"></div>
+            </div>
+            <div class="form-group">
+              <label>صورة بطاقة الهوية (الوجه الثاني)</label>
+              <div class="file-upload" id="edit-id-back-upload">
+                <i class="fas fa-id-card"></i>
+                <span>اضغط لرفع ظهر البطاقة</span>
+                <input type="file" id="edit-id-back" accept="image/*" style="display: none;">
+              </div>
+              <div class="file-preview" id="edit-id-back-preview"></div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- معلومات المشروع -->
+        <div class="form-section">
+          <div class="form-section-title">
+            <i class="fas fa-project-diagram"></i>
+            <h3>معلومات المشروع</h3>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="edit-join-date">تاريخ الانضمام للمشروع</label>
+              <input type="date" id="edit-join-date" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="edit-season">السيزون</label>
+              <select id="edit-season" class="form-control" required>
+                <option value="">اختر السيزون</option>
+                <option value="1">السيزون الأول</option>
+                <option value="2">السيزون الثاني</option>
+                <option value="3">السيزون الثالث</option>
+                <option value="4">السيزون الرابع</option>
+                <option value="5">السيزون الخامس</option>
+                <option value="6">السيزون السادس</option>
+                <option value="7">السيزون السابع</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="edit-committee">اللجنة</label>
+              <select id="edit-committee" class="form-control" required>
+                <option value="">اختر اللجنة</option>
+                <option value="HR">الموارد البشرية (HR)</option>
+                <option value="PR">العلاقات العامة (PR)</option>
+                <option value="OR">التنظيم (OR)</option>
+                <option value="SM">إدارة المواقع (SM)</option>
+                <option value="HEAD">رئيس لجنة (HEAD)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="edit-role">الوظيفة الحالية</label>
+              <select id="edit-role" class="form-control" required>
+                <option value="">اختر الوظيفة</option>
+                <option value="leader">ليدر مشروع</option>
+                <option value="head">هيد</option>
+                <option value="advisor">مستشار</option>
+                <option value="sub-leader">ليدر فرعي</option>
+                <option value="volunteer">متطوع عادي</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="edit-governorate">المحافظة</label>
+              <select id="edit-governorate" class="form-control" required>
+                <option value="">اختر المحافظة</option>
+                <option value="القاهرة">القاهرة</option>
+                <option value="الإسكندرية">الإسكندرية</option>
+                <option value="بورسعيد">بورسعيد</option>
+                <option value="السويس">السويس</option>
+                <option value="دمياط">دمياط</option>
+                <option value="الدقهلية">الدقهلية</option>
+                <option value="الشرقية">الشرقية</option>
+                <option value="القليوبية">القليوبية</option>
+                <option value="كفر الشيخ">كفر الشيخ</option>
+                <option value="الغربية">الغربية</option>
+                <option value="المنوفية">المنوفية</option>
+                <option value="البحيرة">البحيرة</option>
+                <option value="الإسماعيلية">الإسماعيلية</option>
+                <option value="الجيزة">الجيزة</option>
+                <option value="بني سويف">بني سويف</option>
+                <option value="الفيوم">الفيوم</option>
+                <option value="المنيا">المنيا</option>
+                <option value="أسيوط">أسيوط</option>
+                <option value="سوهاج">سوهاج</option>
+                <option value="قنا">قنا</option>
+                <option value="الأقصر">الأقصر</option>
+                <option value="أسوان">أسوان</option>
+                <option value="البحر الأحمر">البحر الأحمر</option>
+                <option value="الوادي الجديد">الوادي الجديد</option>
+                <option value="مطروح">مطروح</option>
+                <option value="شمال سيناء">شمال سيناء</option>
+                <option value="جنوب سيناء">جنوب سيناء</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        
+        <!-- معلومات التعليم الجامعي -->
+        <div class="form-section">
+          <div class="form-section-title">
+            <i class="fas fa-graduation-cap"></i>
+            <h3>معلومات التعليم الجامعي</h3>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="edit-college">الكلية</label>
+              <input type="text" id="edit-college" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="edit-major">التخصص</label>
+              <input type="text" id="edit-major" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="edit-academic-year">السنة الدراسية</label>
+              <select id="edit-academic-year" class="form-control">
+                <option value="">اختر السنة الدراسية</option>
+                <option value="1">السنة الأولى</option>
+                <option value="2">السنة الثانية</option>
+                <option value="3">السنة الثالثة</option>
+                <option value="4">السنة الرابعة</option>
+                <option value="5">السنة الخامسة</option>
+                <option value="graduate">خريج</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        
+        <!-- معلومات التواصل -->
+        <div class="form-section">
+          <div class="form-section-title">
+            <i class="fas fa-address-book"></i>
+            <h3>معلومات التواصل</h3>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="edit-academic-email">الإيميل الأكاديمي</label>
+              <input type="email" id="edit-academic-email" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="edit-personal-email">الإيميل الشخصي</label>
+              <input type="email" id="edit-personal-email" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="edit-whatsapp">رقم الواتساب</label>
+              <input type="tel" id="edit-whatsapp" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="edit-phone">رقم الهاتف</label>
+              <input type="tel" id="edit-phone" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="edit-facebook">فيسبوك</label>
+              <input type="text" id="edit-facebook" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="edit-instagram">إنستجرام</label>
+              <input type="text" id="edit-instagram" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="edit-tiktok">تيك توك</label>
+              <input type="text" id="edit-tiktok" class="form-control">
+            </div>
+          </div>
+        </div>
+        
+        <!-- المهارات الشخصية -->
+        <div class="form-section">
+          <div class="form-section-title">
+            <i class="fas fa-lightbulb"></i>
+            <h3>المهارات الشخصية</h3>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="edit-soft-skills">المهارات الناعمة</label>
+              <div class="skills-container" id="edit-soft-skills-container"></div>
+              <div class="input-group">
+                <input type="text" id="edit-soft-skills-input" class="form-control" placeholder="أضف مهارة جديدة">
+                <button type="button" class="add-field-btn" id="edit-add-skill-btn">
+                  <i class="fas fa-plus"></i> إضافة
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- استخدام التطبيقات -->
+        <div class="form-section">
+          <div class="form-section-title">
+            <i class="fas fa-laptop-code"></i>
+            <h3>استخدام التطبيقات</h3>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>برامج مايكروسوفت</label>
+              <div class="skills-container">
+                <label class="skill-tag"><input type="checkbox" name="edit-apps" value="word"> Word</label>
+                <label class="skill-tag"><input type="checkbox" name="edit-apps" value="excel"> Excel</label>
+                <label class="skill-tag"><input type="checkbox" name="edit-apps" value="powerpoint"> PowerPoint</label>
+                <label class="skill-tag"><input type="checkbox" name="edit-apps" value="access"> Access</label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>برامج التصميم والمونتاج</label>
+              <div class="skills-container">
+                <label class="skill-tag"><input type="checkbox" name="edit-apps" value="photoshop"> Photoshop</label>
+                <label class="skill-tag"><input type="checkbox" name="edit-apps" value="premiere"> Premiere</label>
+                <label class="skill-tag"><input type="checkbox" name="edit-apps" value="canvas"> Canva</label>
+                <label class="skill-tag"><input type="checkbox" name="edit-apps" value="vivacut"> VivaCut</label>
+                <label class="skill-tag"><input type="checkbox" name="edit-apps" value="inshot"> InShot</label>
+                <label class="skill-tag"><input type="checkbox" name="edit-apps" value="kinemaster"> KineMaster</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- معلومات ولي الأمر -->
+        <div class="form-section">
+          <div class="form-section-title">
+            <i class="fas fa-user-friends"></i>
+            <h3>معلومات ولي الأمر</h3>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="edit-parent-name">اسم الوالد/الوالدة</label>
+              <input type="text" id="edit-parent-name" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="edit-parent-id">الرقم القومي لولي الأمر</label>
+              <input type="text" id="edit-parent-id" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="edit-parent-job">وظيفة ولي الأمر</label>
+              <input type="text" id="edit-parent-job" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="edit-parent-address">العنوان في البطاقة</label>
+              <input type="text" id="edit-parent-address" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="edit-parent-residence">عنوان محل الإقامة</label>
+              <input type="text" id="edit-parent-residence" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="edit-parent-home-phone">هاتف المنزل</label>
+              <input type="tel" id="edit-parent-home-phone" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="edit-parent-mobile">هاتف محمول</label>
+              <input type="tel" id="edit-parent-mobile" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="edit-parent-email">الإيميل الشخصي/العمل</label>
+              <input type="email" id="edit-parent-email" class="form-control">
+            </div>
+            <div class="form-group">
+              
+              <label>صورة بطاقة ولي الأمر (الوجه الأول)</label>
+              <div class="file-upload" id="edit-parent-id-front-upload">
+                <i class="fas fa-id-card"></i>
+                <span>اضغط لرفع وجه البطاقة</span>
+                <input type="file" id="edit-parent-id-front" accept="image/*" style="display: none;">
+              </div>
+              <div class="file-preview" id="edit-parent-id-front-preview"></div>
+            </div>
+            <div class="form-group">
+              <label>صورة بطاقة ولي الأمر (الوجه الثاني)</label>
+              <div class="file-upload" id="edit-parent-id-back-upload">
+                <i class="fas fa-id-card"></i>
+                <span>اضغط لرفع ظهر البطاقة</span>
+                <input type="file" id="edit-parent-id-back" accept="image/*" style="display: none;">
+              </div>
+              <div class="file-preview" id="edit-parent-id-back-preview"></div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- ملاحظات -->
+        <div class="form-section">
+          <div class="form-section-title">
+            <i class="fas fa-sticky-note"></i>
+            <h3>ملاحظات</h3>
+          </div>
+          <div class="form-group">
+            <textarea id="edit-notes" class="form-control" rows="4"></textarea>
+          </div>
+          <button type="button" class="add-field-btn" id="edit-add-custom-field-btn">
+            <i class="fas fa-plus-circle"></i> إضافة حقل مخصص
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="control-btn btn-success" form="edit-volunteer-form">
+        <i class="fas fa-save"></i> حفظ التعديلات
+      </button>
+      <button class="control-btn btn-danger" onclick="closeEditModal()">
+        <i class="fas fa-times"></i> إلغاء
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  // بيانات المستخدم
+  const currentUser = {
+    name: "سعد المرجاوي",
+    role: "مدير النظام",
+    avatar: "assets/user-avatar.png",
+    season: 7
+  };
+
+  // بيانات المتطوعين
+  const volunteersData = {
+    "YLY-2023-001": {
+      name: "ريم عاشور",
+      nationalId: "29901010101010",
+      birthDate: "2000-01-01",
+      address: "بورسعيد - حي الضواحي",
+      governorate: "بورسعيد",
+      photo: "assets/REEM.jpg",
+      idFront: "assets/id-front.jpg",
+      idBack: "assets/id-back.jpg",
+      joinDate: "2023-01-01",
+      season: "7",
+      committee: "HEAD",
+      role: "ليدر المحافظة",
+      college: "كلية الهندسة",
+      major: "هندسة الحاسبات",
+      academicYear: "3",
+      phone: "01012345678",
+      whatsapp: "01012345678",
+      personalEmail: "example@example.com",
+      softSkills: ["القيادة", "العمل الجماعي", "التواصل الفعال"],
+      apps: ["word", "excel", "powerpoint", "photoshop"],
+      parentName: "محمد عاشور",
+      parentId: "26601010101010",
+      parentJob: "مهندس",
+      parentHomePhone: "0661234567",
+      parentMobile: "01098765432",
+      parentIdFront: "assets/id-front.jpg",
+      parentIdBack: "assets/id-back.jpg",
+      notes: "لا توجد ملاحظات"
+    },
+    "YLY-2023-002": {
+      name: "أحمد محمد",
+      nationalId: "29902020202020",
+      birthDate: "2000-02-02",
+      address: "بورسعيد - حي الشرق",
+      governorate: "بورسعيد",
+      photo: "assets/bilo-happy.png",
+      idFront: "assets/id-front.jpg",
+      idBack: "assets/id-back.jpg",
+      joinDate: "2023-02-02",
+      season: "7",
+      committee: "HR",
+      role: "هيد HR",
+      college: "كلية التجارة",
+      major: "المحاسبة",
+      academicYear: "4",
+      phone: "01023456789",
+      whatsapp: "01023456789",
+      personalEmail: "ahmed@example.com",
+      softSkills: ["التخطيط", "إدارة الوقت"],
+      apps: ["word", "excel"],
+      parentName: "خالد محمد",
+      parentId: "26602020202020",
+      parentJob: "طبيب",
+      parentHomePhone: "0662345678",
+      parentMobile: "01087654321",
+      parentIdFront: "assets/id-front.jpg",
+      parentIdBack: "assets/id-back.jpg",
+      notes: "متميز في العمل الجماعي"
+    }
+  };
+
+  // رسائل بيلو المخصصة لصفحة المتطوعين
+  const biloMessages = {
+    welcome: "أهلاً بك في صفحة إدارة المتطوعين! هنا تقدر تدير كل بيانات المتطوعين وتضيف جديدين وتعدل في البيانات القديمة",
+    addVolunteer: "إضافة متطوع جديد للنظام - املأ كل البيانات المطلوبة بدقة",
+    importData: "رفع ملف إكسل يحتوي على بيانات متطوعين لإضافتهم دفعة واحدة",
+    exportData: "تصدير بيانات المتطوعين إلى ملف إكسل للاحتفاظ بنسخة احتياطية أو لمشاركتها",
+    deleteSelected: "حذف المتطوعين المحددين من النظام - كن حذراً هذه العملية لا يمكن التراجع عنها",
+    search: "ابحث عن متطوع بالاسم أو الرقم القومي أو ID",
+    filter: "استخدم الفلاتر لتصفية المتطوعين حسب اللجنة أو الوظيفة أو الموسم",
+    view: "عرض البيانات الكاملة للمتطوع",
+    edit: "تعديل بيانات المتطوع",
+    delete: "حذف المتطوع من النظام",
+    save: "حفظ بيانات المتطوع في قاعدة البيانات",
+    cancel: "إلغاء عملية الإضافة والعودة للقائمة",
+    uploadPhoto: "رفع صورة شخصية واضحة للمتطوع بخلفية بيضاء",
+    uploadID: "رفع صورة واضحة لبطاقة الهوية (الوجهين)",
+    softSkills: "أضف المهارات الناعمة التي يمتلكها المتطوع مثل القيادة، العمل الجماعي، إلخ",
+    apps: "حدد التطبيقات والبرامج التي يجيدها المتطوع",
+    parentInfo: "معلومات ولي الأمر مهمة للتواصل في حالات الطوارئ",
+    notes: "أي ملاحظات إضافية تريد تسجيلها عن المتطوع"
+  };
+
+  // تهيئة الصفحة
+  document.addEventListener('DOMContentLoaded', function() {
+    // تعيين بيانات المستخدم
+    document.getElementById('dropdown-username').textContent = currentUser.name;
+    document.getElementById('dropdown-userrole').textContent = currentUser.role;
+    document.getElementById('season-number').textContent = currentUser.season;
+    
+    // إنشاء الجزيئات المتحركة
+    createParticles();
+    
+    // تعيين رسالة بيلو الافتراضية
+    showBiloMessage(biloMessages.welcome);
+    
+    // إعداد تفاعلات النموذج
+    setupFormInteractions();
+    
+    // إعداد تفاعلات تحديد المتطوعين
+    setupSelectionInteractions();
+    
+    // إعداد تفاعلات إضافة المهارات في نموذج التعديل
+    setupEditFormInteractions();
+  });
+
+  // عرض/إخفاء قائمة المستخدم
+  document.getElementById('user-avatar').addEventListener('click', function() {
+    document.getElementById('user-dropdown').classList.toggle('show');
+  });
+
+  // إغلاق القائمة عند النقر خارجها
+  window.addEventListener('click', function(e) {
+    if (!e.target.matches('#user-avatar') && !e.target.matches('#user-avatar *')) {
+      const dropdown = document.getElementById('user-dropdown');
+      if (dropdown.classList.contains('show')) {
+        dropdown.classList.remove('show');
+      }
+    }
+  });
+
+  // تبديل اللغة
+  function toggleLanguage() {
+    const currentLang = document.documentElement.lang;
+    if (currentLang === 'ar') {
+      document.documentElement.lang = 'en';
+      document.documentElement.dir = 'ltr';
+      document.querySelector('.language-toggle span').textContent = 'English / العربية';
+      document.title = 'Volunteers Management | YLY';
+      showBiloMessage('I see you switched to English! Don\'t forget your Arabic roots!');
+    } else {
+      document.documentElement.lang = 'ar';
+      document.documentElement.dir = 'rtl';
+      document.querySelector('.language-toggle span').textContent = 'العربية / English';
+      document.title = 'إدارة المتطوعين | YLY';
+      showBiloMessage('أهو رجعت للعربي! والله فرحان بيك يا عم الحاج!');
+    }
+  }
+
+ // تسجيل الخروج
+  function logout() {
+    window.location.href = 'login.html';
+  }
+
+  // فتح الإعدادات
+  function openSettings() {
+    window.location.href = 'settings.html';
+  }
+
+  // إنشاء الجزيئات المتحركة
+  function createParticles() {
+    const particlesContainer = document.getElementById('particles');
+    const count = Math.floor(window.innerWidth / 20);
+    
+    // تنظيف الجزيئات القديمة إذا وجدت
+    particlesContainer.innerHTML = '';
+    
+    for (let i = 0; i < count; i++) {
+      const particle = document.createElement('div');
+      particle.classList.add('particle');
+      
+      const size = Math.random() * 5 + 2;
+      const posX = Math.random() * window.innerWidth;
+      const duration = Math.random() * 15 + 10;
+      const delay = Math.random() * 10;
+      const opacity = Math.random() * 0.5 + 0.3;
+      
+      particle.style.width = `${size}px`;
+      particle.style.height = `${size}px`;
+      particle.style.left = `${posX}px`;
+      particle.style.bottom = '0';
+      particle.style.animationDuration = `${duration}s`;
+      particle.style.animationDelay = `${delay}s`;
+      particle.style.opacity = opacity;
+      
+      // توزيع عشوائي للجزيئات على العمق (z-index)
+      particle.style.zIndex = Math.floor(Math.random() * 3) - 3;
+      
+      particlesContainer.appendChild(particle);
+    }
+  }
+
+  // توليد ID المتطوع تلقائياً
+  function generateVolunteerID() {
+    const currentYear = new Date().getFullYear();
+    const randomNum = Math.floor(Math.random() * 900) + 100; // رقم عشوائي بين 100 و 999
+    const volunteerID = `YLY-${currentYear}-${randomNum}`;
+    return volunteerID;
+  }
+
+  // تفاعل بيلو عند النقر
+  function biloClick() {
+    const messages = [
+      "أنا بيلو، مساعدك الشخصي في YLY!",
+      "إزيك؟ عاوز تساعدك في أي حاجة؟",
+      "لو عندك أي استفسار عن كيفية إضافة متطوع جديد، أسألني!",
+      "متنساش تحفظ البيانات بعد ما تخلص من إدخالها!",
+      "تقدر تتصدير بيانات كل المتطوعين في ملف إكسل بضغطة زر"
+    ];
+    
+    const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+    showBiloMessage(randomMsg);
+  }
+
+  // عرض رسالة بيلو
+  let biloMessageTimeout;
+  function showBiloMessage(message) {
+    const biloImg = document.getElementById('bilo-img');
+    const speech = document.getElementById('bilo-speech');
+    
+    // تغيير صورة بيلو حسب السياق
+    if (message.includes('حذف') || message.includes('خطر')) {
+      biloImg.src = 'assets/bilo-huzn.png';
+    } else if (message.includes('نجاح') || message.includes('حفظ')) {
+      biloImg.src = 'assets/bilo-andihem.png';
+    } else if (message.includes('بحث') || message.includes('تصفية')) {
+      biloImg.src = 'assets/bilo-biejrey.png';
+    } else {
+      biloImg.src = 'assets/bilo-happy.png';
+    }
+    
+    speech.textContent = message;
+    speech.classList.add('show');
+    
+    // إلغاء المؤقت السابق إذا كان موجوداً
+    if (biloMessageTimeout) {
+      clearTimeout(biloMessageTimeout);
+    }
+    
+    // إخفاء الرسالة تلقائياً بعد 7 ثواني
+    biloMessageTimeout = setTimeout(() => {
+      speech.classList.remove('show');
+    }, 7000);
+  }
+
+  // إخفاء رسالة بيلو
+  function hideBiloMessage() {
+    // لا نخفي الرسالة إذا كان المستخدم يحوم على بيلو نفسه
+    if (!event?.relatedTarget?.classList?.contains('bilo-container')) {
+      document.getElementById('bilo-speech').classList.remove('show');
+    }
+  }
+
+  // إعداد تفاعلات النموذج
+  function setupFormInteractions() {
+    // زر إضافة متطوع جديد
+    const addVolunteerBtn = document.getElementById('add-volunteer-btn');
+    
+    addVolunteerBtn.addEventListener('click', function() {
+      openEditModal(null, 'إضافة متطوع جديد');
+      showBiloMessage(biloMessages.addVolunteer);
+    });
+    
+    // تفعيل تفاعلات بيلو مع كل العناصر
+    const interactiveElements = document.querySelectorAll('[onmouseover*="showBiloMessage"]');
+    
+    interactiveElements.forEach(el => {
+      el.addEventListener('mouseover', function(e) {
+        const message = this.getAttribute('onmouseover').replace('showBiloMessage(\'', '').replace('\')', '').replace('showBiloMessage("', '').replace('")', '');
+        showBiloMessage(message);
+      });
+      
+      el.addEventListener('mouseout', function(e) {
+        if (!event?.relatedTarget?.classList?.contains('bilo-container')) {
+          hideBiloMessage();
+        }
+      });
+    });
+  }
+
+  // إعداد تفاعلات تحديد المتطوعين
+  function setupSelectionInteractions() {
+    const selectAllCheckbox = document.getElementById('select-all');
+    const volunteerCheckboxes = document.querySelectorAll('.volunteer-checkbox');
+    const deleteSelectedContainer = document.getElementById('delete-selected-container');
+    const deleteSelectedBtn = document.getElementById('delete-selected-btn');
+    const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
+    const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
+    
+    // تحديد/إلغاء تحديد الكل
+    selectAllCheckbox.addEventListener('change', function() {
+      volunteerCheckboxes.forEach(checkbox => {
+        checkbox.checked = selectAllCheckbox.checked;
+      });
+      updateSelectedCount();
+    });
+    
+    // تحديث حالة تحديد الكل عند تغيير أي checkbox
+    volunteerCheckboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', function() {
+        selectAllCheckbox.checked = [...volunteerCheckboxes].every(cb => cb.checked);
+        updateSelectedCount();
+      });
+    });
+    
+    // عرض/إخفاء زر حذف المحدد
+    deleteSelectedBtn.addEventListener('click', function() {
+      const selectedCount = document.querySelectorAll('.volunteer-checkbox:checked').length;
+      if (selectedCount > 0) {
+        deleteSelectedContainer.style.display = 'block';
+      } else {
+        showBiloMessage('يجب تحديد متطوعين على الأقل للحذف');
+      }
+    });
+    
+    // تأكيد الحذف
+    confirmDeleteBtn.addEventListener('click', function() {
+      const selectedIds = [];
+      document.querySelectorAll('.volunteer-checkbox:checked').forEach(checkbox => {
+        const row = checkbox.closest('tr');
+        const id = row.querySelector('td:nth-child(4)').textContent;
+        selectedIds.push(id);
+      });
+      
+      // هنا سيتم إرسال طلب حذف المتطوعين المحددين
+      alert(`سيتم حذف المتطوعين التالية: ${selectedIds.join(', ')}`);
+      deleteSelectedContainer.style.display = 'none';
+      selectAllCheckbox.checked = false;
+      showBiloMessage('تم حذف المتطوعين المحددين بنجاح!');
+    });
+    
+    // إلغاء الحذف
+    cancelDeleteBtn.addEventListener('click', function() {
+      deleteSelectedContainer.style.display = 'none';
+    });
+  }
+  
+  // تحديث عدد المتطوعين المحددين
+  function updateSelectedCount() {
+    const selectedCount = document.querySelectorAll('.volunteer-checkbox:checked').length;
+    const countElement = document.getElementById('selected-count');
+    countElement.textContent = selectedCount;
+  }
+
+  // إعداد تفاعلات نموذج التعديل
+  function setupEditFormInteractions() {
+    // رفع الصور
+    setupFileUpload('edit-personal-photo-upload', 'edit-personal-photo', 'edit-personal-photo-preview');
+    setupFileUpload('edit-id-front-upload', 'edit-id-front', 'edit-id-front-preview');
+    setupFileUpload('edit-id-back-upload', 'edit-id-back', 'edit-id-back-preview');
+    setupFileUpload('edit-parent-id-front-upload', 'edit-parent-id-front', 'edit-parent-id-front-preview');
+    setupFileUpload('edit-parent-id-back-upload', 'edit-parent-id-back', 'edit-parent-id-back-preview');
+    
+    // إضافة مهارات
+    const softSkillsInput = document.getElementById('edit-soft-skills-input');
+    const softSkillsContainer = document.getElementById('edit-soft-skills-container');
+    const addSkillBtn = document.getElementById('edit-add-skill-btn');
+    
+    function addSkill() {
+      const skill = softSkillsInput.value.trim();
+      if (skill) {
+        const skillTag = document.createElement('div');
+        skillTag.className = 'skill-tag';
+        skillTag.innerHTML = `
+          ${skill}
+          <span class="remove-skill" onclick="this.parentElement.remove()">
+            <i class="fas fa-times"></i>
+          </span>
+          <input type="hidden" name="soft-skills" value="${skill}">
+        `;
+        softSkillsContainer.appendChild(skillTag);
+        softSkillsInput.value = '';
+      }
+    }
+    
+    softSkillsInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        addSkill();
+      }
+    });
+    
+    addSkillBtn.addEventListener('click', addSkill);
+    
+    // إرسال النموذج
+    const editForm = document.getElementById('edit-volunteer-form');
+    editForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      // هنا سيتم إرسال البيانات إلى الخادم
+      alert('تم حفظ التعديلات بنجاح!');
+      closeEditModal();
+      showBiloMessage('تم حفظ التعديلات بنجاح!');
+    });
+  }
+  
+  // إعداد رفع الملفات
+  function setupFileUpload(uploadId, fileInputId, previewId) {
+    const uploadElement = document.getElementById(uploadId);
+    const fileInput = document.getElementById(fileInputId);
+    const previewContainer = document.getElementById(previewId);
+    
+    uploadElement.addEventListener('click', function() {
+      fileInput.click();
+    });
+    
+    fileInput.addEventListener('change', function() {
+      const file = fileInput.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          previewContainer.innerHTML = '';
+          const previewItem = document.createElement('div');
+          previewItem.className = 'file-preview-item';
+          previewItem.innerHTML = `
+            <img src="${e.target.result}" alt="Preview">
+            <div class="remove-file" onclick="this.parentElement.remove(); document.getElementById('${fileInputId}').value = '';">
+              <i class="fas fa-times"></i>
+            </div>
+          `;
+          previewContainer.appendChild(previewItem);
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }
+
+  // عرض بيانات المتطوع في المودال
+  function viewVolunteer(volunteerId) {
+    const volunteer = volunteersData[volunteerId] || volunteersData["YLY-2023-001"];
+    const modal = document.getElementById('view-modal');
+    
+    // تعبئة البيانات في المودال
+    document.getElementById('modal-volunteer-name').textContent = volunteer.name;
+    document.getElementById('modal-volunteer-id').textContent = volunteerId;
+    document.getElementById('modal-national-id').textContent = volunteer.nationalId;
+    document.getElementById('modal-birth-date').textContent = formatDate(volunteer.birthDate);
+    document.getElementById('modal-address').textContent = volunteer.address;
+    document.getElementById('modal-committee').textContent = volunteer.committee;
+    document.getElementById('modal-role').textContent = getRoleName(volunteer.role);
+    document.getElementById('modal-join-date').textContent = formatDate(volunteer.joinDate);
+    document.getElementById('modal-season').textContent = volunteer.season;
+    document.getElementById('modal-phone').textContent = volunteer.phone;
+    document.getElementById('modal-whatsapp').textContent = volunteer.whatsapp;
+    document.getElementById('modal-personal-email').textContent = volunteer.personalEmail;
+    document.getElementById('modal-college').textContent = volunteer.college;
+    document.getElementById('modal-major').textContent = volunteer.major;
+    document.getElementById('modal-academic-year').textContent = getAcademicYearName(volunteer.academicYear);
+    document.getElementById('modal-parent-name').textContent = volunteer.parentName;
+    document.getElementById('modal-parent-id').textContent = volunteer.parentId;
+    document.getElementById('modal-parent-job').textContent = volunteer.parentJob;
+    document.getElementById('modal-parent-home-phone').textContent = volunteer.parentHomePhone;
+    document.getElementById('modal-parent-mobile').textContent = volunteer.parentMobile;
+    document.getElementById('modal-notes').textContent = volunteer.notes || 'لا توجد ملاحظات';
+    
+    // الصور
+    document.getElementById('modal-volunteer-photo').src = volunteer.photo;
+    document.getElementById('modal-id-front').src = volunteer.idFront;
+    document.getElementById('modal-id-back').src = volunteer.idBack;
+    document.getElementById('modal-parent-id-front').src = volunteer.parentIdFront;
+    document.getElementById('modal-parent-id-back').src = volunteer.parentIdBack;
+    
+    // المهارات
+    const skillsContainer = document.getElementById('modal-soft-skills');
+    skillsContainer.innerHTML = '';
+    volunteer.softSkills.forEach(skill => {
+      const skillTag = document.createElement('div');
+      skillTag.className = 'skill-tag';
+      skillTag.textContent = skill;
+      skillsContainer.appendChild(skillTag);
+    });
+    
+    // التطبيقات
+    const appsContainer = document.getElementById('modal-apps');
+    appsContainer.innerHTML = '';
+    if (volunteer.apps) {
+      volunteer.apps.forEach(app => {
+        const appTag = document.createElement('div');
+        appTag.className = 'skill-tag';
+        appTag.textContent = getAppName(app);
+        appsContainer.appendChild(appTag);
+      });
+    }
+    
+    // عرض المودال
+    modal.style.display = 'block';
+    showBiloMessage(biloMessages.view);
+  }
+  
+  // تعديل بيانات المتطوع
+  function editVolunteer(volunteerId) {
+    const volunteer = volunteersData[volunteerId] || {
+      name: "",
+      nationalId: "",
+      birthDate: "",
+      address: "",
+      governorate: "",
+      photo: "assets/default-avatar.png",
+      idFront: "",
+      idBack: "",
+      joinDate: "",
+      season: "7",
+      committee: "",
+      role: "",
+      college: "",
+      major: "",
+      academicYear: "",
+      phone: "",
+      whatsapp: "",
+      personalEmail: "",
+      softSkills: [],
+      apps: [],
+      parentName: "",
+      parentId: "",
+      parentJob: "",
+      parentHomePhone: "",
+      parentMobile: "",
+      parentIdFront: "",
+      parentIdBack: "",
+      notes: ""
+    };
+    
+    openEditModal(volunteer, volunteerId ? `تعديل بيانات ${volunteer.name}` : 'إضافة متطوع جديد');
+    showBiloMessage(biloMessages.edit);
+  }
+  
+  // فتح مودال التعديل
+  function openEditModal(volunteer, title) {
+    const modal = document.getElementById('edit-modal');
+    document.getElementById('edit-modal-title').textContent = title;
+    
+    if (volunteer) {
+      // تعبئة البيانات في النموذج
+      document.getElementById('edit-full-name').value = volunteer.name;
+      document.getElementById('edit-volunteer-id').value = volunteer.id || generateVolunteerID();
+      document.getElementById('edit-national-id').value = volunteer.nationalId;
+      document.getElementById('edit-birth-date').value = volunteer.birthDate;
+      document.getElementById('edit-address').value = volunteer.address;
+      document.getElementById('edit-governorate').value = volunteer.governorate;
+      document.getElementById('edit-join-date').value = volunteer.joinDate;
+      document.getElementById('edit-season').value = volunteer.season;
+      document.getElementById('edit-committee').value = volunteer.committee;
+      document.getElementById('edit-role').value = volunteer.role;
+      document.getElementById('edit-college').value = volunteer.college;
+      document.getElementById('edit-major').value = volunteer.major;
+      document.getElementById('edit-academic-year').value = volunteer.academicYear;
+      document.getElementById('edit-phone').value = volunteer.phone;
+      document.getElementById('edit-whatsapp').value = volunteer.whatsapp;
+      document.getElementById('edit-personal-email').value = volunteer.personalEmail;
+      document.getElementById('edit-parent-name').value = volunteer.parentName;
+      document.getElementById('edit-parent-id').value = volunteer.parentId;
+      document.getElementById('edit-parent-job').value = volunteer.parentJob;
+      document.getElementById('edit-parent-home-phone').value = volunteer.parentHomePhone;
+      document.getElementById('edit-parent-mobile').value = volunteer.parentMobile;
+      document.getElementById('edit-notes').value = volunteer.notes;
+      
+      // المهارات
+      const skillsContainer = document.getElementById('edit-soft-skills-container');
+      skillsContainer.innerHTML = '';
+      if (volunteer.softSkills) {
+        volunteer.softSkills.forEach(skill => {
+          const skillTag = document.createElement('div');
+          skillTag.className = 'skill-tag';
+          skillTag.innerHTML = `
+            ${skill}
+            <span class="remove-skill" onclick="this.parentElement.remove()">
+              <i class="fas fa-times"></i>
+            </span>
+            <input type="hidden" name="soft-skills" value="${skill}">
+          `;
+          skillsContainer.appendChild(skillTag);
+        });
+      }
+      
+      // التطبيقات
+      if (volunteer.apps) {
+        volunteer.apps.forEach(app => {
+          const checkbox = document.querySelector(`input[name="edit-apps"][value="${app}"]`);
+          if (checkbox) {
+            checkbox.checked = true;
+          }
+        });
+      }
+      
+      // الصور (في الواقع الفعلي سيتم عرض الصور الحالية)
+      // يمكن إضافة منطق لعرض الصور الحالية إذا كانت موجودة
+    } else {
+      // إضافة متطوع جديد - تعبئة القيم الافتراضية
+      document.getElementById('edit-volunteer-id').value = generateVolunteerID();
+      document.getElementById('edit-season').value = currentUser.season;
+      // إعادة تعيين بقية الحقول
+      document.getElementById('edit-volunteer-form').reset();
+      document.getElementById('edit-soft-skills-container').innerHTML = '';
+      document.querySelectorAll('input[name="edit-apps"]').forEach(checkbox => {
+        checkbox.checked = false;
+      });
+      document.querySelectorAll('.file-preview').forEach(preview => {
+        preview.innerHTML = '';
+      });
+    }
+    
+    modal.style.display = 'block';
+  }
+  
+  // إغلاق مودال العرض
+  function closeViewModal() {
+    document.getElementById('view-modal').style.display = 'none';
+  }
+  
+  // إغلاق مودال التعديل
+  function closeEditModal() {
+    document.getElementById('edit-modal').style.display = 'none';
+  }
+  
+  // حذف متطوع
+  function deleteVolunteer(volunteerId) {
+    if (confirm(`هل أنت متأكد من حذف المتطوع ${volunteerId}؟`)) {
+      // هنا سيتم إرسال طلب حذف المتطوع
+      alert(`تم حذف المتطوع ${volunteerId}`);
+      showBiloMessage('تم حذف المتطوع بنجاح!');
+    }
+  }
+  
+  // مشاركة بيانات المتطوع
+  function shareVolunteerData() {
+    // هنا سيتم تنفيذ منطق مشاركة البيانات عبر واتساب أو غيره
+    alert('سيتم مشاركة بيانات المتطوع عبر واتساب');
+  }
+  
+  // تصدير بيانات المتطوع إلى PDF
+  function exportVolunteerToPDF() {
+    // هنا سيتم تنفيذ منطق التصدير إلى PDF
+    alert('سيتم تصدير بيانات المتطوع إلى ملف PDF');
+  }
+  
+  // تنسيق التاريخ
+  function formatDate(dateString) {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('ar-EG');
+  }
+  
+  // الحصول على اسم الوظيفة
+  function getRoleName(roleKey) {
+    const roles = {
+      'leader': 'ليدر مشروع',
+      'head': 'هيد',
+      'advisor': 'مستشار',
+      'sub-leader': 'ليدر فرعي',
+      'volunteer': 'متطوع عادي'
+    };
+    return roles[roleKey] || roleKey;
+  }
+  
+  // الحصول على اسم السنة الدراسية
+  function getAcademicYearName(yearKey) {
+    const years = {
+      '1': 'السنة الأولى',
+      '2': 'السنة الثانية',
+      '3': 'السنة الثالثة',
+      '4': 'السنة الرابعة',
+      '5': 'السنة الخامسة',
+      'graduate': 'خريج'
+    };
+    return years[yearKey] || yearKey;
+  }
+  
+  // الحصول على اسم التطبيق
+  function getAppName(appKey) {
+    const apps = {
+      'word': 'Word',
+      'excel': 'Excel',
+      'powerpoint': 'PowerPoint',
+      'access': 'Access',
+      'photoshop': 'Photoshop',
+      'premiere': 'Premiere',
+      'canvas': 'Canva',
+      'vivacut': 'VivaCut',
+      'inshot': 'InShot',
+      'kinemaster': 'KineMaster'
+    };
+    return apps[appKey] || appKey;
+  }
+</script>
+</body>
+</html>

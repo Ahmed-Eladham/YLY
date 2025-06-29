@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الإعدادات | YLY</title>
+  <!-- Bootstrap RTL -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Cairo Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #2b68ff;
+      --primary-hover: #1c4de1;
+      --accent-color: #ffc107;
+      --text-color: #fff;
+      --bg-overlay: rgba(0, 0, 50, 0.4);
+      --form-bg: rgba(255, 255, 255, 0.1);
+      --input-bg: rgba(255,255,255,0.2);
+      --input-hover: rgba(255,255,255,0.3);
+      --border-radius: 14px;
+      --card-bg: rgba(255, 255, 255, 0.08);
+      --success-color: #28a745;
+      --danger-color: #dc3545;
+      --warning-color: #fd7e14;
+      --info-color: #17a2b8;
+    }
+    
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: url('./assets/bg-space.jpg.png') no-repeat center center fixed;
+      background-size: cover;
+      color: var(--text-color);
+      min-height: 100vh;
+    }
+    
+    .overlay {
+      backdrop-filter: blur(10px);
+      background-color: var(--bg-overlay);
+      width: 100vw;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+    
+    /* الشريط العلوي */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background: rgba(0, 0, 0, 0.3);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .logo-section img {
+      height: 50px;
+      transition: transform 0.3s;
+      cursor: pointer;
+    }
+    
+    .season-title {
+      font-size: 1.4em;
+      font-weight: 700;
+      color: var(--accent-color);
+      cursor: pointer;
+    }
+    
+    .user-section {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      position: relative;
+    }
+    
+    .user-avatar {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      object-fit: cover;
+      cursor: pointer;
+      border: 2px solid var(--accent-color);
+      transition: all 0.3s;
+    }
+    
+    /* شريط التنقل */
+    .nav-bar {
+      display: flex;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .nav-link {
+      padding: 10px 20px;
+      margin: 0 5px;
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      border-radius: var(--border-radius);
+      transition: all 0.3s;
+      position: relative;
+      cursor: pointer;
+    }
+    
+    .nav-link:hover, .nav-link.active {
+      background: var(--primary-color);
+    }
+    
+    /* المحتوى الرئيسي */
+    .main-content {
+      padding: 30px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    .section-title {
+      font-size: 1.8em;
+      margin-bottom: 25px;
+      color: var(--accent-color);
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    /* بطاقات الإعدادات */
+    .settings-card {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 20px;
+      margin-bottom: 30px;
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .settings-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .settings-title {
+      font-size: 1.3em;
+      color: var(--accent-color);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    /* أزرار التحكم */
+    .control-btn {
+      padding: 10px 15px;
+      border-radius: var(--border-radius);
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9em;
+    }
+    
+    .btn-primary {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+    }
+    
+    .btn-secondary {
+      background-color: #6c757d;
+      color: white;
+    }
+    
+    .btn-success {
+      background-color: var(--success-color);
+      color: white;
+    }
+    
+    .btn-danger {
+      background-color: var(--danger-color);
+      color: white;
+    }
+    
+    /* حقول الإدخال */
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--accent-color);
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      border-radius: var(--border-radius);
+      border: 1px solid rgba(255,255,255,0.2);
+      background: var(--input-bg);
+      color: white;
+      font-family: 'Cairo', sans-serif;
+      transition: all 0.3s;
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      background: var(--input-hover);
+      box-shadow: 0 0 0 2px rgba(255, 193, 7, 0.25);
+    }
+    
+    /* الجداول */
+    .users-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    .users-table th, 
+    .users-table td {
+      padding: 12px 15px;
+      text-align: right;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .users-table th {
+      background: rgba(0,0,0,0.3);
+      font-weight: 600;
+      color: var(--accent-color);
+    }
+    
+    .users-table tr:hover {
+      background: rgba(255,255,255,0.05);
+    }
+    
+    .user-avatar-small {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    
+    /* التصنيفات */
+    .badge {
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 50px;
+      font-size: 0.8em;
+    }
+    
+    .badge-admin {
+      background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+      color: #333;
+    }
+    
+    .badge-leader {
+      background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+      color: #333;
+    }
+    
+    .badge-user {
+      background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+      color: #333;
+    }
+    
+    /* نافذة إضافة/تعديل مستخدم */
+    .user-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    
+    .user-modal.show {
+      display: flex;
+      opacity: 1;
+    }
+    
+    .modal-content {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      width: 90%;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 30px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      position: relative;
+      animation: modalFadeIn 0.3s;
+    }
+    
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .modal-title {
+      font-size: 1.5em;
+      color: var(--accent-color);
+      margin: 0;
+    }
+    
+    .close-modal {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5em;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .close-modal:hover {
+      color: var(--danger-color);
+      transform: rotate(90deg);
+    }
+    
+    .avatar-upload {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .avatar-preview {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--primary-color);
+      margin-bottom: 15px;
+    }
+    
+    .avatar-upload-btn {
+      background: rgba(255,255,255,0.1);
+      padding: 8px 15px;
+      border-radius: var(--border-radius);
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .avatar-upload-btn:hover {
+      background: rgba(255,255,255,0.2);
+    }
+    
+    .permissions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+    
+    .permission-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .modal-footer {
+      margin-top: 30px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 15px;
+    }
+    
+    /* التجاوب مع أحجام الشاشات */
+    @media (max-width: 768px) {
+      .top-bar {
+        padding: 10px 15px;
+      }
+      
+      .logo-section img {
+        height: 40px;
+      }
+      
+      .season-title {
+        font-size: 1.1em;
+      }
+      
+      .user-avatar {
+        width: 40px;
+        height: 40px;
+      }
+      
+      .nav-bar {
+        justify-content: flex-start;
+        overflow-x: auto;
+        padding: 10px 5px;
+      }
+      
+      .nav-link {
+        padding: 8px 15px;
+        font-size: 0.9em;
+      }
+      
+      .main-content {
+        padding: 20px 15px;
+      }
+      
+      .permissions-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .modal-footer {
+        flex-direction: column;
+      }
+      
+      .modal-footer .control-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="overlay"></div>
+
+<!-- الشريط العلوي -->
+<div class="top-bar">
+  <div class="logo-section">
+    <img src="assets/logo-ministry.png" alt="وزارة الشباب والرياضة">
+    <img src="assets/logo-yly.png" alt="YLY">
+    <div class="season-title">YLY - PORT SAID SEASON <span id="season-number">7</span></div>
+  </div>
+  
+  <div class="user-section">
+    <img src="assets/SAAD.jpg" alt="صورة المستخدم" class="user-avatar" id="user-avatar">
+  </div>
+</div>
+
+<!-- شريط التنقل -->
+<div class="nav-bar">
+  <a href="home.html" class="nav-link"><i class="fas fa-home"></i> الصفحة الرئيسية</a>
+  <a href="volunteers.html" class="nav-link"><i class="fas fa-users"></i> إدارة المتطوعين</a>
+  <a href="evaluations.html" class="nav-link"><i class="fas fa-star"></i> التقييمات</a>
+  <a href="reports.html" class="nav-link"><i class="fas fa-chart-bar"></i> التقارير</a>
+  <a href="settings.html" class="nav-link active"><i class="fas fa-cog"></i> الإعدادات</a>
+</div>
+
+<!-- المحتوى الرئيسي -->
+<div class="main-content">
+  <div class="section-title">
+    <i class="fas fa-cog"></i>
+    <h2>الإعدادات والنظام</h2>
+  </div>
+
+  <!-- إعدادات النظام العامة -->
+  <div class="settings-card">
+    <div class="settings-header">
+      <h3 class="settings-title"><i class="fas fa-sliders-h"></i> إعدادات النظام العامة</h3>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="season-number-input" class="form-label">رقم الموسم الحالي</label>
+          <input type="number" id="season-number-input" class="form-control" value="7">
+        </div>
+        
+        <div class="form-group">
+          <label for="current-province" class="form-label">المحافظة الحالية</label>
+          <select id="current-province" class="form-control">
+            <option value="portsaid">بورسعيد</option>
+            <option value="cairo">القاهرة</option>
+            <option value="alexandria">الإسكندرية</option>
+            <option value="ismailia">الإسماعيلية</option>
+            <option value="suez">السويس</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="offline-mode" class="form-label">وضع العمل</label>
+          <div class="d-flex align-items-center gap-3">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="offline-mode" checked>
+              <label class="form-check-label" for="offline-mode">وضع عدم الاتصال (أوفلاين)</label>
+            </div>
+            <span class="badge badge-success">نشط الآن</span>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">حالة البيانات</label>
+          <div class="d-flex align-items-center gap-3">
+            <div class="progress w-100" style="height: 10px;">
+              <div class="progress-bar bg-success" role="progressbar" style="width: 85%;" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <small>85% متزامنة</small>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="d-flex justify-content-end gap-3 mt-3">
+      <button class="control-btn btn-secondary">
+        <i class="fas fa-times"></i> إلغاء
+      </button>
+      <button class="control-btn btn-primary">
+        <i class="fas fa-save"></i> حفظ التغييرات
+      </button>
+    </div>
+  </div>
+
+  <!-- إدارة المستخدمين -->
+  <div class="settings-card">
+    <div class="settings-header">
+      <h3 class="settings-title"><i class="fas fa-users-cog"></i> إدارة المستخدمين والصلاحيات</h3>
+      <button class="control-btn btn-success" id="add-user-btn">
+        <i class="fas fa-plus"></i> إضافة مستخدم جديد
+      </button>
+    </div>
+    
+    <div style="overflow-x: auto;">
+      <table class="users-table" id="users-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>المستخدم</th>
+            <th>اسم المستخدم</th>
+            <th>الدور</th>
+            <th>اللجنة/المحافظة</th>
+            <th>حالة الحساب</th>
+            <th>آخر نشاط</th>
+            <th>إجراءات</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>
+              <div class="d-flex align-items-center gap-3">
+                <img src="assets/SAAD.jpg" alt="صورة المستخدم" class="user-avatar-small">
+                <span>سعد المرجاوي</span>
+              </div>
+            </td>
+            <td>admin</td>
+            <td><span class="badge badge-admin">مدير النظام</span></td>
+            <td>جميع المحافظات</td>
+            <td><span class="text-success">نشط</span></td>
+            <td>منذ 5 دقائق</td>
+            <td>
+              <button class="control-btn btn-info btn-sm" onclick="editUser(1)">
+                <i class="fas fa-edit"></i> تعديل
+              </button>
+              <button class="control-btn btn-danger btn-sm" onclick="deleteUser(1)">
+                <i class="fas fa-trash"></i> حذف
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>
+              <div class="d-flex align-items-center gap-3">
+                <img src="assets/user2.jpg" alt="صورة المستخدم" class="user-avatar-small">
+                <span>محمد أحمد</span>
+              </div>
+            </td>
+            <td>mohamed_ahmed</td>
+            <td><span class="badge badge-leader">مسؤول محافظة</span></td>
+            <td>بورسعيد</td>
+            <td><span class="text-success">نشط</span></td>
+            <td>منذ ساعة</td>
+            <td>
+              <button class="control-btn btn-info btn-sm" onclick="editUser(2)">
+                <i class="fas fa-edit"></i> تعديل
+              </button>
+              <button class="control-btn btn-danger btn-sm" onclick="deleteUser(2)">
+                <i class="fas fa-trash"></i> حذف
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>
+              <div class="d-flex align-items-center gap-3">
+                <img src="assets/user3.jpg" alt="صورة المستخدم" class="user-avatar-small">
+                <span>أحمد علي</span>
+              </div>
+            </td>
+            <td>ahmed_ali</td>
+            <td><span class="badge badge-leader">قائد لجنة</span></td>
+            <td>العلاقات العامة</td>
+            <td><span class="text-success">نشط</span></td>
+            <td>منذ يومين</td>
+            <td>
+              <button class="control-btn btn-info btn-sm" onclick="editUser(3)">
+                <i class="fas fa-edit"></i> تعديل
+              </button>
+              <button class="control-btn btn-danger btn-sm" onclick="deleteUser(3)">
+                <i class="fas fa-trash"></i> حذف
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>
+              <div class="d-flex align-items-center gap-3">
+                <img src="assets/user4.jpg" alt="صورة المستخدم" class="user-avatar-small">
+                <span>ياسمين وائل</span>
+              </div>
+            </td>
+            <td>yasmin_wael</td>
+            <td><span class="badge badge-user">مشرف</span></td>
+            <td>الموارد البشرية</td>
+            <td><span class="text-warning">غير نشط</span></td>
+            <td>منذ أسبوع</td>
+            <td>
+              <button class="control-btn btn-info btn-sm" onclick="editUser(4)">
+                <i class="fas fa-edit"></i> تعديل
+              </button>
+              <button class="control-btn btn-danger btn-sm" onclick="deleteUser(4)">
+                <i class="fas fa-trash"></i> حذف
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="d-flex justify-content-center gap-3 mt-3">
+      <button class="control-btn btn-secondary">
+        <i class="fas fa-angle-double-right"></i>
+      </button>
+      <button class="control-btn btn-secondary active">1</button>
+      <button class="control-btn btn-secondary">2</button>
+      <button class="control-btn btn-secondary">
+        <i class="fas fa-angle-double-left"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- إعدادات الحساب الشخصي -->
+  <div class="settings-card">
+    <div class="settings-header">
+      <h3 class="settings-title"><i class="fas fa-user-shield"></i> إعدادات الحساب الشخصي</h3>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="current-password" class="form-label">كلمة المرور الحالية</label>
+          <input type="password" id="current-password" class="form-control">
+        </div>
+        
+        <div class="form-group">
+          <label for="new-password" class="form-label">كلمة المرور الجديدة</label>
+          <input type="password" id="new-password" class="form-control">
+        </div>
+        
+        <div class="form-group">
+          <label for="confirm-password" class="form-label">تأكيد كلمة المرور</label>
+          <input type="password" id="confirm-password" class="form-control">
+        </div>
+      </div>
+      
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="form-label">صورة الحساب</label>
+          <div class="d-flex align-items-center gap-4">
+            <img src="assets/SAAD.jpg" alt="صورة الحساب" class="user-avatar-small">
+            <button class="control-btn btn-secondary">
+              <i class="fas fa-camera"></i> تغيير الصورة
+            </button>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="language-select" class="form-label">لغة الواجهة</label>
+          <select id="language-select" class="form-control">
+            <option value="ar" selected>العربية</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    
+    <div class="d-flex justify-content-end gap-3 mt-3">
+      <button class="control-btn btn-secondary">
+        <i class="fas fa-times"></i> إلغاء
+      </button>
+      <button class="control-btn btn-primary">
+        <i class="fas fa-save"></i> حفظ التغييرات
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- نافذة إضافة/تعديل مستخدم -->
+<div class="user-modal" id="user-modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 class="modal-title" id="modal-user-title"><i class="fas fa-user-plus"></i> إضافة مستخدم جديد</h3>
+      <button class="close-modal" onclick="closeUserModal()">&times;</button>
+    </div>
+    
+    <div class="avatar-upload">
+      <img src="assets/default-avatar.jpg" alt="صورة المستخدم" class="avatar-preview" id="avatar-preview">
+      <label for="avatar-upload" class="avatar-upload-btn">
+        <i class="fas fa-camera"></i> اختر صورة للمستخدم
+      </label>
+      <input type="file" id="avatar-upload" accept="image/*" style="display: none;">
+    </div>
+    
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="user-fullname" class="form-label">الاسم الكامل</label>
+          <input type="text" id="user-fullname" class="form-control">
+        </div>
+        
+        <div class="form-group">
+          <label for="user-username" class="form-label">اسم المستخدم</label>
+          <input type="text" id="user-username" class="form-control">
+        </div>
+        
+        <div class="form-group">
+          <label for="user-password" class="form-label">كلمة المرور</label>
+          <input type="password" id="user-password" class="form-control">
+        </div>
+      </div>
+      
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="user-role" class="form-label">دور المستخدم</label>
+          <select id="user-role" class="form-control">
+            <option value="admin">مدير النظام</option>
+            <option value="province_leader">مسؤول محافظة</option>
+            <option value="committee_leader">قائد لجنة</option>
+            <option value="supervisor">مشرف</option>
+            <option value="volunteer">متطوع</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="user-province" class="form-label">المحافظة</label>
+          <select id="user-province" class="form-control">
+            <option value="all">جميع المحافظات</option>
+            <option value="portsaid">بورسعيد</option>
+            <option value="cairo">القاهرة</option>
+            <option value="alexandria">الإسكندرية</option>
+            <option value="ismailia">الإسماعيلية</option>
+            <option value="suez">السويس</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="user-committee" class="form-label">اللجنة</label>
+          <select id="user-committee" class="form-control">
+            <option value="all">جميع اللجان</option>
+            <option value="HR">الموارد البشرية (HR)</option>
+            <option value="PR">العلاقات العامة (PR)</option>
+            <option value="OR">التنظيم (OR)</option>
+            <option value="SM">إدارة المواقع (SM)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label class="form-label">الصلاحيات</label>
+      <div class="permissions-grid">
+        <div class="permission-item">
+          <input type="checkbox" id="perm-users" checked>
+          <label for="perm-users">إدارة المستخدمين</label>
+        </div>
+        <div class="permission-item">
+          <input type="checkbox" id="perm-volunteers" checked>
+          <label for="perm-volunteers">إدارة المتطوعين</label>
+        </div>
+        <div class="permission-item">
+          <input type="checkbox" id="perm-evaluations" checked>
+          <label for="perm-evaluations">إدارة التقييمات</label>
+        </div>
+        <div class="permission-item">
+          <input type="checkbox" id="perm-reports" checked>
+          <label for="perm-reports">عرض التقارير</label>
+        </div>
+        <div class="permission-item">
+          <input type="checkbox" id="perm-settings" checked>
+          <label for="perm-settings">تعديل الإعدادات</label>
+        </div>
+        <div class="permission-item">
+          <input type="checkbox" id="perm-export" checked>
+          <label for="perm-export">تصدير البيانات</label>
+        </div>
+      </div>
+    </div>
+    
+    <div class="modal-footer">
+      <button class="control-btn btn-secondary" onclick="closeUserModal()">
+        <i class="fas fa-times"></i> إلغاء
+      </button>
+      <button class="control-btn btn-primary" id="save-user-btn">
+        <i class="fas fa-save"></i> حفظ المستخدم
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  // بيانات المستخدمين
+  const usersData = [
+    {
+      id: 1,
+      name: "سعد المرجاوي",
+      username: "admin",
+      avatar: "assets/SAAD.jpg",
+      role: "admin",
+      province: "all",
+      committee: "all",
+      permissions: ["all"],
+      status: "active",
+      lastActive: "منذ 5 دقائق"
+    },
+    {
+      id: 2,
+      name: "محمد أحمد",
+      username: "mohamed_ahmed",
+      avatar: "assets/user2.jpg",
+      role: "province_leader",
+      province: "portsaid",
+      committee: "all",
+      permissions: ["volunteers", "evaluations", "reports"],
+      status: "active",
+      lastActive: "منذ ساعة"
+    },
+    {
+      id: 3,
+      name: "أحمد علي",
+      username: "ahmed_ali",
+      avatar: "assets/user3.jpg",
+      role: "committee_leader",
+      province: "portsaid",
+      committee: "PR",
+      permissions: ["volunteers", "evaluations"],
+      status: "active",
+      lastActive: "منذ يومين"
+    },
+    {
+      id: 4,
+      name: "ياسمين وائل",
+      username: "yasmin_wael",
+      avatar: "assets/user4.jpg",
+      role: "supervisor",
+      province: "portsaid",
+      committee: "HR",
+      permissions: ["volunteers"],
+      status: "inactive",
+      lastActive: "منذ أسبوع"
+    }
+  ];
+
+  // تهيئة الصفحة
+  document.addEventListener('DOMContentLoaded', function() {
+    // إعداد زر إضافة مستخدم
+    document.getElementById('add-user-btn').addEventListener('click', function() {
+      openUserModal();
+    });
+    
+    // إعداد رفع الصورة
+    document.getElementById('avatar-upload').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          document.getElementById('avatar-preview').src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+    
+    // إعداد حفظ المستخدم
+    document.getElementById('save-user-btn').addEventListener('click', function() {
+      saveUser();
+    });
+    
+    // تحديث اختيار المحافظة واللجنة حسب الدور
+    document.getElementById('user-role').addEventListener('change', function() {
+      updateRoleFields();
+    });
+  });
+
+  // فتح نافذة إضافة/تعديل مستخدم
+  function openUserModal(userId = null) {
+    const modal = document.getElementById('user-modal');
+    const title = document.getElementById('modal-user-title');
+    
+    if (userId) {
+      // وضع التعديل
+      title.innerHTML = '<i class="fas fa-user-edit"></i> تعديل مستخدم';
+      const user = usersData.find(u => u.id === userId);
+      
+      // تعبئة البيانات
+      document.getElementById('user-fullname').value = user.name;
+      document.getElementById('user-username').value = user.username;
+      document.getElementById('user-role').value = user.role;
+      document.getElementById('user-province').value = user.province;
+      document.getElementById('user-committee').value = user.committee;
+      document.getElementById('avatar-preview').src = user.avatar;
+      
+      // تعطيل اسم المستخدم في حالة التعديل
+      document.getElementById('user-username').disabled = true;
+    } else {
+      // وضع الإضافة
+      title.innerHTML = '<i class="fas fa-user-plus"></i> إضافة مستخدم جديد';
+      
+      // مسح الحقول
+      document.getElementById('user-fullname').value = '';
+      document.getElementById('user-username').value = '';
+      document.getElementById('user-password').value = '';
+      document.getElementById('user-role').value = 'volunteer';
+      document.getElementById('avatar-preview').src = 'assets/default-avatar.jpg';
+      
+      // تمكين اسم المستخدم
+      document.getElementById('user-username').disabled = false;
+    }
+    
+    // تحديث حقول المحافظة واللجنة
+    updateRoleFields();
+    
+    // إظهار النافذة
+    modal.classList.add('show');
+  }
+
+  // إغلاق نافذة المستخدم
+  function closeUserModal() {
+    document.getElementById('user-modal').classList.remove('show');
+  }
+
+  // حفظ المستخدم
+  function saveUser() {
+    // هنا يجب إضافة كود لحفظ المستخدم في قاعدة البيانات
+    alert('تم حفظ بيانات المستخدم بنجاح');
+    closeUserModal();
+  }
+
+  // تعديل مستخدم
+  function editUser(userId) {
+    openUserModal(userId);
+  }
+
+  // حذف مستخدم
+  function deleteUser(userId) {
+    if (confirm('هل أنت متأكد من حذف هذا المستخدم؟ لا يمكن التراجع عن هذه العملية.')) {
+      // هنا يجب إضافة كود لحذف المستخدم من قاعدة البيانات
+      alert('تم حذف المستخدم بنجاح');
+    }
+  }
+
+  // تحديث حقول المحافظة واللجنة حسب الدور
+  function updateRoleFields() {
+    const role = document.getElementById('user-role').value;
+    const provinceField = document.getElementById('user-province');
+    const committeeField = document.getElementById('user-committee');
+    
+    if (role === 'admin') {
+      provinceField.value = 'all';
+      committeeField.value = 'all';
+      provinceField.disabled = true;
+      committeeField.disabled = true;
+    } else if (role === 'province_leader') {
+      committeeField.value = 'all';
+      provinceField.disabled = false;
+      committeeField.disabled = true;
+    } else if (role === 'committee_leader') {
+      provinceField.disabled = false;
+      committeeField.disabled = false;
+    } else {
+      provinceField.disabled = false;
+      committeeField.disabled = false;
+    }
+  }
+
+  // مزامنة البيانات عند العودة للاتصال بالإنترنت
+  function syncDataWhenOnline() {
+    // هذه الوظيفة ستتم مناداتها تلقائياً عند عودة الاتصال
+    if (navigator.onLine) {
+      // كود لمزامنة البيانات المحفوظة محلياً مع الخادم
+      console.log('جاري مزامنة البيانات مع الخادم...');
+    }
+  }
+
+  // مراقبة حالة الاتصال
+  window.addEventListener('online', syncDataWhenOnline);
+  window.addEventListener('offline', function() {
+    console.log('تم الانتقال لوضع عدم الاتصال، البيانات ستخزن محلياً');
+  });
+</script>
+</body>
+</html>
